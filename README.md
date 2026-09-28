@@ -3,7 +3,7 @@
 Created by Ayaan Bajaj.
 
 A free pocket money tracker for students. Log what you spend and receive, set a monthly
-budget, save up for goals, see charts of where your money goes, and earn badges.
+budget, save up for goals, see charts of where your money goes, check if you can afford something, join savings challenges, take a money quiz, and earn badges.
 
 Private by design: all data stays on the user's own device (browser storage).
 No sign-up, no server, no ads. Works offline once opened.
@@ -12,3 +12,6 @@ No sign-up, no server, no ads. Works offline once opened.
 1. Upload all these files to a public GitHub repository.
 2. Settings → Pages → Branch: main, folder: / (root) → Save.
 3. The site appears at https://YOUR-USERNAME.github.io/REPO-NAME/
+
+## Contact
+Use the Contact section on the About page of the site.

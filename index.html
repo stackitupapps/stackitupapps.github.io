@@ -31,7 +31,7 @@
 *,*::before,*::after{box-sizing:inherit}
 body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 "Noto Sans",system-ui,-apple-system,"Segoe UI",sans-serif;padding-bottom:90px}
 h1,h2,h3{font-family:Sora,"Noto Sans",system-ui,sans-serif;margin:0;line-height:1.15}
-button,input,select{font:inherit;color:inherit}
+button,input,select,textarea{font:inherit;color:inherit}
 button{cursor:pointer}
 :focus-visible{outline:3px solid var(--gold);outline-offset:2px}
 .wrap{max-width:980px;margin:0 auto;padding:0 clamp(14px,3vw,28px)}
@@ -179,6 +179,71 @@ dialog::backdrop{background:rgba(10,20,15,.5)}
 @keyframes fall{to{transform:translateY(105vh) rotate(540deg);opacity:.8}}
 @media (prefers-reduced-motion:reduce){.confetti{display:none}}
 
+/* coin stack */
+.hero .coin{display:none}
+.hero .lbl,.hero .big{padding-right:96px}
+.stackviz{position:absolute;right:24px;top:18px;width:70px;height:104px;cursor:default}
+.stackviz i{position:absolute;left:0;width:64px;height:15px;border-radius:50%;
+  background:linear-gradient(#F7D57A,#F2C14E 55%,#C98F12);box-shadow:0 2px 0 #A87400,inset 0 -2px 0 rgba(0,0,0,.08)}
+.stackviz i.drop{animation:drop .55s cubic-bezier(.3,1.4,.6,1) both}
+@keyframes drop{from{transform:translateY(-70px);opacity:0}to{transform:none;opacity:1}}
+.stackviz span{position:absolute;right:-6px;bottom:-4px;font-size:.72rem;opacity:.85;white-space:nowrap}
+@media (prefers-reduced-motion:reduce){.stackviz i.drop{animation:none}}
+
+/* quick add + afford */
+.quick{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.quick button{border:1px solid var(--line);background:var(--bg);border-radius:14px;padding:9px 13px;font-weight:600;display:flex;gap:6px;align-items:center;transition:transform .12s}
+.quick button:active{transform:scale(.95)}
+.afford-row{display:flex;gap:8px;margin-top:10px}
+.afford-row .input{flex:1}
+.verdict{margin:12px 0 0;padding:12px 14px;border-radius:14px;background:var(--soft);display:none}
+.verdict.show{display:block;animation:pop .3s ease both}
+.verdict b{display:block;font-family:Sora,system-ui,sans-serif;font-size:1.05rem;margin-bottom:2px}
+@keyframes pop{from{transform:scale(.96);opacity:0}to{transform:none;opacity:1}}
+
+/* challenges */
+.chal{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;padding:14px 0;border-bottom:1px solid var(--line)}
+.chal:last-child{border-bottom:0}
+.chal .emo{font-size:1.7rem;width:48px;height:48px;border-radius:14px;background:var(--soft);display:grid;place-items:center}
+.chal h3{font-size:1rem}
+.chal p{margin:2px 0 6px;color:var(--muted);font-size:.88rem}
+.chal .state{font-size:.82rem;font-weight:700}
+.chal .state.done{color:var(--good)} .chal .state.fail{color:var(--bad)}
+
+/* quiz */
+.quiz .q{font-family:Sora,system-ui,sans-serif;font-size:1.1rem;margin:10px 0 12px}
+.quiz .opts{display:grid;gap:8px}
+.quiz .opts button{text-align:left;border:1.5px solid var(--line);background:var(--panel);border-radius:14px;padding:12px 14px;font-weight:500;transition:transform .12s}
+.quiz .opts button:not(:disabled):hover{border-color:var(--green)}
+.quiz .opts button.right{border-color:var(--good);background:color-mix(in srgb,var(--good) 14%,var(--panel))}
+.quiz .opts button.wrong{border-color:var(--bad);background:color-mix(in srgb,var(--bad) 12%,var(--panel))}
+.quiz .explain{margin:12px 0 0;padding:12px 14px;border-radius:14px;background:var(--soft);font-size:.95rem}
+.quiz .qhead{display:flex;justify-content:space-between;color:var(--muted);font-size:.88rem}
+.quiz .score{font-family:Sora,system-ui,sans-serif;font-size:3rem;font-weight:800;color:var(--green);margin:6px 0}
+
+/* about + contact */
+.about-hero{background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:clamp(20px,4vw,34px);display:grid;grid-template-columns:auto 1fr;gap:22px;align-items:center}
+.about-hero img{width:clamp(76px,12vw,110px);height:auto}
+.about-hero h2{font-size:clamp(1.6rem,4vw,2.3rem);font-weight:800;letter-spacing:-.02em}
+@media (max-width:560px){.about-hero{grid-template-columns:1fr}}
+.values{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.values .card h3{font-size:1.05rem;margin:6px 0 4px}
+.values .card p{margin:0;color:var(--muted);font-size:.93rem}
+.values .e{font-size:1.8rem}
+details.faq{border-bottom:1px solid var(--line);padding:12px 0}
+details.faq:last-child{border-bottom:0}
+details.faq summary{cursor:pointer;font-weight:600;list-style:none;display:flex;justify-content:space-between;gap:10px}
+details.faq summary::after{content:"+";font-size:1.3rem;line-height:1;color:var(--muted)}
+details.faq[open] summary::after{content:"–"}
+details.faq p{margin:8px 0 0;color:var(--muted)}
+.mailbox{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:10px 0 4px}
+.mailbox .addr{font-family:Sora,system-ui,sans-serif;font-weight:700;font-size:1.05rem;word-break:break-all}
+textarea.input{min-height:110px;resize:vertical}
+.fade{animation:fadeup .35s ease both}
+@keyframes fadeup{from{transform:translateY(8px);opacity:0}to{transform:none;opacity:1}}
+@media (prefers-reduced-motion:reduce){.fade,.verdict.show{animation:none}}
+.btn:active,.fab:active{transform:scale(.96)}
+footer a{color:inherit}
 footer{margin-top:34px;padding:20px 0;border-top:1px solid var(--line);color:var(--muted);font-size:.88rem}
 footer .wrap{display:flex;flex-wrap:wrap;gap:8px 20px;align-items:center}
 </style>
@@ -191,6 +256,9 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 20px;align-items:center}
       <img src="icon.svg" alt="" width="40" height="40">
       <div><b>Stack It Up</b><small>Watch your savings grow</small></div>
     </div>
+    <button class="iconbtn" id="contactTop" aria-label="Contact us" title="Contact us">
+      <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+    </button>
     <button class="iconbtn" id="settingsBtn" aria-label="Settings" title="Settings">
       <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
     </button>
@@ -202,7 +270,8 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 20px;align-items:center}
     <button role="tab" aria-selected="true" data-tab="home"><svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg>Home</button>
     <button role="tab" aria-selected="false" data-tab="history"><svg viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>History</button>
     <button role="tab" aria-selected="false" data-tab="goals"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></svg>Goals</button>
-    <button role="tab" aria-selected="false" data-tab="badges"><svg viewBox="0 0 24 24"><circle cx="12" cy="9" r="6"/><path d="M8.5 14 7 22l5-3 5 3-1.5-8"/></svg>Badges</button>
+    <button role="tab" aria-selected="false" data-tab="play"><svg viewBox="0 0 24 24"><circle cx="12" cy="9" r="6"/><path d="M8.5 14 7 22l5-3 5 3-1.5-8"/></svg>Play</button>
+    <button role="tab" aria-selected="false" data-tab="about"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>About</button>
   </nav>
 
   <!-- HOME -->
@@ -219,7 +288,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 20px;align-items:center}
     </div>
 
     <div class="hero">
-      <div class="coin" aria-hidden="true"></div>
+      <div class="coin" aria-hidden="true"></div><div class="stackviz" id="stackviz" aria-hidden="true"></div>
       <div class="lbl" id="hello">Money in your stack</div>
       <div class="big num" id="balance">₹0</div>
       <div class="row">
@@ -236,6 +305,23 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 20px;align-items:center}
       </div>
       <div class="bar" id="budgetBar" style="margin:12px 0 8px"><i style="width:0"></i></div>
       <p class="small muted" style="margin:0" id="budgetHint"></p>
+    </div>
+
+    <div class="grid2">
+      <div class="card">
+        <h3 style="font-size:1.05rem">Quick add ⚡</h3>
+        <p class="small muted" style="margin:2px 0 0">One tap to log things you buy often.</p>
+        <div class="quick" id="quick"></div>
+      </div>
+      <div class="card">
+        <h3 style="font-size:1.05rem">Can I afford it? 🤔</h3>
+        <p class="small muted" style="margin:2px 0 0">Type a price and find out.</p>
+        <form class="afford-row" id="affordForm">
+          <input class="input num" id="affordIn" inputmode="decimal" placeholder="Price in ₹, e.g. 1200" aria-label="Price in rupees">
+          <button class="btn primary">Check</button>
+        </form>
+        <div class="verdict" id="verdict" aria-live="polite"></div>
+      </div>
     </div>
 
     <div class="stats">
@@ -288,15 +374,66 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 20px;align-items:center}
   </section>
 
   <!-- BADGES -->
-  <section data-sec="badges" class="stack" hidden>
-    <div><h2 style="font-size:1.4rem">Badges</h2><p class="muted small" style="margin:2px 0 0" id="badgeCount"></p></div>
+  <section data-sec="play" class="stack" hidden>
+    <div class="card">
+      <h2 style="font-size:1.3rem">Challenges 🏁</h2>
+      <p class="muted small" style="margin:2px 0 4px">Join a challenge and Stack It Up tracks it for you automatically.</p>
+      <div id="challenges"></div>
+    </div>
+    <div class="card quiz" id="quiz"></div>
+    <div><h2 style="font-size:1.3rem">Badges 🏅</h2><p class="muted small" style="margin:2px 0 0" id="badgeCount"></p></div>
     <div class="badges" id="badges"></div>
+  </section>
+
+  <!-- ABOUT + CONTACT -->
+  <section data-sec="about" class="stack" hidden>
+    <div class="about-hero">
+      <img src="icon.svg" alt="Stack It Up logo" width="110" height="110">
+      <div>
+        <h2>About Stack It Up</h2>
+        <p class="muted" style="margin:8px 0 0">Stack It Up is a free pocket money app built by a student, for students. It was created by <b>Ayaan Bajaj</b> to make managing money simple, private and actually fun, so good money habits start early.</p>
+      </div>
+    </div>
+    <div class="card">
+      <h3 style="font-size:1.15rem">Our mission</h3>
+      <p class="muted" style="margin:6px 0 0">Most people only learn about money after they've already made mistakes with it. Stack It Up helps students see where their money goes, save for things that matter to them, and build habits that last, one rupee at a time.</p>
+    </div>
+    <div class="values">
+      <div class="card"><div class="e">🔒</div><h3>Private</h3><p>No sign-up and no account. Your data never leaves your device.</p></div>
+      <div class="card"><div class="e">⚡</div><h3>Simple</h3><p>Log a spend in two taps. No complicated finance words.</p></div>
+      <div class="card"><div class="e">🎮</div><h3>Fun</h3><p>Goals, challenges, badges and quizzes make saving feel like a game.</p></div>
+      <div class="card"><div class="e">💸</div><h3>Free forever</h3><p>No ads, no payments, no catch.</p></div>
+    </div>
+    <div class="card">
+      <h3 style="font-size:1.15rem">Frequently asked questions</h3>
+      <details class="faq"><summary>Is my data safe?</summary><p>Yes. Everything you enter is saved only in your own browser on your device. Nothing is sent to any server, so nobody else, not even us, can see it.</p></details>
+      <details class="faq"><summary>Do I need to create an account?</summary><p>No. Just open the site and start. There's nothing to sign up for.</p></details>
+      <details class="faq"><summary>What happens if I clear my browser data?</summary><p>Your entries would be deleted, because they live in your browser. Use Settings → Download backup regularly, and Restore backup to get everything back.</p></details>
+      <details class="faq"><summary>Can I use it like an app on my phone?</summary><p>Yes. Open the site in Chrome, tap the ⋮ menu, then "Add to Home screen". It gets its own icon and works offline too.</p></details>
+      <details class="faq"><summary>Does it connect to my bank or UPI?</summary><p>No, and that's on purpose. You log money yourself, which keeps it private and helps you actually notice your spending.</p></details>
+    </div>
+    <div class="card" id="contact">
+      <h3 style="font-size:1.15rem">Contact us 💌</h3>
+      <p class="muted" style="margin:6px 0 0">Found a bug, have an idea, or just want to say hi? We'd love to hear from you.</p>
+      <div class="mailbox"><span class="addr" id="mailAddr"></span><button class="btn" id="copyMail" type="button">Copy</button><a class="btn primary" id="mailBtn" style="text-decoration:none">Email us</a></div>
+      <form class="stack" id="contactForm" style="margin-top:14px;gap:12px">
+        <div class="grid2" style="gap:12px">
+          <div class="field"><label for="cName">Your name</label><input class="input" id="cName" maxlength="40"></div>
+          <div class="field"><label for="cReason">What's it about?</label>
+            <select class="input" id="cReason"><option>Feedback</option><option>Found a bug</option><option>Feature idea</option><option>Just saying hi</option></select></div>
+        </div>
+        <div class="field"><label for="cMsg">Message</label><textarea class="input" id="cMsg" maxlength="1500" placeholder="Write your message here…"></textarea></div>
+        <p class="err" id="cErr"></p>
+        <div><button class="btn primary">Send message</button> <span class="small muted">Opens your email app with the message ready to send.</span></div>
+      </form>
+    </div>
   </section>
 </main>
 
 <footer>
   <div class="wrap">
     <span>© 2026 Stack It Up. Created by Ayaan Bajaj.</span>
+    <a href="#" data-go="about">About</a><a href="#" id="footContact">Contact</a>
     <span>🔒 Private by design: your data stays on this device. No sign-up, no ads.</span>
   </div>
 </footer>
@@ -402,11 +539,13 @@ const BADGES=[
   ["goaldone","🏆","Goal getter","Finish a savings goal"],
   ["saver500","🐷","Super saver","Save ₹500 in goals"],
   ["budget","🧮","Planner","Set a monthly budget"],
-  ["underbudget","🌟","Budget boss","End a month under budget"]
+  ["underbudget","🌟","Budget boss","End a month under budget"],
+  ["challenger","🏁","Challenger","Complete a challenge"],
+  ["quizwhiz","🧠","Money brain","Score 6 or more in the money quiz"]
 ];
 const KEY="stackitup.v1";
 let S=load();
-function blank(){ return {v:1,name:"",allowance:0,theme:"auto",welcomed:false,tx:[],goals:[],badges:{}}; }
+function blank(){ return {v:1,name:"",allowance:0,theme:"auto",welcomed:false,tx:[],goals:[],badges:{},challenges:{},quizBest:0}; }
 function load(){
   try{ const s=JSON.parse(localStorage.getItem(KEY)||"null"); if(s&&Array.isArray(s.tx)) return Object.assign(blank(),s); }catch{}
   return blank();
@@ -459,16 +598,18 @@ function checkBadges(){
     const months=[...new Set(S.tx.map(t=>monthKey(t.date)))].filter(m=>m<monthKey(today()));
     if(months.some(m=>monthTx(m).filter(t=>t.type==="out").reduce((a,t)=>a+t.amount,0)<=S.allowance&&monthTx(m).some(t=>t.type==="out"))) give("underbudget");
   }
+  if(Object.values(S.challenges||{}).some(c=>c.done)) give("challenger");
+  if((S.quizBest||0)>=6) give("quizwhiz");
   if(earned.length){ save(); renderBadges(); const b=BADGES.find(x=>x[0]===earned[earned.length-1]); toast(`New badge: ${b[1]} ${b[2]}!`); confetti(); }
 }
 
 /* ============ render ============ */
-function render(){ renderHome(); renderHistory(); renderGoals(); renderBadges(); }
+function render(){ renderHome(); renderHistory(); renderGoals(); renderChallenges(); renderBadges(); }
 
 function renderHome(){
   $("welcome").hidden=S.welcomed;
   $("hello").textContent=S.name?`Hi ${S.name}, here's your stack`:"Money in your stack";
-  const bal=balance(); $("balance").textContent=money(bal); $("balance").style.color=bal<0?"#FFD1C4":"";
+  const bal=balance(); countTo($("balance"),bal); renderStack(); renderQuick(); $("balance").style.color=bal<0?"#FFD1C4":"";
   const mt=monthTx();
   const mIn=mt.filter(t=>t.type==="in").reduce((a,t)=>a+t.amount,0);
   const mOut=mt.filter(t=>t.type==="out").reduce((a,t)=>a+t.amount,0);
@@ -599,11 +740,11 @@ function renderBadges(){
 /* ============ tabs ============ */
 function go(tab){
   document.querySelectorAll("nav.tabs button").forEach(b=>b.setAttribute("aria-selected",b.dataset.tab===tab));
-  document.querySelectorAll("section[data-sec]").forEach(s=>s.hidden=s.dataset.sec!==tab);
+  document.querySelectorAll("section[data-sec]").forEach(s=>{ s.hidden=s.dataset.sec!==tab; if(!s.hidden){ s.classList.remove("fade"); void s.offsetWidth; s.classList.add("fade"); } });
   scrollTo({top:0});
 }
 document.querySelectorAll("nav.tabs button").forEach(b=>b.onclick=()=>go(b.dataset.tab));
-document.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>go(b.dataset.go));
+document.querySelectorAll("[data-go]").forEach(b=>b.onclick=e=>{ e.preventDefault(); go(b.dataset.go); });
 
 /* ============ dialogs ============ */
 document.querySelectorAll("dialog [data-close]").forEach(b=>b.onclick=()=>b.closest("dialog").close());
@@ -744,8 +885,203 @@ function confetti(){
   document.body.append(c); setTimeout(()=>c.remove(),2600);
 }
 
+/* ============ animated balance + coin stack ============ */
+let shownBal=null;
+function countTo(node,target){
+  const from=shownBal??target; shownBal=target;
+  if(from===target||matchMedia("(prefers-reduced-motion: reduce)").matches){ node.textContent=money(target); return; }
+  const t0=performance.now(), dur=600;
+  const step=t=>{ const k=Math.min(1,(t-t0)/dur), e=1-Math.pow(1-k,3); node.textContent=money(Math.round(from+(target-from)*e)); if(k<1) requestAnimationFrame(step); else node.textContent=money(target); };
+  requestAnimationFrame(step);
+}
+let shownCoins=null;
+function renderStack(){
+  const total=Math.max(0,balance())+totalSavedGoals();
+  const n=total<=0?0:Math.min(12,Math.ceil(total/250));
+  const box=$("stackviz"); if(!box) return;
+  const prev=shownCoins??n; shownCoins=n;
+  box.innerHTML="";
+  for(let i=0;i<n;i++){ const c=el("i"); c.style.bottom=(i*7)+"px"; if(i>=prev){ c.className="drop"; c.style.animationDelay=((i-prev)*0.08)+"s"; } box.append(c); }
+  box.title=`${money(total)} stacked up (in your stack + goals)`;
+}
+
+/* ============ quick add ============ */
+const QUICK_DEFAULTS=[["food",20],["food",50],["travel",30],["recharge",199]];
+function quickItems(){
+  const counts={};
+  S.tx.filter(t=>t.type==="out").forEach(t=>{ const k=t.cat+"|"+t.amount; counts[k]=(counts[k]||0)+1; });
+  const fav=Object.entries(counts).filter(e=>e[1]>=2).sort((a,b)=>b[1]-a[1]).map(e=>{ const [c,a]=e[0].split("|"); return [c,Number(a)]; });
+  const out=[], seen=new Set();
+  for(const q of [...fav,...QUICK_DEFAULTS]){ const k=q[0]+"|"+q[1]; if(!seen.has(k)){ seen.add(k); out.push(q); } if(out.length===4) break; }
+  return out;
+}
+function renderQuick(){
+  const box=$("quick"); if(!box) return; box.innerHTML="";
+  for(const [cat,amt] of quickItems()){
+    const b=el("button"); b.type="button";
+    b.append(el("span",null,CAT[cat]?.e||"💸"),document.createTextNode(`${CAT[cat]?.n||"Other"} ${money(amt)}`));
+    b.setAttribute("aria-label",`Log ${money(amt)} spent on ${CAT[cat]?.n||"Other"}`);
+    b.onclick=()=>{
+      const t={id:uid(),type:"out",amount:amt,cat,note:"",date:today(),ts:Date.now()};
+      S.tx.push(t); save(); render(); checkBadges();
+      toast(`Logged ${money(amt)} on ${CAT[cat]?.n}`,()=>{ S.tx=S.tx.filter(x=>x.id!==t.id); save(); render(); });
+    };
+    box.append(b);
+  }
+}
+
+/* ============ can I afford it? ============ */
+function savingRate(){
+  const since=new Date(); since.setDate(since.getDate()-30); const s=ymd(since);
+  const recent=S.tx.filter(t=>t.date>=s&&t.type!=="save");
+  if(!recent.length) return 0;
+  const first=recent.reduce((a,t)=>t.date<a?t.date:a,today());
+  const [Y,M,D]=first.split("-").map(Number);
+  const days=Math.max(7,Math.round((Date.now()-new Date(Y,M-1,D))/864e5)+1);
+  const net=recent.reduce((a,t)=>a+(t.type==="in"?t.amount:-t.amount),0);
+  return net/days;
+}
+$("affordForm").onsubmit=e=>{
+  e.preventDefault();
+  const price=parseAmt($("affordIn").value), v=$("verdict");
+  v.classList.remove("show"); void v.offsetWidth; v.innerHTML="";
+  if(!(price>0)){ v.append(el("b",null,"Enter a price first"),el("span",null,"Type how much the thing costs, like 1200.")); v.classList.add("show"); return; }
+  const bal=balance();
+  if(price<=bal){
+    v.append(el("b",null,"Yes, you can afford it ✅"));
+    let msg=`You'd still have ${money(bal-price)} left.`;
+    if(S.allowance>0) msg+=` It's ${Math.round(price/S.allowance*100)}% of your monthly budget, so make sure it's worth it!`;
+    v.append(el("span",null,msg));
+  } else {
+    const need=price-bal, rate=savingRate();
+    v.append(el("b",null,"Not yet ⏳"));
+    const msg=rate>0?`You need ${money(need)} more. At your current saving pace (about ${money(Math.round(rate))} a day) that's around ${Math.ceil(need/rate)} days.`:`You need ${money(need)} more. Log your pocket money and spending so Stack It Up can estimate how long it'll take.`;
+    v.append(el("span",null,msg));
+    const g=el("button","btn primary","Make it a goal 🎯"); g.type="button"; g.style.marginTop="10px"; g.style.display="block";
+    g.onclick=()=>{ $("newGoalBtn").click(); $("gTarget").value=price; setTimeout(()=>$("gName").focus(),50); };
+    v.append(g);
+  }
+  v.classList.add("show");
+};
+
+/* ============ challenges ============ */
+const CHALLENGES=[
+  {id:"nospend",e:"🚫",name:"No-spend day",desc:"Go one whole day without spending anything.",
+    check(c){ // any finished day on/after joining with zero spends
+      const d=new Date(c.joined+"T00:00:00"), end=today();
+      while(ymd(d)<end){ const k=ymd(d); if(!S.tx.some(t=>t.type==="out"&&t.date===k)) return {done:true}; d.setDate(d.getDate()+1); }
+      const todaySpent=S.tx.some(t=>t.type==="out"&&t.date===end);
+      return {progress:0,label:todaySpent?"You spent today. Try again tomorrow!":"Going well today. Don't spend until midnight!"};
+    }},
+  {id:"streak7",e:"🔥",name:"7-day streak",desc:"Log your money every day for a week.",
+    check(){ const s=streak(); return s>=7?{done:true}:{progress:s/7,label:`${s} of 7 days`}; }},
+  {id:"snackfree",e:"🍩",name:"Snack-free week",desc:"No food spends for 7 days in a row.",
+    check(c){
+      const ate=S.tx.some(t=>t.type==="out"&&t.cat==="food"&&t.date>=c.joined);
+      if(ate) return {fail:true,label:"You logged a food spend. Restart and try again!"};
+      const [Y,M,D]=c.joined.split("-").map(Number); const days=Math.floor((Date.now()-new Date(Y,M-1,D))/864e5);
+      return days>=7?{done:true}:{progress:days/7,label:`${days} of 7 days snack-free`};
+    }},
+  {id:"save10",e:"💯",name:"Save 10% this month",desc:"Put at least 10% of the money you receive this month into goals.",
+    check(){
+      const m=monthTx(), got=m.filter(t=>t.type==="in").reduce((a,t)=>a+t.amount,0), saved=m.filter(t=>t.type==="save").reduce((a,t)=>a+t.amount,0);
+      if(!got) return {progress:0,label:"Log money you received this month first."};
+      const goal=got*0.1; return saved>=goal?{done:true}:{progress:Math.max(0,saved)/goal,label:`${money(Math.max(0,saved))} of ${money(goal)} saved`};
+    }}
+];
+function renderChallenges(){
+  const box=$("challenges"); if(!box) return; box.innerHTML="";
+  S.challenges=S.challenges||{};
+  let newlyDone=null;
+  for(const ch of CHALLENGES){
+    const c=S.challenges[ch.id];
+    const row=el("div","chal"); row.append(el("div","emo",ch.e));
+    const mid=el("div"); mid.append(el("h3",null,ch.name),el("p",null,ch.desc));
+    const act=el("div");
+    if(!c){ const j=el("button","btn primary","Join"); j.onclick=()=>{ S.challenges[ch.id]={joined:today(),done:null}; save(); renderChallenges(); toast(`Challenge started: ${ch.name}`); }; act.append(j); }
+    else if(c.done){ mid.append(el("div","state done","Completed! 🎉")); const r=el("button","btn","Do again"); r.onclick=()=>{ S.challenges[ch.id]={joined:today(),done:null}; save(); renderChallenges(); }; act.append(r); }
+    else{
+      const st=ch.check(c);
+      if(st.done){ c.done=Date.now(); newlyDone=ch; mid.append(el("div","state done","Completed! 🎉")); }
+      else if(st.fail){ mid.append(el("div","state fail",st.label)); const r=el("button","btn","Restart"); r.onclick=()=>{ S.challenges[ch.id]={joined:today(),done:null}; save(); renderChallenges(); }; act.append(r); }
+      else{ const bar=el("div","bar"); const i=el("i"); i.style.width=Math.round((st.progress||0)*100)+"%"; bar.append(i); mid.append(bar,el("div","small muted",st.label)); mid.lastChild.style.marginTop="4px";
+        const q=el("button","btn","Quit"); q.onclick=()=>{ delete S.challenges[ch.id]; save(); renderChallenges(); }; act.append(q); }
+    }
+    row.append(mid,act); box.append(row);
+  }
+  if(newlyDone){ save(); confetti(); toast(`Challenge complete: ${newlyDone.name}! 🏁`); setTimeout(checkBadges,300); }
+}
+
+/* ============ money quiz ============ */
+const QUIZ=[
+  ["Which of these is a NEED, not a want?",["New video game","School shoes","Designer cap","Movie ticket"],1,"Needs are things you can't do without, like school shoes. Wants are nice to have."],
+  ["You save ₹20 every day. How much do you have after 30 days?",["₹200","₹450","₹600","₹2,000"],2,"₹20 × 30 days = ₹600. Small amounts add up fast!"],
+  ["You keep ₹1,000 in a bank at 5% interest per year. After one year you have…",["₹1,005","₹1,050","₹1,500","₹950"],1,"5% of ₹1,000 is ₹50, so you'd have ₹1,050. That's the bank paying you for keeping money with them."],
+  ["What is a budget?",["A list of things you bought","A plan for how you'll spend and save money","A type of bank account","Money your parents give you"],1,"A budget is a plan. It helps you decide where your money goes before you spend it."],
+  ["When is the best time to save from your pocket money?",["After spending on fun things","At the end of the month","As soon as you get it","Only on birthdays"],2,"\"Pay yourself first.\" Save as soon as money comes in, then spend what's left."],
+  ["A shop prices something at ₹999 instead of ₹1,000. Why?",["It's much cheaper","It tricks your brain into thinking it's a lot less","It's a mistake","Tax is lower"],1,"It's basically ₹1,000. Shops use ₹999 because our brains read the first digit and feel it's cheaper."],
+  ["What is an emergency fund?",["Money for a big party","Money saved for unexpected problems","A loan from a friend","Money for shopping sales"],1,"An emergency fund is savings for surprises, like a broken phone screen, so you don't panic or borrow."],
+  ["Someone says: \"Enter your UPI PIN to RECEIVE ₹500.\" What should you do?",["Enter the PIN quickly","Share the PIN with them","Don't do it. It's a scam","Ask them to send ₹1,000 instead"],2,"You NEVER need your PIN to receive money. A PIN is only for sending. Anyone asking for it to 'receive' is scamming you."]
+];
+let qi=0, qScore=0, qActive=false;
+function renderQuiz(){
+  const box=$("quiz"); if(!box) return; box.innerHTML="";
+  if(!qActive){
+    box.append(el("h2",null,"Money quiz 🧠"));
+    box.firstChild.style.fontSize="1.3rem";
+    box.append(el("p","muted",`${QUIZ.length} quick questions to test your money smarts.${S.quizBest?` Your best score: ${S.quizBest}/${QUIZ.length}.`:""}`));
+    const s=el("button","btn primary",S.quizBest?"Play again":"Start quiz"); s.onclick=()=>{ qActive=true; qi=0; qScore=0; renderQuiz(); }; box.append(s);
+    return;
+  }
+  if(qi>=QUIZ.length){
+    const best=Math.max(S.quizBest||0,qScore); const isNew=qScore>(S.quizBest||0); S.quizBest=best; save();
+    box.append(el("h2",null,"Quiz complete!")); box.firstChild.style.fontSize="1.3rem";
+    box.append(el("div","score num",`${qScore}/${QUIZ.length}`));
+    box.append(el("p","muted",qScore===QUIZ.length?"Perfect score! You're a money genius. 🏆":qScore>=6?"Great job! You really know your money. 🌟":qScore>=4?"Nice try! Play again to learn the rest.":"Keep learning. Every expert started somewhere! 💪"));
+    if(isNew&&qScore>=6) confetti();
+    const again=el("button","btn primary","Play again"); again.onclick=()=>{ qi=0; qScore=0; renderQuiz(); };
+    const done=el("button","btn","Done"); done.style.marginLeft="8px"; done.onclick=()=>{ qActive=false; renderQuiz(); };
+    box.append(again,done); checkBadges(); return;
+  }
+  const [q,opts,ans,why]=QUIZ[qi];
+  const head=el("div","qhead"); head.append(el("span",null,`Question ${qi+1} of ${QUIZ.length}`),el("span",null,`Score: ${qScore}`)); box.append(head);
+  const bar=el("div","bar"); bar.style.marginTop="8px"; const i=el("i"); i.style.width=(qi/QUIZ.length*100)+"%"; bar.append(i); box.append(bar);
+  box.append(el("div","q",q));
+  const list=el("div","opts"); box.append(list);
+  opts.forEach((o,k)=>{
+    const b=el("button",null,o); b.type="button";
+    b.onclick=()=>{
+      list.querySelectorAll("button").forEach((x,j)=>{ x.disabled=true; if(j===ans) x.classList.add("right"); });
+      if(k===ans) qScore++; else b.classList.add("wrong");
+      const ex=el("div","explain"); ex.append(el("b",null,k===ans?"Correct! ":"Not quite. "),document.createTextNode(why)); box.append(ex);
+      const nx=el("button","btn primary",qi===QUIZ.length-1?"See my score":"Next question"); nx.style.marginTop="12px"; nx.onclick=()=>{ qi++; renderQuiz(); };
+      box.append(nx); nx.focus();
+    };
+    list.append(b);
+  });
+}
+
+/* ============ contact ============ */
+const MAIL=["ayaan132809","gmail.com"].join("@");
+$("mailAddr").textContent=MAIL;
+$("mailBtn").href="mailto:"+MAIL+"?subject="+encodeURIComponent("Hello from a Stack It Up user");
+$("copyMail").onclick=async()=>{ try{ await navigator.clipboard.writeText(MAIL); toast("Email copied"); }catch{ toast(MAIL); } };
+$("contactForm").onsubmit=e=>{
+  e.preventDefault();
+  const name=$("cName").value.trim(), reason=$("cReason").value, msg=$("cMsg").value.trim();
+  if(msg.length<5){ $("cErr").textContent="Write a message first (at least a few words)."; return; }
+  $("cErr").textContent="";
+  const subject=`[Stack It Up] ${reason}${name?` from ${name}`:""}`;
+  const body=`${msg}\n\n— ${name||"A Stack It Up user"}`;
+  location.href=`mailto:${MAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  toast("Opening your email app…");
+};
+function goContact(){ go("about"); setTimeout(()=>$("contact").scrollIntoView({behavior:"smooth",block:"start"}),60); }
+$("contactTop").onclick=goContact;
+$("footContact").onclick=e=>{ e.preventDefault(); goContact(); };
+
 /* ============ start ============ */
-applyTheme(); render(); checkBadges();
+applyTheme(); render(); renderQuiz(); checkBadges();
 if("serviceWorker" in navigator&&location.protocol==="https:") addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 </script>
 </body>
