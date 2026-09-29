@@ -14,7 +14,7 @@
 <link rel="apple-touch-icon" href="icon-192.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Noto+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Noto+Sans:wght@400;500;600&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
 <style>
 :root{
   --bg:#F1F4EF; --panel:#FFFFFF; --ink:#16261E; --muted:#5E6C64; --line:#DCE3DC;
@@ -284,6 +284,35 @@ textarea.input{min-height:110px;resize:vertical}
 .sx-form{display:flex;gap:8px;padding:10px 12px calc(10px + env(safe-area-inset-bottom,0px));border-top:1px solid var(--line)}
 .sx-form input{flex:1;min-width:0;border:1px solid var(--line);background:var(--panel);border-radius:999px;padding:10px 16px}
 
+/* ---- about: made by a student ---- */
+.hand{font-family:Caveat,"Noto Sans",cursive;font-weight:700}
+.me-hero{display:grid;grid-template-columns:1fr auto;gap:22px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:26px;padding:clamp(20px,4vw,34px)}
+.me-hero .hand.tilt{display:inline-block;font-size:1.6rem;color:var(--clay);transform:rotate(-3deg)}
+.me-hero h2{font-size:clamp(1.7rem,4.6vw,2.6rem);font-weight:800;letter-spacing:-.02em;margin:2px 0 10px}
+.me-hero p{margin:0;color:var(--muted);max-width:52ch}
+mark.hl{background:linear-gradient(transparent 55%,color-mix(in srgb,var(--gold) 75%,transparent) 55%);color:inherit;padding:0 4px;border-radius:3px}
+.me-logo{position:relative;justify-self:center}
+.me-logo img{display:block;width:clamp(92px,15vw,130px);height:auto;border-radius:26px;transform:rotate(4deg);box-shadow:0 14px 26px -14px rgba(0,0,0,.45)}
+.sticker{position:absolute;left:-16px;bottom:-10px;background:var(--gold);color:#3A2A00;font-weight:800;font-size:.72rem;padding:4px 11px;border-radius:999px;transform:rotate(-7deg);white-space:nowrap;box-shadow:0 4px 10px -4px rgba(0,0,0,.35)}
+@media (max-width:560px){.me-hero{grid-template-columns:1fr}.me-logo{order:-1;justify-self:start;margin-bottom:6px}}
+.note{position:relative;background:#FBE98A;color:#2B2410;border-radius:6px 6px 24px 6px;padding:28px 22px 22px;transform:rotate(-.8deg);box-shadow:0 16px 28px -18px rgba(0,0,0,.55);margin:6px 4px}
+.note .tape{position:absolute;top:-13px;left:50%;width:96px;height:26px;background:rgba(255,255,255,.6);transform:translateX(-50%) rotate(3deg);border:1px dashed rgba(0,0,0,.14)}
+.note h3{font-size:2rem;margin:0 0 8px;line-height:1}
+.note ul{margin:0;padding:0;list-style:none;display:grid;gap:9px}
+.note li{display:flex;gap:10px;align-items:flex-start;line-height:1.4}
+.note li span{flex:none;width:1.6em;text-align:center}
+.honest{border-left:6px solid var(--clay)}
+.honest h3,.card h3.hand{font-size:1.7rem;line-height:1.05;margin:0 0 6px}
+.honest p{margin:0 0 8px;color:var(--muted)}
+h3.hand.big{font-size:1.9rem}
+.idea-chips{display:flex;flex-wrap:wrap;gap:8px}
+.idea-chips .chip{font-size:.95rem;padding:8px 14px;transition:transform .12s}
+.idea-chips .chip:hover{transform:rotate(-2deg) translateY(-2px);border-color:var(--green)}
+.postcard{position:relative;overflow:hidden;background:var(--panel);border:2px dashed var(--line);border-radius:22px;padding:30px 22px 22px}
+.postcard::before{content:"";position:absolute;left:0;right:0;top:0;height:9px;background:repeating-linear-gradient(-45deg,#D9653B 0 14px,var(--panel) 14px 28px,#2F7D9A 28px 42px,var(--panel) 42px 56px)}
+.postcard .stamp{position:absolute;top:22px;right:16px;width:62px;height:66px;border:2px dashed var(--muted);border-radius:8px;display:grid;place-items:center;transform:rotate(5deg);background:var(--bg)}
+.postcard .stamp img{width:42px;height:auto;border-radius:10px}
+@media (prefers-reduced-motion:reduce){.idea-chips .chip{transition:none}}
 /* ---- payments ---- */
 #pendingBar{margin-bottom:14px}
 .pending{border:2px solid var(--gold);display:grid;gap:8px}
@@ -568,23 +597,49 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 20px;align-items:center}
 
   <!-- ABOUT + CONTACT -->
   <section data-sec="about" class="stack" hidden>
-    <div class="about-hero">
-      <img src="icon.svg" alt="Stack It Up logo" width="110" height="110">
-      <div>
-        <h2>About Stack It Up</h2>
-        <p class="muted" style="margin:8px 0 0">Stack It Up is a free pocket money app built by a student, for students. It was created by <b>Ayaan Bajaj</b> to make managing money simple, private and actually fun, so good money habits start early.</p>
+    <div class="me-hero">
+      <div class="me-text">
+        <span class="hand tilt">hey there 👋</span>
+        <h2>I'm <mark class="hl">Ayaan</mark>, the student behind Stack It Up.</h2>
+        <p>I wanted a simple way to see where my pocket money goes, with no sign-ups, no ads and no bank logins. So I made one. It's still growing, it definitely has a few bugs, and honestly that's part of the fun.</p>
+        <div class="row-btns" style="margin-top:14px">
+          <button class="btn primary" id="meStax" type="button">Say hi to Stax ✨</button>
+          <button class="btn" id="meMail" type="button">Write to me ✉️</button>
+        </div>
+      </div>
+      <div class="me-logo"><img src="icon.svg" alt="Stack It Up logo" width="130" height="130"><span class="sticker">made by a student</span></div>
+    </div>
+
+    <div class="note">
+      <span class="tape" aria-hidden="true"></span>
+      <h3 class="hand">why it's different</h3>
+      <ul>
+        <li><span>🚫</span><div><b>No sign-up, no ads, no "go premium."</b></div></li>
+        <li><span>📱</span><div><b>Your data stays on your phone.</b> I literally can't see it.</div></li>
+        <li><span>₹</span><div><b>Made for pocket money,</b> not salaries and spreadsheets.</div></li>
+        <li><span>🎮</span><div><b>Goals, challenges and badges</b> so saving feels less boring.</div></li>
+        <li><span>✨</span><div><b>Stax,</b> the little assistant in the corner, can log stuff for you if you just tell it.</div></li>
+      </ul>
+    </div>
+
+    <div class="card honest">
+      <h3 class="hand">the honest part 🫡</h3>
+      <p>I'm a student, not a bank. Stack It Up helps you track your money and learn about it, but it doesn't hold your money and it isn't financial advice. When you pay someone, that happens inside your own UPI app.</p>
+      <p style="margin-bottom:0">Under 18? Check with a parent or guardian before you use UPI.</p>
+    </div>
+
+    <div class="card">
+      <h3 class="hand big">what should I build next? 🛠️</h3>
+      <p class="muted" style="margin:2px 0 12px">Tap one and tell me why. The best ideas come from people who actually use the app.</p>
+      <div class="idea-chips">
+        <button class="chip" data-idea="Hindi and other languages" type="button">🇮🇳 Hindi &amp; other languages</button>
+        <button class="chip" data-idea="Shared goals with friends" type="button">🤝 Shared goals with friends</button>
+        <button class="chip" data-idea="Home screen widgets and reminders" type="button">🔔 Reminders</button>
+        <button class="chip" data-idea="More challenges and badges" type="button">🏆 More challenges</button>
+        <button class="chip" data-idea="A totally different idea" type="button">💡 Something else</button>
       </div>
     </div>
-    <div class="card">
-      <h3 style="font-size:1.15rem">Our mission</h3>
-      <p class="muted" style="margin:6px 0 0">Most people only learn about money after they've already made mistakes with it. Stack It Up helps students see where their money goes, save for things that matter to them, and build habits that last, one rupee at a time.</p>
-    </div>
-    <div class="values">
-      <div class="card"><div class="e">🔒</div><h3>Private</h3><p>No sign-up and no account. Your data never leaves your device.</p></div>
-      <div class="card"><div class="e">⚡</div><h3>Simple</h3><p>Log a spend in two taps. No complicated finance words.</p></div>
-      <div class="card"><div class="e">🎮</div><h3>Fun</h3><p>Goals, challenges, badges and quizzes make saving feel like a game.</p></div>
-      <div class="card"><div class="e">💸</div><h3>Free forever</h3><p>No ads, no payments, no catch.</p></div>
-    </div>
+
     <div class="card">
       <h3 style="font-size:1.15rem">Frequently asked questions</h3>
       <details class="faq"><summary>Is my data safe?</summary><p>Yes. Everything you enter is saved only in your own browser on your device. Nothing is sent to any server, so nobody else, not even us, can see it. The one exception is the optional <b>Deep mode</b> in Stax: if you turn it on, the questions you type to Stax go to an online AI. It never sees your entries unless you say so.</p></details>
@@ -594,19 +649,22 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 20px;align-items:center}
       <details class="faq"><summary>Can I use it like an app on my phone?</summary><p>Yes. Open the site in Chrome, tap the ⋮ menu, then "Add to Home screen". It gets its own icon and works offline too.</p></details>
       <details class="faq"><summary>Does it connect to my bank or UPI?</summary><p>No, and that's on purpose. You log money yourself, which keeps it private and helps you actually notice your spending.</p></details>
     </div>
-    <div class="card" id="contact">
-      <h3 style="font-size:1.15rem">Contact us 💌</h3>
-      <p class="muted" style="margin:6px 0 0">Found a bug, have an idea, or just want to say hi? We'd love to hear from you.</p>
-      <div class="mailbox"><span class="addr" id="mailAddr"></span><button class="btn" id="copyMail" type="button">Copy</button><a class="btn primary" id="mailBtn" style="text-decoration:none">Email us</a></div>
+
+    <div class="postcard" id="contact">
+      <div class="stamp" aria-hidden="true"><img src="icon.svg" alt="" width="44" height="44"></div>
+      <h3 class="hand big">write to me ✉️</h3>
+      <p class="muted" style="margin:2px 0 0;max-width:34ch">Found a bug? Got an idea? Want to roast my app? Send it. Messages land straight in my inbox.</p>
+      <div class="mailbox"><span class="addr" id="mailAddr"></span><button class="btn" id="copyMail" type="button">Copy</button><a class="btn primary" id="mailBtn" style="text-decoration:none">Email me</a></div>
       <form class="stack" id="contactForm" style="margin-top:14px;gap:12px">
         <div class="grid2" style="gap:12px">
-          <div class="field"><label for="cName">Your name</label><input class="input" id="cName" maxlength="40"></div>
+          <div class="field"><label for="cName">From (your name)</label><input class="input" id="cName" maxlength="40" placeholder="e.g. Riya"></div>
           <div class="field"><label for="cReason">What's it about?</label>
-            <select class="input" id="cReason"><option>Feedback</option><option>Found a bug</option><option>Feature idea</option><option>Just saying hi</option></select></div>
+            <select class="input" id="cReason"><option>Feedback</option><option>Found a bug</option><option>Feature idea</option><option>Roast my app</option><option>Just saying hi</option></select></div>
         </div>
-        <div class="field"><label for="cMsg">Message</label><textarea class="input" id="cMsg" maxlength="1500" placeholder="Write your message here…"></textarea></div>
+        <div class="field"><label for="cMsg">Your message</label><textarea class="input" id="cMsg" maxlength="1500" placeholder="Dear Ayaan…"></textarea></div>
+        <p class="small muted" style="margin:0">Found a bug? Tell me which phone and browser you use. It helps me fix it faster.</p>
         <p class="err" id="cErr"></p>
-        <div><button class="btn primary">Send message</button> <span class="small muted">Opens your email app with the message ready to send.</span></div>
+        <div><button class="btn primary">Send it 🚀</button> <span class="small muted">Opens your email app with the message ready to send.</span></div>
       </form>
     </div>
   </section>
@@ -2275,6 +2333,15 @@ function staxInit(){
   $("sxForm").onsubmit=e=>{ e.preventDefault(); staxSend($("sxIn").value); };
   document.addEventListener("keydown",e=>{ if(e.key==="Escape"&&sx.open&&!document.querySelector("dialog[open]")) staxOpen(false); });
 }
+
+/* ---- about page extras ---- */
+document.querySelectorAll("[data-idea]").forEach(b=>b.onclick=()=>{
+  $("cReason").value="Feature idea"; $("cMsg").value=`I'd love to see: ${b.dataset.idea}\n\nBecause: `;
+  $("contact").scrollIntoView({behavior:"smooth",block:"start"});
+  setTimeout(()=>{ const m=$("cMsg"); m.focus(); m.setSelectionRange(m.value.length,m.value.length); },400);
+});
+$("meStax").onclick=()=>staxOpen(true);
+$("meMail").onclick=()=>goContact();
 
 /* ============ start ============ */
 ensurePay(); ensureStax(); applyTheme(); render(); renderQuiz(); checkBadges(); handleHash(); staxInit();
