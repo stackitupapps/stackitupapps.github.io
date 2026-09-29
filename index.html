@@ -188,6 +188,7 @@ dialog::backdrop{background:rgba(10,20,15,.5)}
   background:linear-gradient(#F7D57A,#F2C14E 55%,#C98F12);box-shadow:0 2px 0 #A87400,inset 0 -2px 0 rgba(0,0,0,.08)}
 .stackviz i.drop{animation:drop .55s cubic-bezier(.3,1.4,.6,1) both}
 @keyframes drop{from{transform:translateY(-70px);opacity:0}to{transform:none;opacity:1}}
+@media (max-width:640px){.stackviz{transform:scale(.68);transform-origin:top right;top:12px;right:14px}.hero .lbl,.hero .big{padding-right:70px}}
 .stackviz span{position:absolute;right:-6px;bottom:-4px;font-size:.72rem;opacity:.85;white-space:nowrap}
 @media (prefers-reduced-motion:reduce){.stackviz i.drop{animation:none}}
 
@@ -244,6 +245,45 @@ textarea.input{min-height:110px;resize:vertical}
 @keyframes fadeup{from{transform:translateY(8px);opacity:0}to{transform:none;opacity:1}}
 @media (prefers-reduced-motion:reduce){.fade,.verdict.show{animation:none}}
 .btn:active,.fab:active{transform:scale(.96)}
+/* ---- Stax ---- */
+.sx-launch{position:fixed;left:clamp(14px,3vw,28px);bottom:calc(24px + env(safe-area-inset-bottom,0px));z-index:24;display:flex;align-items:center;gap:8px;border:0;border-radius:999px;padding:6px 18px 6px 6px;background:var(--ink);color:var(--panel);font-weight:700;box-shadow:0 10px 24px -8px rgba(0,0,0,.45);transition:transform .15s}
+.sx-launch:hover{transform:translateY(-2px)}
+.sx-launch svg{width:38px;height:38px}
+@media (max-width:640px){.sx-launch{bottom:calc(84px + env(safe-area-inset-bottom,0px))}.sx-launch[aria-expanded="true"]{display:none}}
+.sx-panel{position:fixed;top:0;right:0;bottom:0;width:min(420px,100vw);z-index:35;background:var(--panel);border-left:1px solid var(--line);box-shadow:-18px 0 40px -24px rgba(0,0,0,.5);display:flex;flex-direction:column;transform:translateX(105%);visibility:hidden;transition:transform .28s cubic-bezier(.2,.8,.2,1),visibility 0s .28s;padding-top:env(safe-area-inset-top,0px)}
+.sx-panel.open{transform:none;visibility:visible;transition:transform .28s cubic-bezier(.2,.8,.2,1),visibility 0s}
+@media (prefers-reduced-motion:reduce){.sx-panel,.sx-panel.open{transition:none}}
+.sx-head{display:flex;align-items:center;gap:8px;padding:12px 12px 12px 16px;border-bottom:1px solid var(--line)}
+.sx-orb{width:40px;height:40px;flex:none}
+.sx-title{flex:1;min-width:0;line-height:1.15}
+.sx-title b{display:block;font-family:Sora,system-ui,sans-serif;font-size:1.15rem}
+.sx-title span{color:var(--muted);font-size:.8rem}
+.sx-deep{border:1px solid var(--line);background:var(--soft);border-radius:999px;padding:5px 11px;font-size:.76rem;font-weight:700;white-space:nowrap}
+.sx-deep[aria-pressed="true"]{background:var(--green);color:var(--green-ink);border-color:var(--green)}
+.sx-ib{border:0;background:none;width:34px;height:34px;border-radius:10px;display:grid;place-items:center;color:var(--muted)}
+.sx-ib:hover{background:var(--soft);color:var(--ink)}
+.sx-ib svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.sx-log{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px;scroll-behavior:smooth}
+.sx-msg{max-width:90%;padding:10px 13px;border-radius:16px;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.45;font-size:.95rem;animation:pop .22s ease both}
+.sx-msg.bot{background:var(--bg);border:1px solid var(--line);border-bottom-left-radius:5px;align-self:flex-start}
+.sx-msg.me{background:var(--green);color:var(--green-ink);border-bottom-right-radius:5px;align-self:flex-end}
+.sx-bars{display:grid;gap:8px;margin-top:10px;white-space:normal}
+.sx-bar{display:grid;grid-template-columns:1fr auto;gap:3px 10px;font-size:.84rem}
+.sx-track{grid-column:1/-1;height:8px;background:var(--soft);border-radius:999px;overflow:hidden}
+.sx-track i{display:block;height:100%;border-radius:999px}
+.sx-btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;white-space:normal}
+.sx-btns .btn{padding:7px 14px;font-size:.9rem}
+.sx-typing{display:flex;gap:5px;padding:14px 16px}
+.sx-typing span{width:7px;height:7px;border-radius:50%;background:var(--muted);animation:sxdot 1s infinite ease-in-out}
+.sx-typing span:nth-child(2){animation-delay:.15s}.sx-typing span:nth-child(3){animation-delay:.3s}
+@keyframes sxdot{0%,80%,100%{opacity:.25;transform:translateY(0)}40%{opacity:1;transform:translateY(-3px)}}
+@media (prefers-reduced-motion:reduce){.sx-typing span,.sx-msg{animation:none}}
+.sx-chips{display:flex;gap:6px;overflow-x:auto;padding:4px 12px 8px;scrollbar-width:none}
+.sx-chips::-webkit-scrollbar{display:none}
+.sx-chips .chip{white-space:nowrap;flex:none;font-size:.85rem}
+.sx-form{display:flex;gap:8px;padding:10px 12px calc(10px + env(safe-area-inset-bottom,0px));border-top:1px solid var(--line)}
+.sx-form input{flex:1;min-width:0;border:1px solid var(--line);background:var(--panel);border-radius:999px;padding:10px 16px}
+
 /* ---- payments ---- */
 #pendingBar{margin-bottom:14px}
 .pending{border:2px solid var(--gold);display:grid;gap:8px}
@@ -547,7 +587,8 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 20px;align-items:center}
     </div>
     <div class="card">
       <h3 style="font-size:1.15rem">Frequently asked questions</h3>
-      <details class="faq"><summary>Is my data safe?</summary><p>Yes. Everything you enter is saved only in your own browser on your device. Nothing is sent to any server, so nobody else, not even us, can see it.</p></details>
+      <details class="faq"><summary>Is my data safe?</summary><p>Yes. Everything you enter is saved only in your own browser on your device. Nothing is sent to any server, so nobody else, not even us, can see it. The one exception is the optional <b>Deep mode</b> in Stax: if you turn it on, the questions you type to Stax go to an online AI. It never sees your entries unless you say so.</p></details>
+      <details class="faq"><summary>What is Stax?</summary><p>Stax is the assistant in the corner of the screen. Tap <b>Ask Stax</b> to ask about your spending, budget or goals, do quick calculations, learn money basics, or tell it to log an entry or create a goal. It always asks before it changes anything.</p></details>
       <details class="faq"><summary>Do I need to create an account?</summary><p>No. Just open the site and start. There's nothing to sign up for.</p></details>
       <details class="faq"><summary>What happens if I clear my browser data?</summary><p>Your entries would be deleted, because they live in your browser. Use Settings → Download backup regularly, and Restore backup to get everything back.</p></details>
       <details class="faq"><summary>Can I use it like an app on my phone?</summary><p>Yes. Open the site in Chrome, tap the ⋮ menu, then "Add to Home screen". It gets its own icon and works offline too.</p></details>
@@ -648,6 +689,31 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 20px;align-items:center}
     </div>
   </form>
 </dialog>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="staxmark" viewBox="0 0 48 48">
+    <defs><linearGradient id="sxg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2F9C7A"/><stop offset="1" stop-color="#F2C14E"/></linearGradient></defs>
+    <circle cx="24" cy="24" r="23" fill="url(#sxg)"/>
+    <path d="M24 8c1.4 8.6 4.4 12.6 13 14-8.6 1.4-11.6 5.4-13 14-1.4-8.6-4.4-12.6-13-14 8.6-1.4 11.6-5.4 13-14z" fill="#fff"/>
+    <circle cx="37" cy="11" r="2.4" fill="#fff" opacity=".9"/><circle cx="11" cy="37" r="1.8" fill="#fff" opacity=".8"/>
+  </symbol>
+</svg>
+<button class="sx-launch" id="sxLaunch" aria-expanded="false" aria-controls="sxPanel"><svg aria-hidden="true"><use href="#staxmark"/></svg><span>Ask Stax</span></button>
+<aside class="sx-panel" id="sxPanel" role="dialog" aria-modal="false" aria-labelledby="sxTitle" inert>
+  <header class="sx-head">
+    <svg class="sx-orb" aria-hidden="true"><use href="#staxmark"/></svg>
+    <div class="sx-title"><b id="sxTitle">Stax</b><span>Your money co-pilot</span></div>
+    <button class="sx-deep" id="sxDeep" type="button" aria-pressed="false" title="Deep mode: an optional online AI for open questions">Deep: off</button>
+    <button class="sx-ib" id="sxClear" type="button" aria-label="Clear chat" title="Clear chat"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg></button>
+    <button class="sx-ib" id="sxClose" type="button" aria-label="Close Stax"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+  </header>
+  <div class="sx-log" id="sxLog" role="log" aria-live="polite" aria-label="Conversation with Stax"></div>
+  <div class="sx-chips" id="sxChips"></div>
+  <form class="sx-form" id="sxForm" autocomplete="off">
+    <input id="sxIn" maxlength="500" placeholder="Ask Stax anything…" aria-label="Message to Stax">
+    <button class="btn primary" id="sxSend">Send</button>
+  </form>
+</aside>
 
 <!-- PAY CONFIRM -->
 <dialog id="payDlg" aria-labelledby="payTitle">
@@ -1711,8 +1777,507 @@ function renderPay(){
   if(document.activeElement!==$("myUpi")&&document.activeElement!==$("myUpiName")){ $("myUpi").value=S.upi; $("myUpiName").value=S.upiName; }
 }
 
+/* ============ Stax: the built-in money co-pilot ============ */
+const STAX_KEY="stackitup.stax.v1";
+const sx={msgs:[],open:false,busy:false};
+function ensureStax(){ if(!S.stax||typeof S.stax!=="object") S.stax={}; S.stax.deep=!!S.stax.deep; S.stax.share=!!S.stax.share; }
+const lc=s=>String(s??"").toLowerCase().replace(/[’‘`]/g,"'").trim();
+const cap=s=>s?s[0].toUpperCase()+s.slice(1):s;
+
+/* ---- reading numbers and words ---- */
+const MULT={k:1e3,thousand:1e3,lakh:1e5,lakhs:1e5,lac:1e5,lacs:1e5,crore:1e7,crores:1e7};
+function nums(text){
+  const out=[], re=/(₹|\brs\.?\s*|\binr\s*)?(\d[\d,]*(?:\.\d+)?|\.\d+)\s*(k|thousand|lakhs?|lacs?|crores?)?\b\s*(%|(?:percent|per\s?cent|days?|weeks?|months?|years?|yrs?|hours?|hrs?)\b)?/gi;
+  let m;
+  while((m=re.exec(text))){
+    let v=Number(m[2].replace(/,/g,"")); if(!Number.isFinite(v)) continue;
+    if(m[3]) v*=MULT[m[3].toLowerCase()];
+    const u=(m[4]||"").toLowerCase();
+    const kind=!u?"":/%|percent|per/.test(u)?"pct":/^d/.test(u)?"day":/^w/.test(u)?"week":/^m/.test(u)?"month":/^(y)/.test(u)?"year":"hour";
+    out.push({v,kind,cur:!!m[1],idx:m.index});
+  }
+  return out;
+}
+const moneyNums=t=>nums(t).filter(n=>!n.kind);
+const CAT_WORDS={
+  food:/\b(food|eat|ate|eating|snacks?|lunch|dinner|breakfast|canteen|samosas?|pizza|burgers?|chai|tea|coffee|maggi|restaurant|zomato|swiggy|biryani|meal|juice|ice ?cream|chocolates?|cake)\b/,
+  travel:/\b(travel|bus|auto|rickshaw|cab|uber|ola|rapido|metro|train|petrol|fuel|commute|fare)\b/,
+  shopping:/\b(shopping|clothes|shirts?|jeans|shoes|sneakers|amazon|flipkart|myntra|bag|watch)\b/,
+  fun:/\b(fun|games?|gaming|movies?|netflix|spotify|hotstar|party|outing|arcade|bgmi|subscription)\b/,
+  school:/\b(school|books?|notebooks?|stationery|pens?|tuition|fees?|exams?|printouts?|xerox|photocopy)\b/,
+  recharge:/\b(recharge|mobile data|phone bill|wifi|internet|sim|dth)\b/,
+  gifts:/\b(gifts?|presents?|birthday|treat)\b/
+};
+function detectCat(t){ for(const [k,re] of Object.entries(CAT_WORDS)) if(re.test(t)) return k; return null; }
+function guessName(t){
+  let s=" "+t.replace(/[₹]/g," ").replace(/\b(rs\.?|inr)\b/g," ")+" ";
+  s=s.replace(/(\d[\d,]*(?:\.\d+)?)\s*(k|thousand|lakhs?|lacs?)?/g," ");
+  s=s.replace(/\b(can|could|should|i|we|afford|buy|get|purchase|a|an|the|my|new|for|to|of|worth|costing|costs?|priced|price|that|which|is|it|about|around|goal|create|make|add|start|set|up|saving|save|named|called|please|pls|want|need|would|like|do|does|how|much|long|will|take|me|reach|ok|okay|rupees?|rs|and|then)\b/g," ");
+  s=s.replace(/[^a-z' -]/g," ").replace(/\s+/g," ").trim();
+  return s?cap(s.split(" ").slice(0,4).join(" ")):"";
+}
+function emojiFor(name){
+  const n=lc(name), map=[[/headphone|earphone|earbud|airpod/,"🎧"],[/shoe|sneaker|boot/,"👟"],[/game|console|ps5|xbox|playstation/,"🎮"],[/book|course|kindle/,"📚"],[/cycle|bike|scooter/,"🚲"],[/phone|iphone|mobile/,"📱"],[/gift|present/,"🎁"],[/trip|travel|goa|flight|holiday|vacation/,"✈️"],[/football|cricket|bat|sport|racket/,"⚽"],[/laptop|computer|pc|tablet|ipad/,"💻"],[/guitar|music|piano|keyboard/,"🎸"],[/art|paint|sketch|camera/,"🎨"]];
+  for(const [re,e] of map) if(re.test(n)) return e; return "🎯";
+}
+
+/* ---- dates and money helpers ---- */
+function rangeOf(t){
+  const now=new Date(), d=n=>{ const x=new Date(now); x.setDate(x.getDate()-n); return ymd(x); };
+  if(/\btoday\b/.test(t)) return {label:"today",from:d(0),to:d(0)};
+  if(/\byesterday\b/.test(t)) return {label:"yesterday",from:d(1),to:d(1)};
+  if(/\b(last|previous)\s+month\b/.test(t)){ const a=new Date(now.getFullYear(),now.getMonth()-1,1), b=new Date(now.getFullYear(),now.getMonth(),0); return {label:"last month",from:ymd(a),to:ymd(b)}; }
+  if(/\b(this|current)\s+week\b/.test(t)) return {label:"this week",from:d((now.getDay()+6)%7),to:d(0)};
+  if(/\b(last|past|previous)\s+(7|seven)\s+days\b|\b(last|past)\s+week\b/.test(t)) return {label:"in the last 7 days",from:d(6),to:d(0)};
+  if(/\b(last|past)\s+(30|thirty)\s+days\b/.test(t)) return {label:"in the last 30 days",from:d(29),to:d(0)};
+  if(/\b(all time|ever|overall)\b/.test(t)) return {label:"in total",from:"0000-00-00",to:"9999-99-99"};
+  return {label:"this month",from:ymd(new Date(now.getFullYear(),now.getMonth(),1)),to:d(0)};
+}
+const outIn=(r,cat)=>S.tx.filter(x=>x.type==="out"&&x.date>=r.from&&x.date<=r.to&&(!cat||x.cat===cat));
+const sumOf=a=>a.reduce((s,x)=>s+x.amount,0);
+function breakdown(r){ const by={}; outIn(r).forEach(t=>by[t.cat]=(by[t.cat]||0)+t.amount); return Object.entries(by).sort((a,b)=>b[1]-a[1]); }
+function barsFor(entries){ const tot=entries.reduce((a,e)=>a+e[1],0)||1; return entries.slice(0,6).map(([c,v])=>({label:`${CAT[c]?.e||"💸"} ${CAT[c]?.n||c}`,value:money(v),pct:Math.round(v/tot*100),color:COLORS[c]||"#7A8A80"})); }
+const moneyX=n=>{ n=Math.round(n*100)/100; return Number.isInteger(n)?money(n):"₹"+n.toLocaleString("en-IN",{minimumFractionDigits:2,maximumFractionDigits:2}); };
+function daysLeftInMonth(){ const n=new Date(); return new Date(n.getFullYear(),n.getMonth()+1,0).getDate()-n.getDate()+1; }
+function monthSpent(){ return sumOf(monthTx().filter(t=>t.type==="out")); }
+function plural(n,w,p){ return `${n} ${n===1?w:(p||w+"s")}`; }
+function futureValueMonthly(pm,months,annual){ const r=annual/12/100; return r===0?pm*months:pm*((Math.pow(1+r,months)-1)/r); }
+
+/* ---- actions the assistant can take (always asks first) ---- */
+function yesNo(text,yes,no){ return {text,buttons:[{label:"Yes",primary:true,run:yes},{label:"No",run:no||(()=>({text:"Okay, I didn't change anything."}))}]}; }
+function actLog(type,amount,cat,note){
+  const label=type==="out"?`Log ${money(amount)} spent on ${CAT[cat].n}${note?` (“${note}”)`:""}?`:`Add ${money(amount)} received${note?` (“${note}”)`:""} to your stack?`;
+  return yesNo(label,()=>{
+    const tx={id:uid(),type,amount,cat,note,date:today(),ts:Date.now()};
+    S.tx.push(tx); save(); render(); checkBadges();
+    toast(type==="out"?`Logged ${money(amount)}`:`Added ${money(amount)}`,()=>{ S.tx=S.tx.filter(x=>x.id!==tx.id); save(); render(); });
+    return {text:`Done ✓ ${type==="out"?"Logged":"Added"} ${money(amount)}. You now have ${money(balance())} in your stack.`};
+  });
+}
+function actGoal(name,target){
+  return yesNo(`Create the goal “${name}” for ${money(target)}?`,()=>{
+    S.goals.push({id:uid(),name,emoji:emojiFor(name),target,created:Date.now()}); save(); render(); checkBadges();
+    return {text:`Goal created 🎯 ${name}, ${money(target)}. Open Goals to start saving.`,buttons:[{label:"Open Goals",run:()=>{ go("goals"); return null; }}]};
+  });
+}
+function actBudget(amount){
+  return yesNo(`Set your monthly budget to ${money(amount)}?`,()=>{ S.allowance=amount; save(); render(); checkBadges(); return {text:`Done ✓ Your monthly budget is ${money(amount)}. That's about ${money(Math.floor(amount/30))} a day.`}; });
+}
+const NAV={home:"home",history:"history",pay:"pay",payments:"pay",payment:"pay",goals:"goals",goal:"goals",play:"play",challenges:"play",challenge:"play",badges:"play",about:"about",contact:"about",friends:"pay",scanner:"pay",scan:"pay",quiz:"play"};
+
+/* ---- knowledge base (short, accurate, India-focused) ---- */
+const KB=[
+ [/\b(50\/30\/20|50 30 20|budget rule|make a budget|create a budget|what is a budget|how (do|to|can) i budget)\b/,()=>{
+   const a=S.allowance; let s="A budget is just a plan for your money. A popular starting point is the **50/30/20 rule**: 50% for needs, 30% for wants, 20% for savings.";
+   if(a>0) s+=`\n\nWith your ${money(a)} a month, that's ${money(a*.5)} for needs (travel, school stuff), ${money(a*.3)} for fun, and ${money(a*.2)} to save.`; else s+="\n\nTell me your monthly pocket money, for example “set my budget to 1500”, and I'll split it for you.";
+   return s;},["Set my budget to 1500","Give me a money tip"]],
+ [/\b(emergency fund|rainy day|unexpected (expense|cost))\b/,"An emergency fund is money set aside for surprises, like a cracked phone screen or a sudden fee. Grown-ups aim for 3 to 6 months of expenses. As a student, start small: even ₹500 to ₹1,000, then build up to about a month of your pocket money. Keep it separate so you don't spend it."],
+ [/\b(compound(ing)?|rule of 72|interest on interest)\b/,"**Compound interest** means you earn interest on your interest too, so money grows faster over time. Formula: A = P × (1 + r)^t.\n\nQuick trick, the **rule of 72**: divide 72 by the yearly interest rate to get roughly how many years it takes to double. At 8%, that's about 9 years.\n\nTry me: “if I save 500 a month for 2 years at 6%”.",["If I save 500 a month for 2 years at 6%"]],
+ [/\b(simple interest|difference between simple and compound)\b/,"**Simple interest** is only on the original amount: SI = P × R × T ÷ 100. **Compound interest** is on the original amount plus interest already earned, so it grows faster. Example: ₹10,000 at 8% for 3 years gives ₹2,400 simple or about ₹2,597 compound."],
+ [/\binflation\b/,"Inflation means prices slowly go up over time, so the same ₹100 buys less next year. That's why keeping lots of cash idle isn't great long term, and why savings should earn at least some interest."],
+ [/\b(needs? (vs|versus|or|and) wants?|difference between (a )?needs? and wants?|need or want)\b/,"A **need** is something you can't do without (school supplies, bus fare, a basic meal). A **want** is nice to have (a new game skin, another pair of sneakers). Quick test: “Will something bad happen if I don't buy this?” If not, it's a want. Wants are fine. Just plan for them."],
+ [/\b(is upi safe|upi safety|upi tips|upi secure|how does upi work|what is upi)\b/,"**UPI** lets you move money between bank accounts instantly using an ID or QR code. Stay safe:\n• Your PIN is only for **sending** money, never for receiving.\n• Never share your PIN or OTP with anyone.\n• Check the name shown before you pay.\n• Ignore “collect requests” from people you don't know.\n• Only use your bank's or a well-known UPI app.\n\nIf something goes wrong, call your bank and dial **1930**, India's cyber crime helpline."],
+ [/\b(credit card|debit card|credit score|cibil|\bemi\b|buy now pay later|bnpl|\bloans?\b)\b/,"A **debit card** spends your own money. A **credit card** spends the bank's money that you must repay, with high interest if you're late. In India you need to be 18 to get one. A **credit score** (300 to 900) shows how reliably you repay. Loans and EMIs cost extra in interest, so borrow only for real needs and never for wants."],
+ [/\b(sip|mutual funds?)\b/,"A **SIP** (systematic investment plan) puts a fixed amount into a mutual fund every month. Mutual funds pool money from many people to invest in shares or bonds. Returns aren't guaranteed and can go down as well as up. Under 18, an account has to be opened with a guardian. This is education, not investment advice."],
+ [/\b(stocks?|stock market|share market|shares? (market|price|prices)|(buy|buying|sell|selling|invest in) shares?|demat|sensex|nifty)\b/,"Buying a share means owning a tiny piece of a company. Prices go up and down, and you can lose money. To trade in India you need a demat account, which a guardian can open for someone under 18. Learn first, start small, and never invest money you might need soon."],
+ [/\b(crypto|bitcoin|nft)\b/,"Crypto prices can swing wildly and many crypto schemes are scams. It's not a place for pocket money. Anyone promising guaranteed returns is almost certainly lying."],
+ [/\b(betting|gambl(e|ing)|fantasy|real money game|casino|satta|dream11)\b/,"Real-money betting and gaming apps are designed so most people lose, and they're not for under-18s. If you feel pulled to keep playing, talk to a parent or another adult you trust."],
+ [/\b(fixed deposit|\bfds?\b|recurring deposit|\brds?\b|savings account|\bppf\b)\b/,"A **savings account** keeps money safe and pays small interest. A **fixed deposit (FD)** locks money for a set time at a fixed rate, usually higher. A **recurring deposit (RD)** lets you add a fixed amount every month. Bank deposits are insured up to ₹5 lakh per person per bank. A parent or guardian can help open an account for you."],
+ [/\b(side (income|hustle|job)|earn money|make money|earn extra|part.?time)\b/,"Ideas that suit students (always check with a parent first): tutoring younger kids, selling handmade or digital things (notes, designs), helping local shops with social media, or freelance writing and design. Never pay money upfront for a “job”. Real jobs don't charge you."],
+ [/\b(borrow|lend|lent|loan from (a )?friend|owe (a )?friend)\b/,"Borrowing from friends can hurt friendships. If you do, write down the amount, agree on a date, and pay back early. When lending, only give what you're OK not getting back. You can track shared money in Pay → Friends."],
+ [/\b(peer pressure|fomo|everyone (else )?has|friends? (are )?buying|keep up with)\b/,"It's normal to want what friends have. Try the **24-hour rule**: wait a day before buying. Ask “Would I still want this if nobody saw it?” Put the money in a goal instead and celebrate reaching it."],
+ [/\b(gift money|birthday money|diwali money|eidi|shagun)\b/,"Gift money is a great chance to save! A simple split: 50% to a goal you care about, 30% to save for later, 20% to enjoy right away. Log it as “Gift money” so it shows in your stack."],
+ [/\b(how much should i save|why (should i|is it important to) save|importance of saving)\b/,"Saving gives you choices: a big purchase without borrowing, a safety cushion, and less stress. A good starting target is 20% of whatever you get. Even ₹20 a day is ₹600 a month. Start small and stay consistent."],
+ [/\b(scams?|fraud(s|sters?)?|fake (job|offer|link|call|website)|double (my|your) money|lottery|you have won|won a prize|kyc (update|expired|expire))\b/,"Watch out for these common scams:\n• “Double your money” or guaranteed returns.\n• Messages saying you won a prize or lottery.\n• Fake KYC or bank “update” links.\n• Jobs that ask you to pay first.\n• Fake customer-care numbers from search results.\n• Anyone asking you to install screen-sharing apps.\n\nIf you're caught out, tell an adult, call your bank, dial **1930** and report at cybercrime.gov.in."],
+];
+
+/* ---- app help ---- */
+const HOWTO=[
+ [/\b(how (do|to|can) i|where (do|can) i)\b.*\b(add|log|record|enter)\b.*\b(spend|spent|expense|money|entry|income|received)\b|how do i add/,"Tap the orange **+ Add** button, choose “I spent” or “I received”, type the amount, pick a category and save. Or just tell me, like “I spent 50 on chai”.",["I spent 50 on chai"]],
+ [/\b(backup|back up|restore|export|import|transfer my data|new phone)\b/,"Open **Settings** (the gear at the top), then **Download backup** to save your data as a file. To move to another phone, open Stack It Up there, go to Settings and choose **Restore backup**."],
+ [/\b(install|home screen|add to home|download the app|use offline|offline)\b/,"On your phone, open the site in Chrome, tap the ⋮ menu, then **Add to Home screen**. Stack It Up gets its own icon and works offline once it's opened."],
+ [/\b(is my data safe|privacy|who can see|do you store|where is my data|data safe)\b/,"Your entries stay **on your own device**. Nothing is sent to a server. The only exception is Deep mode, and only if you turn it on: it sends your typed question to an online AI. By default it never sees your numbers."],
+ [/\b(scan|scanner)\b.*\b(qr|pay|code)\b|\bhow (do|to) (i )?(scan|pay)\b/,"Go to **Pay → Pay** and tap **Start scanner**. Point the camera at a UPI QR code. Stack It Up shows who you're paying, then opens your UPI app to finish.",null,()=>{ go("pay"); ptab("pay"); }],
+ [/\b(request|receive|get paid|collect)\b.*\b(money|payment)\b|\bhow (do|can) i (request|get paid)\b|\bqr code for (me|my)\b/,"Go to **Pay → Get paid**, save your UPI ID once, then enter an amount and tap **Create request**. You get a QR code and a link to share. I can open it for you.",null,()=>{ go("pay"); ptab("receive"); }],
+ [/\b(split|share)\b.*\b(bill|expense|cost|trip|dinner)\b|\bhow (do|to) (i )?split\b|\bgroup expense/,"Go to **Pay → Friends**, add your friends, then tap **+ New group**. Add expenses, choose who paid and who shares, and Stack It Up works out who owes who. You can settle by UPI or cash.",null,()=>{ go("pay"); ptab("friends"); }],
+ [/\b(delete|remove|undo|wrong entry|mistake)\b/,"Tap the ✕ next to an entry in **History** to delete it, and press **Undo** in the message that pops up if you change your mind. Goals have a **Delete goal** button too."],
+ [/\b(who (made|built|created)|creator|developer|owner|contact|email|feedback|report a bug)\b/,"Stack It Up was created by **Ayaan Bajaj**. You can reach out from the **About** page, where there's a contact form and email button.",null,()=>{ go("about"); }],
+];
+const JOKES=["Why did the coin go to school? It wanted more cents. 🪙","I told my wallet a joke. It didn't laugh. It was too flat. 😄","Saving money is like dieting: you feel great until you see the sale. 🛍️","Why don't piggy banks ever win arguments? They always break. 🐷","My budget and I have a lot in common. Both are broken by Friday. 😅"];
+const MOTIVATION=["Small steps count. ₹10 saved today beats ₹1,000 you plan to save someday. 🌱","Your future self is cheering for every rupee you stack. 📈","Progress, not perfection. One good money choice today is a win. 🏆"];
+let jokeI=0, motI=0;
+
+/* ---- the brain: read the question, decide, answer ---- */
+const QWORD=/^(how|what|whats|what's|when|where|why|can|could|should|will|would|do|does|is|are|which|who|am)\b/;
+function staxThink(raw){
+  ensureStax();
+  const t=lc(raw), N=nums(t), M=N.filter(n=>!n.kind), amt=M[0]?.v;
+  const isQ=QWORD.test(t)||/\?\s*$/.test(t);
+  if(!t) return {text:"I'm here. Ask me anything about your money, or tap a suggestion below."};
+
+  // 1) safety first
+  if(/\b(otp|pin|cvv|password|passcode)\b/.test(t)&&/\b(share|send|give|gave|tell|told|ask(ed|s|ing)?|want(s|ed)?|need(s|ed)?|reveal|screenshot|forward)\b/.test(t)||/\b(anydesk|teamviewer|quicksupport|screen ?share)\b/.test(t))
+    return {text:"Stop right there ✋ **Never share your PIN, OTP, CVV or password with anyone**, even if they say they're from your bank, a shop or a game. Real companies never ask for them. A PIN is only for sending money, never for receiving it.\n\nIf you already shared something: call your bank now, dial **1930** (India's cyber crime helpline) and tell a parent or trusted adult.",chips:["Is UPI safe?","Common scams"]};
+
+  // 2) small talk
+  if(/^(hi|hii+|hello|hey+|yo|hola|namaste|good (morning|afternoon|evening)|sup|hlo)\b[\s!.?]*$/.test(t)){
+    const n=S.name?`, ${S.name}`:""; const bal=balance();
+    return {text:`Hey${n}! 👋 I'm Stax, your money co-pilot. ${S.tx.length?`You've got ${money(bal)} in your stack right now.`:"Let's get your first entry in."} What do you want to do?`,chips:["Summarize my month","Am I on budget?","Give me a money tip"]};
+  }
+  if(/^(thanks?|thank you|thx|ty|thanku|great|awesome|cool|nice|ok+|okay|got it|perfect)\b[\s!.]*$/.test(t)) return {text:["You're welcome! 😊","Anytime! Ping me whenever.","Happy to help! 🚀"][Date.now()%3]};
+  if(/^(bye|goodbye|see you|cya|good night)\b/.test(t)) return {text:"See you! Keep stacking. 🪙"};
+  if(/\b(who are you|what are you|your name|are you (an? )?(ai|bot|robot|human|real)|are you (chat ?gpt|gemini|claude|siri|alexa))\b/.test(t))
+    return {text:"I'm **Stax**, the assistant built into Stack It Up. My money answers run privately on your device using your own entries. If you switch on **Deep mode**, open-ended questions go to an online AI model instead. I can't move money myself, but I can help you plan it."};
+  if(/\b(what can you do|what do you do|your (features|skills|abilities)|how (do|can) (i )?use you|what do you know|list of commands)\b/.test(t)||/^help( me)?[\s!.?]*$/.test(t))
+    return {text:"Here's what I can do:\n• **Answer about your money:** spending, budget, goals, who owes you\n• **Do things:** “I spent 50 on chai”, “set my budget to 1500”, “create a goal for shoes 3000”\n• **Calculate:** “15% of 2400”, “split 1200 among 4”, “save 500 a month for 2 years at 6%”\n• **Teach:** budgeting, interest, UPI safety, scams, investing basics\n• **Guide:** open any screen or explain any feature",chips:["Summarize my month","Can I afford ₹500?","What is compound interest?"]};
+  if(/\b(joke|make me laugh|funny)\b/.test(t)) return {text:JOKES[jokeI++%JOKES.length]};
+  if(/\b(motivat\w*|inspire( me)?|encourage( me)?|feeling (low|down|lazy))\b/.test(t)) return {text:MOTIVATION[motI++%MOTIVATION.length]};
+
+  // 3) actions (only when it's a statement or command, never a question)
+  if(!isQ){
+    let m;
+    if((m=t.match(/\b(?:open|go to|goto|take me to|switch to|launch|show)\s+(?:the |my )?(home|history|pay|payments?|goals?|play|challenges?|badges?|about|contact|friends|scanner|scan|quiz)\b(?!\s+(?:spend|summary))/))){
+      const dest=NAV[m[1]]; go(dest);
+      if(m[1]==="friends") ptab("friends"); if(/^scan/.test(m[1])) ptab("pay"); if(m[1]==="quiz"){ qActive=true; qi=0; qScore=0; renderQuiz(); }
+      return {text:`Opening ${m[1]} ✓`};
+    }
+    if(/\b(dark|light)\s*(mode|theme)\b/.test(t)||/\b(switch|turn|use|enable|go)\b.*\b(dark|light)\b/.test(t)){
+      const dark=/\bdark\b/.test(t); S.theme=dark?"dark":"light"; save(); applyTheme(); return {text:`${dark?"Dark":"Light"} mode on ${dark?"🌙":"☀️"}. You can change it back in Settings.`};
+    }
+    if(/\b(set|change|update|make)\b.*\b(budget|allowance|pocket money)\b/.test(t)&&amt>0||/\bmy (budget|pocket money|allowance) (is|will be|=)\s*/.test(t)&&amt>0){
+      if(amt>1000000) return {text:"That's a big number. Enter a monthly budget up to ₹10,00,000."};
+      return actBudget(amt);
+    }
+    if(/\b(create|make|add|start|set up|new)\b.*\bgoal\b|\bsave (up )?(for|to buy)\b|\bgoal:/.test(t)&&amt>0){
+      if(amt>1000000) return {text:"That goal is too big for me to set up. Try up to ₹10,00,000."};
+      return actGoal(guessName(t)||"My goal",amt);
+    }
+    if(/\b(request|ask)\b.*\b(pay|money|payment)\b|\bcreate (a )?(payment )?(request|qr)\b|^request\b.*\d/.test(t)){
+      go("pay"); ptab("receive"); const note=(t.match(/\bfor\s+([a-z ]{2,30})$/)||[])[1]||"";
+      if(amt>0) $("reqAmt").value=amt; if(note) $("reqNote").value=cap(note.trim());
+      return {text:S.upi?`I've opened Get paid${amt?` with ${money(amt)} filled in`:""}. Tap **Create request** to make the QR code.`:"I've opened Get paid. Save your UPI ID first, then create the request.",buttons:S.upi?[{label:"Create the QR",primary:true,run:()=>{ $("reqGo").click(); return null; }}]:null};
+    }
+    if(/^pay\s+([a-z]+)\b/.test(t)){
+      const name=t.match(/^pay\s+([a-z]+)/)[1], f=S.friends.find(x=>lc(x.name).split(" ")[0]===name);
+      if(!f) return {text:`I don't see a friend named ${cap(name)}. Add them in **Pay → Friends** first.`,buttons:[{label:"Open Friends",run:()=>{ go("pay"); ptab("friends"); return null; }}]};
+      if(!f.upi) return {text:`${f.name} doesn't have a UPI ID saved yet. Add it in **Pay → Friends** to pay them.`};
+      go("pay"); ptab("pay"); openPay({pa:f.upi,pn:f.name,am:amt>0?amt:null,title:"Pay a friend",lead:`You're paying ${f.name}. Check the details first.`});
+      return {text:`Check the details on the screen. Nothing is sent until you tap Open UPI app.`};
+    }
+    if(amt>0&&/\b(spent|spend|paid|pay|bought|buy|purchased|used|expense|log|record)\b/.test(t)&&!/\b(received|got|earned)\b/.test(t)){
+      if(amt>1000000) return {text:"That's a very big amount. Enter up to ₹10,00,000."};
+      const cat=detectCat(t)||"other", t2=t.replace(/(₹|\brs\.?\s*|\binr\s*)?\d[\d,]*(?:\.\d+)?\s*(k|thousand|lakhs?)?/g," ").replace(/\s+/g," ").trim();
+      const nm=(t2.match(/\b(?:on|for|at)\s+(?:a |an |the |some )?([a-z][a-z0-9 '&-]{1,39})$/)||t2.match(/\b(?:bought|purchased|got|ordered)\s+(?:a |an |the |some )?([a-z][a-z0-9 '&-]{1,39}?)(?:\s+(?:for|at|worth)\b.*)?$/)||[])[1]||"";
+      return actLog("out",amt,cat,cap(nm.trim()).slice(0,40));
+    }
+    if(amt>0&&/\b(received|receive|got|earned|earn|gift(ed)?|pocket money|allowance|salary|stipend|income)\b/.test(t)){
+      if(amt>1000000) return {text:"That's a very big amount. Enter up to ₹10,00,000."};
+      const cat=/\b(pocket money|allowance)\b/.test(t)?"pocket":/\b(gift|birthday|diwali|eidi|shagun)\b/.test(t)?"giftmoney":/\b(earned|salary|stipend|tuition|job)\b/.test(t)?"earned":"otherin";
+      return actLog("in",amt,cat,"");
+    }
+    if(amt>0&&/^(add|put|log)\b/.test(t))
+      return {text:`Is the ${money(amt)} money you spent or money you received?`,buttons:[{label:"I spent it",primary:true,run:()=>actLog("out",amt,detectCat(t)||"other","")},{label:"I received it",run:()=>actLog("in",amt,"otherin","")}]};
+  }
+
+  // 4) calculators
+  {
+    const ofM=/\bof\b/.test(t)&&N.find(n=>n.kind==="pct"), pctIdx=N.findIndex(n=>n.kind==="pct");
+    if(ofM){ const base=N.slice(pctIdx+1).find(n=>!n.kind); if(base){ const p=ofM.v, r=base.v*p/100; return {text:`${p}% of ${money(base.v)} is **${moneyX(r)}**.`}; } }
+    const off=/\b(off|discount|sale)\b/.test(t)&&N.find(n=>n.kind==="pct");
+    if(off){ const base=N.find(n=>!n.kind); if(base){ const p=off.v, saved=base.v*p/100, price=base.v-saved; return {text:`${p}% off ${money(base.v)} saves you ${moneyX(saved)}, so you'd pay **${moneyX(price)}**.`}; } }
+    if(/\b(split|divide|share)\b/.test(t)&&M.length>=1&&/\b(among|between|by|ways?|people|friends?|persons?|of us)\b/.test(t)){
+      let people=M[1]?.v||0; if(/\bwith\s+\d+\s+friends?\b/.test(t)) people=(M[1]?.v||0)+1;
+      const total=M[0].v;
+      if(people>=2&&people<=500){ const each=Math.floor(total/people*100)/100, rem=Math.round((total-each*people)*100)/100; return {text:`Splitting ${money(total)} between ${people} people is **${moneyX(each)}** each${rem>0?` (plus ${moneyX(rem)} extra. One person can pay the extra paise)`:""}.`}; }
+    }
+    // saving a monthly amount / lump sum with growth
+    const perMonth=/\b(a|per|every|each|\/)\s*month\b|\bmonthly\b|\bevery month\b/.test(t)&&/\b(save|saving|invest|deposit|put|sip|keep)\b/.test(t);
+    const dur=N.find(n=>n.kind==="year"||n.kind==="month"), rate=N.find(n=>n.kind==="pct");
+    if(perMonth&&dur&&M[0]){
+      const months=dur.kind==="year"?dur.v*12:dur.v; if(months>0&&months<=1200){
+        const r=rate?rate.v:6, put=M[0].v*months, fv=futureValueMonthly(M[0].v,months,r);
+        return {text:`Saving ${money(M[0].v)} a month for ${plural(Math.round(months),"month")}:\n• You put in **${money(put)}**\n• At ${r}% a year it grows to about **${moneyX(fv)}**\n• That's roughly ${moneyX(fv-put)} of interest${rate?"":"\n\n(I assumed 6% because you didn't say. Real returns vary and aren't guaranteed.)"}`};
+      }
+    }
+    if(/\b(interest|invest|deposit|fd)\b/.test(t)&&rate&&dur&&M[0]&&!perMonth){
+      const yrs=dur.kind==="year"?dur.v:dur.v/12, P=M[0].v, si=P*rate.v*yrs/100, ci=P*Math.pow(1+rate.v/100,yrs)-P;
+      return {text:`${money(P)} at ${rate.v}% for ${yrs===Math.round(yrs)?plural(yrs,"year"):yrs.toFixed(1)+" years"}:\n• Simple interest: **${moneyX(si)}** (total ${moneyX(P+si)})\n• Compound interest (yearly): **${moneyX(ci)}** (total ${moneyX(P+ci)})`};
+    }
+    // plain arithmetic
+    const expr=t.replace(/^(what is|what's|whats|calculate|calc|solve|compute|find)\s*/,"").replace(/[=?]+$/,"").replace(/(\d)\s*[x×]\s*(\d)/g,"$1*$2").replace(/÷/g,"/").replace(/(\d),(\d)/g,"$1$2").replace(/\^/g,"**").replace(/₹/g,"").trim();
+    if(/^[\d\s.+\-*/()]+$/.test(expr)&&/\d\s*[-+*/]\s*[\d(]|\*\*/.test(expr)&&expr.length<80){
+      try{ const v=Function('"use strict";return ('+expr+')')(); if(Number.isFinite(v)) return {text:`${expr.replace(/\*\*/g,"^")} = **${Math.round(v*1e6)/1e6}**`}; }catch{}
+    }
+  }
+
+  // 5) questions about your own money
+  const cat=detectCat(t), r=rangeOf(t);
+  if(/\b(budget|per day|a day|daily|left to spend|allowance|pocket money)\b/.test(t)&&!/\b(afford|set|change|update)\b/.test(t)&&!/\b(what is a|what's a|explain)\b/.test(t)&&!KB[0][0].test(t)){
+    if(!(S.allowance>0)) return {text:"You haven't set a monthly budget yet. Tell me, for example, “set my budget to 1500”.",chips:["Set my budget to 1500"]};
+    const spent=monthSpent(), rem=S.allowance-spent, left=daysLeftInMonth(), pct=Math.round(spent/S.allowance*100);
+    return {text:`You've spent **${money(spent)}** of your ${money(S.allowance)} budget (${pct}%).\n`+(rem>=0?`That leaves ${money(rem)} for ${plural(left,"day")}, about **${money(Math.floor(rem/left))} a day**.${pct>=80?" You're getting close, so go easy.":" You're on track. 👍"}`:`You're ${money(-rem)} over budget. Try a no-spend day to get back on track.`),bars:[{label:"Budget used",value:`${pct}%`,pct:Math.min(100,pct),color:pct>=100?"#B8432A":pct>=80?"#D9653B":"#1F8A5B"}]};
+  }
+  if(/\b(afford|can i (buy|get|spend)|should i (buy|get)|is it (ok|okay|worth)|worth buying)\b/.test(t)){
+    if(!(amt>0)) return {text:"Tell me the price and I'll check. For example: “Can I afford ₹1,200 headphones?”",chips:["Can I afford ₹1200 headphones?"]};
+    const bal=balance(), name=guessName(t);
+    const rem=S.allowance>0?S.allowance-monthSpent():null;
+    if(amt<=bal){
+      let s=`Yes, you can. You have **${money(bal)}**, so you'd have ${money(bal-amt)} left after buying it.`;
+      if(rem!==null&&amt>rem) s+=`\n\n⚠️ But it would put you ${money(amt-rem)} over this month's budget.`;
+      else if(rem!==null) s+=`\n\nIt'd leave ${money(rem-amt)} of your monthly budget.`;
+      if(amt>bal*0.5) s+=`\n\nThat's over half your money. Try the 24-hour rule: wait a day and see if you still want it.`;
+      return {text:s};
+    }
+    const need=amt-bal, rate=savingRate();
+    let s=`Not yet. You have ${money(bal)} and need **${money(need)}** more.`;
+    s+=rate>0?` At your recent pace (about ${money(Math.round(rate))} a day) that's around **${plural(Math.ceil(need/rate),"day")}**.`:` Once you log more of what you receive and spend, I can estimate how long it'll take.`;
+    return {text:s,buttons:[{label:"Make it a goal",primary:true,run:()=>actGoal(name||"Something I want",amt)}]};
+  }
+  if(/\b(how long|how many (days|weeks|months)|when (can|will|could))\b/.test(t)&&/\b(save|reach|get|afford|buy|have)\b/.test(t)){
+    const g=S.goals.find(x=>lc(x.name).split(" ").some(w=>w.length>2&&t.includes(w)));
+    let need, label;
+    if(g){ need=g.target-goalSaved(g.id); label=`your “${g.name}” goal`; }
+    else if(amt>0){ need=amt-Math.max(0,balance()); label=money(amt); }
+    else return {text:"Tell me the amount, or the name of one of your goals. For example: “How long to save ₹2,000?”",chips:["How long to save ₹2000?"]};
+    if(need<=0) return {text:`You already have enough for ${label}. 🎉`};
+    const rate=savingRate();
+    let s=`For ${label} you need **${money(need)}** more.`;
+    if(rate>0) s+=`\nAt your recent pace (${money(Math.round(rate))} a day) that's about ${plural(Math.ceil(need/rate),"day")}.`;
+    else s+=`\nRight now you're spending about as much as you receive, so I can't predict it.`;
+    s+=`\n\nIf you saved on purpose:\n`+[50,100,200].map(w=>`• ${money(w)} a week → ${plural(Math.ceil(need/w),"week")}`).join("\n");
+    return {text:s};
+  }
+  if(/\b(biggest|largest|highest|most expensive)\b.*\b(expense|purchase|spend|spent|buy|payment|transaction)\b/.test(t)){
+    const list=outIn(r).sort((a,b)=>b.amount-a.amount); if(!list.length) return {text:`No spending logged ${r.label} yet.`};
+    const x=list[0]; return {text:`Your biggest spend ${r.label} was **${money(x.amount)}** on ${CAT[x.cat]?.n||x.cat}${x.note?` (“${x.note}”)`:""}, on ${nice(x.date)}.`};
+  }
+  if(/\b(where|what)\b.*\b(money|it|spend)\b.*\b(go|went|going|goes)\b|\b(top|biggest|most|highest|main)\b.*\bcategor|what (do|did) i spend (the )?most|\bbreakdown\b|\bcategories\b/.test(t)){
+    const bd=breakdown(r); if(!bd.length) return {text:`You haven't logged any spending ${r.label}.`};
+    const tot=sumOf(outIn(r));
+    return {text:`${cap(r.label)} you spent **${money(tot)}**. Most of it went on **${CAT[bd[0][0]]?.n||bd[0][0]}** (${money(bd[0][1])}, ${Math.round(bd[0][1]/tot*100)}%).`,bars:barsFor(bd)};
+  }
+  if(/\b(compare|compared|versus|vs|than last month|month over month)\b/.test(t)&&/\b(month|last|previous|spend|spent|spending)\b/.test(t)){
+    const now=new Date(), first=ymd(new Date(now.getFullYear(),now.getMonth()-1,1)), lastEndDay=Math.min(now.getDate(),new Date(now.getFullYear(),now.getMonth(),0).getDate()), same=ymd(new Date(now.getFullYear(),now.getMonth()-1,lastEndDay));
+    const lastFull=sumOf(outIn({from:first,to:ymd(new Date(now.getFullYear(),now.getMonth(),0))})), lastSame=sumOf(outIn({from:first,to:same})), cur=monthSpent();
+    if(!lastFull) return {text:`You've spent ${money(cur)} this month. I don't have last month's spending to compare with yet.`};
+    const diff=cur-lastSame; return {text:`So far this month you've spent **${money(cur)}**. By the same day last month it was ${money(lastSame)}, so you're spending ${diff>0?`**${money(diff)} more**`:diff<0?`**${money(-diff)} less** 🎉`:"exactly the same"}.\nLast month's full total was ${money(lastFull)}.`};
+  }
+  if(/\b(tips?|advice|how (can|do|should) i (save|spend less|manage|stop overspending)|help me save|save more|spend less|improve)\b/.test(t)) return staxTips();
+  if(/\b(how much|total|what)\b.*\b(spen[dt]|spending|expenses?|used|paid)\b|\bmy (spending|expenses)\b|\bspent (so far|today|yesterday)|\b(spending|expenses)\b/.test(t)&&!/\b(spend less|less)\b/.test(t)){
+    const list=outIn(r,cat), total=sumOf(list), on=cat?` on ${CAT[cat].n}`:"";
+    if(!list.length) return {text:`You haven't logged any spending${on} ${r.label}. ${S.tx.length?"":"Add your first entry with the + Add button."}`};
+    let s=`You spent **${money(total)}**${on} ${r.label}, across ${plural(list.length,"entry","entries")}.`;
+    if(!cat){ const bd=breakdown(r); s+=` Biggest category: ${CAT[bd[0][0]]?.n} (${Math.round(bd[0][1]/total*100)}%).`; return {text:s,bars:barsFor(bd)}; }
+    return {text:s};
+  }
+  if(/\b(balance|money (do i have|left|in my)|how much (do i have|is left|cash|money do i)|my stack|net worth)\b/.test(t)){
+    const b=balance(), sv=totalSavedGoals();
+    return {text:`You have **${money(b)}** in your stack${sv>0?`, plus ${money(sv)} saved in goals`:""}.${b<0?" That's below zero, so log any money you received to balance it out.":""}`};
+  }
+  if(/\bgoals?\b|\bsavings\b|\bsaving for\b/.test(t)&&!/\b(create|make|add|start|new|set up)\b/.test(t)){
+    if(!S.goals.length) return {text:"You don't have any goals yet. Tell me what you're saving for, like “create a goal for headphones 2000”.",chips:["Create a goal for headphones 2000"]};
+    const rate=savingRate();
+    const lines=S.goals.map(g=>{ const sv=Math.max(0,goalSaved(g.id)), p=Math.round(Math.min(100,sv/g.target*100)); return `${g.emoji} **${g.name}**: ${money(sv)} of ${money(g.target)} (${p}%)${p>=100?" ✅":""}`; });
+    return {text:lines.join("\n"),bars:S.goals.slice(0,5).map(g=>({label:`${g.emoji} ${g.name}`,value:`${Math.round(Math.min(100,Math.max(0,goalSaved(g.id))/g.target*100))}%`,pct:Math.min(100,Math.max(0,goalSaved(g.id))/g.target*100),color:"#1F8A5B"})),buttons:[{label:"Open Goals",run:()=>{ go("goals"); return null; }}]};
+  }
+  if(/\b(streak|badges?|challenges?|points|achievements?)\b/.test(t)){
+    const done=Object.keys(S.badges||{}).length, act=Object.entries(S.challenges||{}).filter(([id,c])=>!c.done).length;
+    return {text:`🔥 Streak: **${plural(streak(),"day")}**\n🏅 Badges: **${done} of ${BADGES.length}**\n🏁 Active challenges: **${act}**`,buttons:[{label:"Open Play",run:()=>{ go("play"); return null; }}]};
+  }
+  if(/\b(who owes|owe me|do i owe|owed|friends? owe|splits?|settle)\b/.test(t)&&!/\bhow (do|to)\b/.test(t)){
+    const lines=[]; for(const g of S.groups) for(const d of debts(groupNet(g))) if(d.from==="me"||d.to==="me") lines.push(`• ${d.from==="me"?`You owe ${gName(d.to)}`:`${gName(d.from)} owes you`} **${money(d.amount)}** (${g.name})`);
+    if(!S.groups.length) return {text:"You don't have any groups yet. Create one in **Pay → Friends** to split trips and meals.",buttons:[{label:"Open Friends",run:()=>{ go("pay"); ptab("friends"); return null; }}]};
+    return {text:lines.length?lines.join("\n"):"Everyone's settled up. 🎉",buttons:lines.length?[{label:"Open Friends",run:()=>{ go("pay"); ptab("friends"); return null; }}]:null};
+  }
+  if(/\b(recent|latest|last)\b.*\b(transactions?|entries|spends?|purchases|expenses|payments)\b|\bwhat did i (buy|spend on)\b/.test(t)){
+    const list=[...S.tx].filter(x=>x.type!=="save").sort((a,b)=>b.date.localeCompare(a.date)||b.ts-a.ts).slice(0,5);
+    if(!list.length) return {text:"No entries yet. Tap + Add to log your first one."};
+    return {text:"Your latest entries:\n"+list.map(x=>`• ${nice(x.date)}: ${x.type==="in"?"+":"−"}${money(x.amount)} ${CAT[x.cat]?.n||""}${x.note?` (${x.note})`:""}`).join("\n")};
+  }
+  if(/\b(summary|summari[sz]e|insights?|analy[sz]e|review|how am i doing|report|overview|check.?up|my month)\b/.test(t)) return staxSummary();
+
+  // 6) help with the app, then general knowledge
+  for(const [re,text,chips,act] of HOWTO) if(re.test(t)){
+    return {text,chips:chips||undefined,buttons:act?[{label:"Take me there",primary:true,run:()=>{ act(); return null; }}]:null};
+  }
+  for(const [re,text,chips] of KB) if(re.test(t)) return {text:typeof text==="function"?text():text,chips:chips||["Give me a money tip","Am I on budget?"]};
+
+  // 7) nothing matched
+  return {unknown:true,text:"I'm not sure about that one yet. I'm best at your money: spending, budgets, goals, splits, quick calculations and money basics. Try one of these:",chips:["Summarize my month","Can I afford ₹500?","Give me a money tip","What is compound interest?"]};
+}
+
+function staxSummary(){
+  if(!S.tx.length) return {text:"There's nothing to summarize yet. Add a few entries and I'll spot patterns for you. Tap **+ Add** or tell me “I spent 50 on chai”.",chips:["I spent 50 on chai"]};
+  const mt=monthTx(), inn=sumOf(mt.filter(x=>x.type==="in")), out=monthSpent(), r=rangeOf("this month"), bd=breakdown(r), day=new Date().getDate();
+  const lines=[`📅 **This month so far**`,`• Received: ${money(inn)}`,`• Spent: ${money(out)} (about ${money(Math.round(out/day))} a day)`,`• Saved in goals: ${money(totalSavedGoals())}`];
+  if(S.allowance>0){ const p=Math.round(out/S.allowance*100); lines.push(`• Budget used: ${p}%`); }
+  if(bd.length) lines.push(`• Top category: ${CAT[bd[0][0]]?.n} (${Math.round(bd[0][1]/(out||1)*100)}%)`);
+  lines.push(`• Streak: ${plural(streak(),"day")}`);
+  const tips=staxTips(true); if(tips.length) lines.push("","💡 **One thing to try**",tips[0]);
+  return {text:lines.join("\n"),bars:barsFor(bd)};
+}
+function staxTips(asList){
+  const tips=[], out=monthSpent(), r=rangeOf("this month"), bd=breakdown(r), tot=out||1;
+  if(S.allowance>0&&out>S.allowance) tips.push(`You're over budget by ${money(out-S.allowance)}. Try a no-spend day or two this week to catch up.`);
+  if(bd[0]&&bd[0][1]/tot>0.4&&tot>200) tips.push(`${CAT[bd[0][0]]?.n} is ${Math.round(bd[0][1]/tot*100)}% of your spending. Cutting it by a quarter would save about ${money(Math.round(bd[0][1]*0.25))} a month.`);
+  const from=new Date(); from.setDate(from.getDate()-13); const small=S.tx.filter(x=>x.type==="out"&&x.amount<100&&x.date>=ymd(from));
+  if(small.length>=6) tips.push(`You made ${small.length} small purchases (under ₹100) in the last 2 weeks, adding up to ${money(sumOf(small))}. Small spends add up fast, so watch those.`);
+  if(!S.goals.length) tips.push("Set a savings goal for something you really want. People save more when they have a target. Try “create a goal for headphones 2000”.");
+  const got=sumOf(monthTx().filter(x=>x.type==="in")), saved=sumOf(monthTx().filter(x=>x.type==="save"));
+  if(got>0&&saved/got<0.1) tips.push(`You've put ${Math.round(saved/got*100)}% of what you received into goals. Aim for at least 10 to 20%. Save first, then spend.`);
+  if(streak()<3) tips.push("Log your money for 3 days in a row to start a streak. The habit matters more than the amount.");
+  const general=["Try the 24-hour rule: wait a day before buying anything that isn't a need.","Pay yourself first: move money to a goal as soon as you receive it.","Give every rupee a job: spending, saving or giving.","Compare prices before buying. The same thing can cost very different amounts."];
+  if(asList) return tips;
+  const pick=(tips.length?tips.slice(0,3):[]).concat(tips.length<2?[general[Date.now()%general.length]]:[]);
+  return {text:"Here's what I'd do:\n"+pick.map(x=>"• "+x).join("\n"),chips:["Summarize my month","Where did my money go?"]};
+}
+
+/* ---- Deep mode (optional online AI through Puter, off by default) ---- */
+const DEEP_MODEL="openai/gpt-5.4-nano";
+const DEEP_SYS="You are Stax, a friendly money coach inside Stack It Up, a pocket-money app for students in India (amounts are in rupees, ₹). Keep answers short (under 120 words), warm, and in plain text with no headings. You cannot move money or see anyone's bank. Teach concepts, do not give personal investment advice, and never suggest gambling, betting, crypto trading or borrowing for wants. Never ask for a PIN, OTP, password or bank details, and warn about scams when relevant. The user may be a teenager, so keep everything age-appropriate. If they need to do something in the app, tell them which tab or button to use.";
+function withTimeout(p,ms){ return Promise.race([p,new Promise((_,rej)=>setTimeout(()=>rej(new Error("timeout")),ms))]); }
+async function ensurePuter(){
+  if(window.puter) return;
+  await loadLib("https://js.puter.com/v2/");
+  for(let i=0;i<20&&!window.puter;i++) await new Promise(r=>setTimeout(r,100));
+  if(!window.puter) throw new Error("puter missing");
+}
+function extractText(r){
+  if(typeof r==="string") return r;
+  const c=r?.message?.content??r?.content??r?.text;
+  if(typeof c==="string") return c;
+  if(Array.isArray(c)) return c.map(x=>x?.text||"").join("");
+  return "";
+}
+function moneyContext(){
+  const mt=monthTx(), inn=sumOf(mt.filter(x=>x.type==="in")), out=monthSpent(), bd=breakdown(rangeOf("this month")).slice(0,4).map(([c,v])=>`${CAT[c]?.n||c} ${money(v)}`).join(", ");
+  return [`Balance: ${money(balance())}`,`This month received ${money(inn)}, spent ${money(out)}${S.allowance>0?` of a ${money(S.allowance)} budget`:""}`,bd?`Top categories: ${bd}`:"",S.goals.length?`Goals: ${S.goals.map(g=>`${g.name} ${money(Math.max(0,goalSaved(g.id)))} of ${money(g.target)}`).join("; ")}`:""].filter(Boolean).join("\n");
+}
+async function deepChat(raw){
+  await ensurePuter();
+  const hist=sx.msgs.filter(m=>m.text).slice(-9,-1).map(m=>({role:m.role==="me"?"user":"assistant",content:m.text.slice(0,600)}));
+  const sys=DEEP_SYS+(S.stax.share?"\n\nThe user chose to share this summary of their money with you:\n"+moneyContext():"");
+  const msgs=[{role:"system",content:sys},...hist,{role:"user",content:raw}];
+  let r;
+  try{ r=await withTimeout(puter.ai.chat(msgs,{model:DEEP_MODEL}),60000); }
+  catch{ r=await withTimeout(puter.ai.chat(msgs),60000); }
+  return extractText(r).trim();
+}
+async function staxDeep(raw){
+  try{
+    const text=await deepChat(raw);
+    if(!text) throw new Error("empty");
+    return {text,chips:contextChips()};
+  }catch{
+    return {text:"Deep mode couldn't answer right now. It needs internet and a free Puter sign-in (allow the pop-up). You can still ask me about your money, and I work offline.",buttons:[{label:"Try again",primary:true,run:()=>staxRetryDeep(raw)}]};
+  }
+}
+async function staxRetryDeep(raw){ const t=showTyping(); try{ return await staxDeep(raw); } finally{ t.remove(); } }
+function staxAskDeep(){
+  ensureStax();
+  if(S.stax.deep) return yesNo("Turn Deep mode off?",()=>{ S.stax.deep=false; S.stax.share=false; save(); syncDeepUI(); return {text:"Deep mode is off. I'll only use what's on your device."}; });
+  return {text:"**Deep mode** connects me to an online AI so I can answer open questions about anything.\n\n• Your typed questions are sent to Puter's AI service, not stored by Stack It Up\n• You sign in with a free Puter account. Ask a parent or guardian first if you're under 18\n• By default it can NOT see your money entries\n• My money answers and actions always stay on your device",buttons:[{label:"Turn on Deep mode",primary:true,run:staxEnableDeep},{label:"Not now"}]};
+}
+async function staxEnableDeep(){
+  try{ await ensurePuter(); }catch{ return {text:"I couldn't reach Puter. Check your internet connection and try again."}; }
+  try{ if(puter.auth&&puter.auth.isSignedIn&&!(await puter.auth.isSignedIn())) await puter.auth.signIn(); }
+  catch{ return {text:"The Puter sign-in didn't finish. Allow pop-ups for this site, then try again."}; }
+  S.stax.deep=true; save(); syncDeepUI();
+  return {text:"Deep mode is on ✨ Ask me anything. Should Deep mode also see a summary of your money so its answers are personal?",buttons:[
+    {label:"Yes, share my totals",run:()=>{ S.stax.share=true; save(); syncDeepUI(); return {text:"Okay. Deep mode can now see totals and goal progress. It never sees UPI IDs, friends' names or individual entries."}; }},
+    {label:"No, keep it private",primary:true,run:()=>({text:"Got it. Deep mode won't see your numbers."})}]};
+}
+function syncDeepUI(){
+  ensureStax(); const b=$("sxDeep"); if(!b) return;
+  b.setAttribute("aria-pressed",S.stax.deep); b.textContent=S.stax.deep?(S.stax.share?"Deep: on + numbers":"Deep: on"):"Deep: off";
+}
+
+/* ---- the panel ---- */
+const delay=ms=>new Promise(r=>setTimeout(r,ms));
+const reduceMotion=()=>matchMedia("(prefers-reduced-motion: reduce)").matches;
+function richText(node,text){
+  String(text).split(/(\*\*[^*\n]+\*\*)/g).forEach(p=>{
+    if(/^\*\*[^*\n]+\*\*$/.test(p)) node.append(el("strong",null,p.slice(2,-2)));
+    else if(p) node.append(document.createTextNode(p));
+  });
+}
+function staxPersist(){ try{ localStorage.setItem(STAX_KEY,JSON.stringify(sx.msgs.filter(m=>m.text).slice(-40).map(m=>({r:m.role,t:m.text})))); }catch{} }
+function staxScroll(){ const l=$("sxLog"); l.scrollTop=l.scrollHeight; }
+function addMsg(role,text,extra={}){
+  sx.msgs.push({role,text});
+  const box=el("div","sx-msg "+(role==="me"?"me":"bot")); richText(box,text);
+  if(extra.bars?.length){
+    const bars=el("div","sx-bars");
+    for(const b of extra.bars){ const row=el("div","sx-bar"); row.append(el("span",null,b.label),el("b",null,b.value)); const tr=el("div","sx-track"), i=el("i"); i.style.width=Math.max(3,Math.min(100,b.pct))+"%"; i.style.background=b.color; tr.append(i); row.append(tr); bars.append(row); }
+    box.append(bars);
+  }
+  if(extra.buttons?.length){
+    const row=el("div","sx-btns");
+    for(const bt of extra.buttons){
+      const btn=el("button","btn"+(bt.primary?" primary":""),bt.label); btn.type="button";
+      btn.onclick=async()=>{
+        row.querySelectorAll("button").forEach(x=>x.disabled=true);
+        let out; try{ out=await (bt.run||(()=>({text:"No problem."})))(); }catch{ out={text:"Something went wrong. Try again."}; }
+        if(typeof out==="string") out={text:out};
+        if(out&&out.text) await staxSay(out,{instant:true});
+      };
+      row.append(btn);
+    }
+    box.append(row);
+  }
+  $("sxLog").append(box); staxScroll(); staxPersist(); return box;
+}
+function showTyping(){ const t=el("div","sx-msg bot sx-typing"); t.setAttribute("aria-label","Stax is typing"); for(let i=0;i<3;i++) t.append(el("span")); $("sxLog").append(t); staxScroll(); return t; }
+async function staxSay(r,opt={}){
+  if(!opt.instant&&!reduceMotion()){ const t=showTyping(); await delay(Math.min(650,220+String(r.text).length*3)); t.remove(); }
+  addMsg("bot",r.text,{bars:r.bars,buttons:r.buttons}); showChips(r.chips||contextChips());
+}
+function showChips(list){
+  const box=$("sxChips"); box.innerHTML="";
+  for(const c of list.slice(0,5)){ const b=el("button","chip",c); b.type="button"; b.onclick=()=>staxSend(c); box.append(b); }
+}
+function contextChips(){
+  const tab=document.querySelector("nav.tabs [aria-selected='true']")?.dataset.tab||"home";
+  const m={home:["Summarize my month","Am I on budget?","Give me a money tip","Can I afford ₹500?"],history:["Recent transactions","Where did my money go?","What was my biggest expense?"],goals:["How are my goals going?","How long to save ₹2000?","Create a goal for shoes 3000"],pay:["How do I request money?","Is UPI safe?","How do I split a bill?","Common scams"],play:["Open quiz","What is compound interest?","What's the 50/30/20 rule?"],about:["Is my data safe?","Who made this?","How do I back up?"]};
+  return m[tab]||m.home;
+}
+async function staxSend(raw){
+  raw=String(raw||"").trim().slice(0,500); if(!raw||sx.busy) return;
+  sx.busy=true; $("sxSend").disabled=true; addMsg("me",raw); $("sxIn").value=""; showChips([]);
+  try{
+    let reply=staxThink(raw), instant=false;
+    if(reply.unknown){
+      if(S.stax.deep){ const t=showTyping(); try{ reply=await staxDeep(raw); } finally{ t.remove(); } instant=true; }
+      else reply.buttons=[{label:"Turn on Deep mode",run:staxAskDeep}];
+    }
+    await staxSay(reply,{instant});
+  }catch{ await staxSay({text:"Something went wrong on my side. Try asking again."}); }
+  finally{ sx.busy=false; $("sxSend").disabled=false; }
+}
+function staxOpen(v){
+  const p=$("sxPanel"), l=$("sxLaunch"); sx.open=v;
+  p.classList.toggle("open",v); l.setAttribute("aria-expanded",v);
+  if(v){ p.removeAttribute("inert"); if(!sx.msgs.length) staxGreet(); else showChips(contextChips()); if(matchMedia("(pointer:fine)").matches) setTimeout(()=>$("sxIn").focus(),120); }
+  else{ p.setAttribute("inert",""); if(p.contains(document.activeElement)) l.focus(); }
+}
+function staxGreet(){
+  const n=S.name?`, ${S.name}`:"";
+  addMsg("bot",`Hi${n}! I'm **Stax** ✨ your money co-pilot. Ask me about your spending, budget or goals, get quick calculations, or tell me what to do, like “I spent 50 on chai”.`);
+  showChips(contextChips());
+}
+function staxInit(){
+  ensureStax(); syncDeepUI();
+  try{ const a=JSON.parse(localStorage.getItem(STAX_KEY)||"[]"); if(Array.isArray(a)) a.slice(-40).forEach(m=>{ if(m&&typeof m.t==="string"&&(m.r==="me"||m.r==="bot")){ sx.msgs.push({role:m.r,text:m.t}); const b=el("div","sx-msg "+(m.r==="me"?"me":"bot")); richText(b,m.t); $("sxLog").append(b); } }); }catch{}
+  $("sxLaunch").onclick=()=>staxOpen(!sx.open);
+  $("sxClose").onclick=()=>staxOpen(false);
+  $("sxDeep").onclick=()=>staxSay(staxAskDeep(),{instant:true});
+  $("sxClear").onclick=()=>{ sx.msgs=[]; $("sxLog").innerHTML=""; try{ localStorage.removeItem(STAX_KEY); }catch{} staxGreet(); };
+  $("sxForm").onsubmit=e=>{ e.preventDefault(); staxSend($("sxIn").value); };
+  document.addEventListener("keydown",e=>{ if(e.key==="Escape"&&sx.open&&!document.querySelector("dialog[open]")) staxOpen(false); });
+}
+
 /* ============ start ============ */
-ensurePay(); applyTheme(); render(); renderQuiz(); checkBadges(); handleHash();
+ensurePay(); ensureStax(); applyTheme(); render(); renderQuiz(); checkBadges(); handleHash(); staxInit();
 if("serviceWorker" in navigator&&location.protocol==="https:") addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 </script>
 </body>

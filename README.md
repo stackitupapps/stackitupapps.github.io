@@ -21,3 +21,9 @@ Stack It Up never holds or moves money. It creates UPI payment QR codes and link
 and opens the user's own UPI app (GPay, PhonePe, Paytm...) to complete the payment. The UPI app confirms
 the payment. Friends and groups are stored on the user's device only.
 Libraries (included): qrcode-generator (MIT), jsQR (Apache-2.0).
+
+## Stax (built-in assistant)
+Stax answers questions about the user's own entries, budget, goals and splits, does quick calculations,
+teaches money basics, and can log entries or create goals (always after asking). All of this runs on the
+user's device. Optional "Deep mode" (off by default) sends typed questions to an online AI through
+Puter.js (free Puter sign-in required); it only sees the user's totals if they choose to share them.
