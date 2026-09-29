@@ -29,6 +29,7 @@
   --bg:#0F1813; --panel:#18241D; --ink:#E6EEE8; --muted:#9DAEA3; --line:#2A3A31;
   --green:#57B08A; --green-ink:#0F1813; --clay:#EE8A62; --soft:#1F3328; --good:#5FCB93; --bad:#F08A70; }
 *,*::before,*::after{box-sizing:inherit}
+[hidden]{display:none!important}
 body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 "Noto Sans",system-ui,-apple-system,"Segoe UI",sans-serif;padding-bottom:90px}
 h1,h2,h3{font-family:Sora,"Noto Sans",system-ui,sans-serif;margin:0;line-height:1.15}
 button,input,select,textarea{font:inherit;color:inherit}
@@ -243,6 +244,47 @@ textarea.input{min-height:110px;resize:vertical}
 @keyframes fadeup{from{transform:translateY(8px);opacity:0}to{transform:none;opacity:1}}
 @media (prefers-reduced-motion:reduce){.fade,.verdict.show{animation:none}}
 .btn:active,.fab:active{transform:scale(.96)}
+/* ---- payments ---- */
+#pendingBar{margin-bottom:14px}
+.pending{border:2px solid var(--gold);display:grid;gap:8px}
+.pending p{margin:0}
+.row-btns{display:flex;gap:8px;flex-wrap:wrap}
+.notice{background:var(--soft);border-color:transparent}
+.notice p{margin:4px 0 0;color:var(--muted);font-size:.92rem}
+.seg3{display:grid;grid-template-columns:repeat(3,1fr);background:var(--soft);border-radius:999px;padding:4px;gap:2px}
+.seg3 button{border:0;background:none;border-radius:999px;padding:10px 6px;font-weight:700;color:var(--muted)}
+.seg3 button[aria-selected="true"]{background:var(--panel);color:var(--ink);box-shadow:0 1px 4px rgba(0,0,0,.12)}
+.qrbox{display:grid;justify-items:center;gap:10px;margin-top:14px;text-align:center}
+.qrbox canvas{width:min(260px,70vw);height:auto;border-radius:16px;border:1px solid var(--line);background:#fff}
+.person{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)}
+.person:last-child{border-bottom:0}
+.avatar{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;font-weight:800;color:#fff;flex:none;font-family:Sora,system-ui,sans-serif}
+.person .info{flex:1;min-width:0}
+.person .info b{display:block;font-weight:600}
+.person .info span{color:var(--muted);font-size:.85rem;overflow-wrap:anywhere}
+.person .acts{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.person .acts .btn{padding:6px 12px;font-size:.88rem}
+.scanwrap{position:relative;margin-top:12px;border-radius:16px;overflow:hidden;background:#000}
+.scanwrap video{display:block;width:100%;max-height:340px;object-fit:cover}
+.scanwrap .frame{position:absolute;inset:18%;border:3px solid rgba(255,255,255,.85);border-radius:18px;pointer-events:none}
+.debt{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:12px 0;border-bottom:1px solid var(--line)}
+.debt:last-child{border-bottom:0}
+.debt .who{flex:1;min-width:170px}
+.debt .who b{display:block}
+.debt .amt2{font-family:Sora,system-ui,sans-serif;font-weight:800}
+.checks{display:flex;flex-wrap:wrap;gap:8px}
+.checks label{display:flex;gap:6px;align-items:center;border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-weight:600;font-size:.9rem;cursor:pointer}
+.checks input{accent-color:var(--green)}
+.warn-note{margin:0;padding:10px 12px;border-radius:12px;background:color-mix(in srgb,var(--gold) 22%,var(--panel));font-size:.88rem}
+.group-row{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
+.group-row:last-child{border-bottom:0}
+.group-row .info{flex:1;min-width:0}
+.group-row .info b{display:block;font-weight:600}
+.group-row .info span{color:var(--muted);font-size:.85rem}
+.pos{color:var(--good)} .neg{color:var(--bad)}
+.owes-stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+@media (max-width:640px){nav.tabs button{padding:6px 5px;font-size:.68rem}nav.tabs svg{width:17px;height:17px}}
+
 footer a{color:inherit}
 footer{margin-top:34px;padding:20px 0;border-top:1px solid var(--line);color:var(--muted);font-size:.88rem}
 footer .wrap{display:flex;flex-wrap:wrap;gap:8px 20px;align-items:center}
@@ -266,9 +308,11 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 20px;align-items:center}
 </header>
 
 <main class="wrap">
+  <div class="card pending" id="pendingBar" role="status" hidden></div>
   <nav class="tabs" role="tablist" aria-label="Sections">
     <button role="tab" aria-selected="true" data-tab="home"><svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg>Home</button>
     <button role="tab" aria-selected="false" data-tab="history"><svg viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>History</button>
+    <button role="tab" aria-selected="false" data-tab="pay"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M16 12h5v3h-5a1.5 1.5 0 0 1 0-3zM3 9l14-4v3"/></svg>Pay</button>
     <button role="tab" aria-selected="false" data-tab="goals"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></svg>Goals</button>
     <button role="tab" aria-selected="false" data-tab="play"><svg viewBox="0 0 24 24"><circle cx="12" cy="9" r="6"/><path d="M8.5 14 7 22l5-3 5 3-1.5-8"/></svg>Play</button>
     <button role="tab" aria-selected="false" data-tab="about"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>About</button>
@@ -324,6 +368,11 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 20px;align-items:center}
       </div>
     </div>
 
+    <div class="card" id="owesCard" hidden>
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap"><h3 style="font-size:1.05rem">Friends &amp; splits 🤝</h3><button class="btn" id="owesGo">Open</button></div>
+      <div class="owes-stats"><div class="stat"><b id="owedTxt" class="num pos">₹0</b><span>friends owe you</span></div><div class="stat"><b id="oweTxt" class="num neg">₹0</b><span>you owe friends</span></div></div>
+    </div>
+
     <div class="stats">
       <div class="stat"><b id="sStreak" class="num">0</b><span>day streak 🔥</span></div>
       <div class="stat"><b id="sAvg" class="num">₹0</b><span>avg spend / day</span></div>
@@ -374,6 +423,98 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 20px;align-items:center}
   </section>
 
   <!-- BADGES -->
+  <!-- PAY -->
+  <section data-sec="pay" class="stack" hidden>
+    <div class="card notice">
+      <b>💡 How payments work</b>
+      <p>Stack It Up never holds or moves your money. It makes payment QR codes and links, and opens <b>your own UPI app</b> (GPay, PhonePe, Paytm…) to finish the payment. Your UPI app confirms the payment, so always check it there.</p>
+      <p>Under 18? Use a UPI account set up with a parent or guardian, and ask them before you pay.</p>
+    </div>
+    <div class="seg3" role="tablist" aria-label="Payments">
+      <button role="tab" aria-selected="true" data-ptab="receive">💰 Get paid</button>
+      <button role="tab" aria-selected="false" data-ptab="pay">📷 Pay</button>
+      <button role="tab" aria-selected="false" data-ptab="friends">🤝 Friends</button>
+    </div>
+
+    <!-- GET PAID -->
+    <div class="stack" data-ppanel="receive">
+      <div class="card">
+        <h3 style="font-size:1.1rem">My payment ID</h3>
+        <p class="muted small" style="margin:4px 0 12px">This is the UPI ID friends will pay. Find it in your UPI app under Profile → UPI IDs. It looks like <b>name@bank</b>.</p>
+        <div class="grid2" style="gap:10px">
+          <div class="field"><label for="myUpi">UPI ID</label><input class="input" id="myUpi" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="e.g. ayaan@okhdfcbank"></div>
+          <div class="field"><label for="myUpiName">Name shown to payers</label><input class="input" id="myUpiName" maxlength="40" placeholder="e.g. Ayaan Bajaj"></div>
+        </div>
+        <p class="err" id="myUpiErr"></p>
+        <button class="btn primary" id="saveUpi">Save</button>
+        <span class="small muted" id="upiSaved"></span>
+      </div>
+      <div class="card">
+        <h3 style="font-size:1.1rem">Request money</h3>
+        <p class="muted small" style="margin:4px 0 12px">Create a QR code and link. Anyone can scan it with any UPI app and pay you.</p>
+        <div class="grid2" style="gap:10px">
+          <div class="field"><label for="reqAmt">Amount (₹)</label><input class="input num" id="reqAmt" inputmode="decimal" placeholder="e.g. 200 (or leave empty)"></div>
+          <div class="field"><label for="reqNote">What's it for?</label><input class="input" id="reqNote" maxlength="50" placeholder="e.g. Pizza share"></div>
+        </div>
+        <p class="err" id="reqErr"></p>
+        <button class="btn primary" id="reqGo">Create request</button>
+        <div id="reqOut"></div>
+      </div>
+      <div class="card">
+        <h3 style="font-size:1.1rem">My requests</h3>
+        <div id="reqList"></div>
+      </div>
+    </div>
+
+    <!-- PAY -->
+    <div class="stack" data-ppanel="pay" hidden>
+      <div class="card">
+        <h3 style="font-size:1.1rem">Scan to pay</h3>
+        <p class="muted small" style="margin:4px 0 12px">Scan any UPI QR code. Stack It Up shows you who you're paying, then opens your UPI app.</p>
+        <div class="scanwrap" id="scanBox" hidden><video id="scanVid" playsinline muted></video><div class="frame" aria-hidden="true"></div></div>
+        <div class="row-btns" style="margin-top:12px">
+          <button class="btn primary" id="scanStart">Start scanner</button>
+          <button class="btn" id="scanStop" hidden>Stop</button>
+          <label class="btn" style="display:inline-block">Upload a QR photo<input type="file" id="scanFile" accept="image/*" hidden></label>
+        </div>
+        <p class="small muted" id="scanMsg" style="margin:10px 0 0" aria-live="polite"></p>
+      </div>
+      <div class="card">
+        <h3 style="font-size:1.1rem">Pay a UPI ID</h3>
+        <p class="muted small" style="margin:4px 0 12px">Know someone's UPI ID? Type it in.</p>
+        <div class="grid2" style="gap:10px">
+          <div class="field"><label for="mUpi">Their UPI ID</label><input class="input" id="mUpi" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="name@bank"></div>
+          <div class="field"><label for="mName">Their name (optional)</label><input class="input" id="mName" maxlength="40"></div>
+          <div class="field"><label for="mAmt">Amount (₹)</label><input class="input num" id="mAmt" inputmode="decimal"></div>
+          <div class="field"><label for="mNote">Note (optional)</label><input class="input" id="mNote" maxlength="50"></div>
+        </div>
+        <p class="err" id="mErr"></p>
+        <button class="btn primary" id="mGo">Continue</button>
+      </div>
+    </div>
+
+    <!-- FRIENDS -->
+    <div class="stack" data-ppanel="friends" hidden>
+      <div class="card">
+        <h3 style="font-size:1.1rem">My friends</h3>
+        <form class="grid2" id="friendForm" style="gap:10px;margin:10px 0 0">
+          <div class="field"><label for="fName">Name</label><input class="input" id="fName" maxlength="30" placeholder="e.g. Riya"></div>
+          <div class="field"><label for="fUpi">UPI ID (optional)</label><input class="input" id="fUpi" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="riya@okaxis"></div>
+          <div><button class="btn primary">Add friend</button></div>
+        </form>
+        <p class="err" id="fErr2"></p>
+        <div id="friendList"></div>
+      </div>
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
+          <div><h3 style="font-size:1.1rem">Groups &amp; splits</h3><p class="muted small" style="margin:2px 0 0">Split trips, meals and gifts fairly. Share the summary with your group.</p></div>
+          <button class="btn primary" id="newGroupBtn">+ New group</button>
+        </div>
+        <div id="groupList"></div>
+      </div>
+    </div>
+  </section>
+
   <section data-sec="play" class="stack" hidden>
     <div class="card">
       <h2 style="font-size:1.3rem">Challenges 🏁</h2>
@@ -508,6 +649,46 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 20px;align-items:center}
   </form>
 </dialog>
 
+<!-- PAY CONFIRM -->
+<dialog id="payDlg" aria-labelledby="payTitle">
+  <div class="sheet">
+    <h2 id="payTitle">Confirm payment</h2>
+    <p class="muted" id="payLead" style="margin:0"></p>
+    <div class="card" style="background:var(--bg)">
+      <div class="small muted">Paying</div>
+      <div id="payName" style="font-weight:700;font-size:1.15rem"></div>
+      <div class="small muted" id="payVpa" style="overflow-wrap:anywhere"></div>
+    </div>
+    <div class="field"><label for="payAmt">Amount (₹)</label><input class="input num" id="payAmt" inputmode="decimal"></div>
+    <div class="field"><label for="payNote">Note (optional)</label><input class="input" id="payNote" maxlength="50"></div>
+    <div class="field"><label for="payCat">Log it in my entries as</label><select class="input" id="payCat"></select></div>
+    <p class="warn-note">⚠️ Only pay people you know. Check the name and UPI ID above. Your UPI app will ask for your PIN. Never share your PIN or OTP with anyone.</p>
+    <p class="err" id="payErr"></p>
+    <div id="payQR" class="qrbox" hidden></div>
+    <div class="foot"><button type="button" class="btn" data-close>Cancel</button><button type="button" class="btn" id="payShowQR">Show QR</button><button type="button" class="btn primary" id="payGo">Open UPI app</button></div>
+  </div>
+</dialog>
+
+<!-- NEW GROUP -->
+<dialog id="newGroupDlg" aria-labelledby="ngTitle">
+  <form class="sheet" id="newGroupForm" method="dialog">
+    <h2 id="ngTitle">New group</h2>
+    <div class="field"><label for="ngName">Group name</label><input class="input" id="ngName" maxlength="40" placeholder="e.g. Goa trip"></div>
+    <div class="field"><label>Who's in it? (you're always in)</label><div class="checks" id="ngMembers"></div></div>
+    <p class="err" id="ngErr"></p>
+    <div class="foot"><button type="button" class="btn" data-close>Cancel</button><button class="btn primary">Create group</button></div>
+  </form>
+</dialog>
+
+<!-- GROUP DETAIL -->
+<dialog id="groupDlg" aria-labelledby="groupTitle">
+  <div class="sheet">
+    <h2 id="groupTitle"></h2>
+    <div id="groupBody" class="stack"></div>
+    <div class="foot"><button type="button" class="btn" data-close>Close</button></div>
+  </div>
+</dialog>
+
 <div class="toast" id="toast" role="status"><span id="toastMsg"></span><button id="toastUndo" hidden>Undo</button></div>
 
 <script>
@@ -545,7 +726,7 @@ const BADGES=[
 ];
 const KEY="stackitup.v1";
 let S=load();
-function blank(){ return {v:1,name:"",allowance:0,theme:"auto",welcomed:false,tx:[],goals:[],badges:{},challenges:{},quizBest:0}; }
+function blank(){ return {v:1,name:"",allowance:0,theme:"auto",welcomed:false,tx:[],goals:[],badges:{},challenges:{},quizBest:0,upi:"",upiName:"",friends:[],groups:[],requests:[],pending:null}; }
 function load(){
   try{ const s=JSON.parse(localStorage.getItem(KEY)||"null"); if(s&&Array.isArray(s.tx)) return Object.assign(blank(),s); }catch{}
   return blank();
@@ -604,7 +785,7 @@ function checkBadges(){
 }
 
 /* ============ render ============ */
-function render(){ renderHome(); renderHistory(); renderGoals(); renderChallenges(); renderBadges(); }
+function render(){ renderHome(); renderHistory(); renderGoals(); renderChallenges(); renderBadges(); if(typeof renderPay==="function") renderPay(); }
 
 function renderHome(){
   $("welcome").hidden=S.welcomed;
@@ -738,7 +919,7 @@ function renderBadges(){
 }
 
 /* ============ tabs ============ */
-function go(tab){
+function go(tab){ if(tab!=="pay"&&typeof stopScan==="function") stopScan();
   document.querySelectorAll("nav.tabs button").forEach(b=>b.setAttribute("aria-selected",b.dataset.tab===tab));
   document.querySelectorAll("section[data-sec]").forEach(s=>{ s.hidden=s.dataset.sec!==tab; if(!s.hidden){ s.classList.remove("fade"); void s.offsetWidth; s.classList.add("fade"); } });
   scrollTo({top:0});
@@ -874,6 +1055,7 @@ $("resetBtn").onclick=()=>{
 /* ============ toast + confetti ============ */
 let tt, undoFn=null;
 function toast(msg,undo){
+  const openDlg=[...document.querySelectorAll("dialog[open]")].pop(); (openDlg||document.body).append($("toast"));
   $("toastMsg").textContent=msg; undoFn=undo||null; $("toastUndo").hidden=!undo;
   $("toast").classList.add("show"); clearTimeout(tt); tt=setTimeout(()=>{ $("toast").classList.remove("show"); undoFn=null; },undo?5000:2600);
 }
@@ -1080,8 +1262,457 @@ function goContact(){ go("about"); setTimeout(()=>$("contact").scrollIntoView({b
 $("contactTop").onclick=goContact;
 $("footContact").onclick=e=>{ e.preventDefault(); goContact(); };
 
+/* ============ payments: UPI requests, scanner, friends, splits ============ */
+const UPI_RE=/^[a-zA-Z0-9._-]{2,256}@[a-zA-Z][a-zA-Z0-9.-]{1,63}$/;
+const UPI_MAX=100000;
+const AVATARS=["#D9653B","#2F7D9A","#9B59B6","#1F8A5B","#D14D7A","#5468D4","#B7791F"];
+function ensurePay(){
+  for(const k of ["friends","groups","requests"]) if(!Array.isArray(S[k])) S[k]=[];
+  if(typeof S.upi!=="string") S.upi=""; if(typeof S.upiName!=="string") S.upiName="";
+  if(!S.pending||typeof S.pending!=="object") S.pending=null;
+}
+function isMobile(){ return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent); }
+function openUPI(link){ location.href=link; }
+
+/* ---- links ---- */
+function b64e(s){ let t=""; new TextEncoder().encode(s).forEach(x=>t+=String.fromCharCode(x)); return btoa(t).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,""); }
+function b64d(s){ s=s.replace(/-/g,"+").replace(/_/g,"/"); while(s.length%4) s+="="; return new TextDecoder().decode(Uint8Array.from(atob(s),c=>c.charCodeAt(0))); }
+function buildUPI({pa,pn,am,tn}){
+  let u="upi://pay?pa="+encodeURIComponent(pa).replace(/%40/g,"@");
+  if(pn) u+="&pn="+encodeURIComponent(pn);
+  if(am) u+="&am="+Number(am).toFixed(2);
+  u+="&cu=INR"; if(tn) u+="&tn="+encodeURIComponent(tn);
+  return u;
+}
+function shareLink(p){ return location.origin+location.pathname+"#pay="+b64e(JSON.stringify({pa:p.pa,pn:p.pn||"",am:p.am||null,tn:p.tn||""})); }
+function cleanAmt(v){ if(v===null||v===undefined||v==="") return null; const n=parseAmt(v); return n>0&&n<=UPI_MAX?n:NaN; }
+function cleanReq(o){
+  if(!o||typeof o!=="object") return null;
+  const pa=String(o.pa||"").trim(); if(!UPI_RE.test(pa)) return null;
+  if(o.cu&&String(o.cu).toUpperCase()!=="INR") return null;
+  const am=cleanAmt(o.am); if(Number.isNaN(am)) return null;
+  return {pa,pn:String(o.pn||"").slice(0,40).trim(),am,tn:String(o.tn||"").slice(0,50).trim()};
+}
+function parseUPI(text){
+  text=String(text||"").trim();
+  if(/^upi:\/\/pay\?/i.test(text)){
+    const p=new URLSearchParams(text.slice(text.indexOf("?")+1));
+    return cleanReq({pa:p.get("pa"),pn:p.get("pn"),am:p.get("am"),tn:p.get("tn"),cu:p.get("cu")});
+  }
+  const m=text.match(/#pay=([\w-]+)$/);
+  if(m){ try{ return cleanReq(JSON.parse(b64d(m[1]))); }catch{ return null; } }
+  return null;
+}
+function handleHash(){
+  const m=location.hash.match(/^#pay=([\w-]+)$/); if(!m) return;
+  const p=parseUPI(location.hash);
+  history.replaceState(null,"",location.pathname+location.search);
+  if(!p){ toast("That payment link isn't valid."); return; }
+  openPay({...p,title:"Payment request",lead:`${p.pn||p.pa} is asking you to pay${p.am?` ${money(p.am)}`:""}.`,lockAmt:!!p.am});
+}
+addEventListener("hashchange",handleHash);
+
+/* ---- libraries loaded only when needed ---- */
+const libs={};
+function loadLib(src){ return libs[src]||(libs[src]=new Promise((res,rej)=>{ const s=document.createElement("script"); s.src=src; s.onload=res; s.onerror=()=>{ delete libs[src]; rej(new Error("Couldn't load "+src)); }; document.head.append(s); })); }
+async function qrCanvas(text,size=520){
+  await loadLib("qrcode.js");
+  const q=qrcode(0,"M"); q.addData(text); q.make();
+  const n=q.getModuleCount(), quiet=4, cell=Math.max(2,Math.floor(size/(n+quiet*2))), px=cell*(n+quiet*2);
+  const c=document.createElement("canvas"); c.width=c.height=px;
+  const x=c.getContext("2d"); x.fillStyle="#fff"; x.fillRect(0,0,px,px); x.fillStyle="#000";
+  for(let r=0;r<n;r++) for(let k=0;k<n;k++) if(q.isDark(r,k)) x.fillRect((k+quiet)*cell,(r+quiet)*cell,cell,cell);
+  return c;
+}
+async function shareOrCopy(title,text,url){
+  try{ if(navigator.share){ await navigator.share({title,text,url}); return; } }catch(e){ if(e&&e.name==="AbortError") return; }
+  try{ await navigator.clipboard.writeText(url?`${text}\n${url}`:text); toast("Copied. Paste it in a chat."); }catch{ toast("Couldn't copy. Select the text and copy it."); }
+}
+
+/* ---- sub-tabs ---- */
+function ptab(name){
+  document.querySelectorAll("[data-ptab]").forEach(b=>b.setAttribute("aria-selected",b.dataset.ptab===name));
+  document.querySelectorAll("[data-ppanel]").forEach(p=>p.hidden=p.dataset.ppanel!==name);
+  if(name!=="pay") stopScan();
+}
+document.querySelectorAll("[data-ptab]").forEach(b=>b.onclick=()=>ptab(b.dataset.ptab));
+
+/* ---- get paid ---- */
+$("saveUpi").onclick=()=>{
+  const v=$("myUpi").value.trim(), n=$("myUpiName").value.trim();
+  if(!UPI_RE.test(v)){ $("myUpiErr").textContent="That doesn't look like a UPI ID. It should look like name@bank."; return; }
+  $("myUpiErr").textContent=""; S.upi=v; S.upiName=n; save(); $("upiSaved").textContent="Saved ✓"; toast("Payment ID saved");
+};
+function currentRequest(r){ return {pa:S.upi,pn:S.upiName||S.name||"",am:r.amount||null,tn:r.note||""}; }
+async function showRequest(r){
+  const p=currentRequest(r), box=$("reqOut"); box.innerHTML="";
+  const wrap=el("div","qrbox fade");
+  const c=await qrCanvas(buildUPI(p));
+  wrap.append(c, el("b",null,r.amount?`${money(r.amount)}${r.note?` · ${r.note}`:""}`:(r.note||"Any amount")), el("p","small muted","Ask a friend to scan this with any UPI app, or send them the link."));
+  const row=el("div","row-btns"); row.style.justifyContent="center";
+  const link=shareLink(p);
+  const cp=el("button","btn","Copy link"); cp.onclick=async()=>{ try{ await navigator.clipboard.writeText(link); toast("Link copied"); }catch{ toast(link); } };
+  const sh=el("button","btn primary","Share"); sh.onclick=()=>shareOrCopy("Pay me on UPI",`Please pay ${p.pn||"me"}${r.amount?` ${money(r.amount)}`:""}${r.note?` for ${r.note}`:""}:`,link);
+  const dl=el("button","btn","Download QR"); dl.onclick=()=>c.toBlob(b=>{ const a=document.createElement("a"); a.href=URL.createObjectURL(b); a.download="stack-it-up-payment-qr.png"; document.body.append(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(a.href),2000); });
+  row.append(cp,sh,dl); wrap.append(row); box.append(wrap);
+  return wrap;
+}
+$("reqGo").onclick=async()=>{
+  if(!S.upi){ $("reqErr").textContent="Save your payment ID above first."; return; }
+  const raw=$("reqAmt").value.trim(), amt=raw?cleanAmt(raw):null;
+  if(raw&&!(amt>0)){ $("reqErr").textContent=`Enter an amount between ₹1 and ${money(UPI_MAX)}, or leave it empty.`; return; }
+  $("reqErr").textContent="";
+  const r={id:uid(),amount:amt,note:$("reqNote").value.trim(),date:today(),status:"pending",ts:Date.now()};
+  S.requests.unshift(r); S.requests=S.requests.slice(0,20); save(); render();
+  try{ await showRequest(r); }catch{ $("reqErr").textContent="Couldn't make the QR code. Check your internet connection and try again."; }
+};
+function renderRequests(){
+  const box=$("reqList"); box.innerHTML="";
+  if(!S.requests.length){ box.append(el("p","empty","No requests yet. Create one above.")); return; }
+  for(const r of S.requests){
+    const row=el("div","person");
+    const av=el("div","avatar",r.status==="received"?"✓":"₹"); av.style.background=r.status==="received"?"var(--good)":"var(--clay)"; row.append(av);
+    const info=el("div","info"); info.append(el("b",null,`${r.amount?money(r.amount):"Any amount"}${r.note?` · ${r.note}`:""}`),el("span",null,`${nice(r.date)} · ${r.status==="received"?"Received":"Waiting for payment"}`)); row.append(info);
+    const acts=el("div","acts");
+    if(r.status!=="received"){
+      const q=el("button","btn","Show QR"); q.onclick=async()=>{ ptab("receive"); try{ const w=await showRequest(r); w.scrollIntoView({behavior:"smooth",block:"center"}); }catch{ toast("Couldn't make the QR code."); } };
+      const g=el("button","btn primary","Got it"); g.title="Mark as received after you see it in your UPI app"; g.onclick=()=>markReceived(r);
+      acts.append(q,g);
+    }
+    const d=el("button","btn danger","✕"); d.setAttribute("aria-label","Delete request"); d.onclick=()=>{ S.requests=S.requests.filter(x=>x.id!==r.id); save(); render(); };
+    acts.append(d); row.append(acts); box.append(row);
+  }
+}
+function markReceived(r){
+  const amt=r.amount;
+  if(!amt){ const v=prompt("How much did you receive? (₹)"); const n=cleanAmt((v||"").trim()); if(!(n>0)) return; r.amount=n; }
+  const tx={id:uid(),type:"in",amount:r.amount,cat:"otherin",note:`Received${r.note?`: ${r.note}`:" via UPI"}`,date:today(),ts:Date.now()};
+  S.tx.push(tx); r.status="received"; save(); render(); checkBadges();
+  toast(`Added ${money(r.amount)} to your stack`,()=>{ S.tx=S.tx.filter(x=>x.id!==tx.id); r.status="pending"; save(); render(); });
+}
+
+/* ---- pay: confirm dialog + pending payment ---- */
+let payCtx=null;
+function openPay(o){
+  payCtx=o;
+  $("payTitle").textContent=o.title||"Confirm payment"; $("payLead").textContent=o.lead||"";
+  $("payName").textContent=o.pn||"Name not shown"; $("payVpa").textContent=o.pa;
+  $("payAmt").value=o.am||""; $("payAmt").readOnly=!!o.lockAmt; $("payNote").value=o.tn||"";
+  const sel=$("payCat"); sel.innerHTML=""; CATS.out.forEach(([id,e,n])=>sel.add(new Option(`${e} ${n}`,id))); sel.value=o.cat||"other";
+  $("payErr").textContent=""; $("payQR").hidden=true; $("payQR").innerHTML="";
+  if(!$("payDlg").open) $("payDlg").showModal();
+}
+function payRead(){
+  const am=cleanAmt($("payAmt").value.trim());
+  if(!(am>0)){ $("payErr").textContent=`Enter an amount between ₹1 and ${money(UPI_MAX)}.`; return null; }
+  return {pa:payCtx.pa,pn:payCtx.pn,am,tn:$("payNote").value.trim().slice(0,50)};
+}
+$("payShowQR").onclick=async()=>{
+  const p=payRead(); if(!p) return; $("payErr").textContent="";
+  const box=$("payQR"); box.hidden=false; box.innerHTML="";
+  try{ box.append(await qrCanvas(buildUPI(p)),el("p","small muted","Scan this with the UPI app on another phone.")); }catch{ $("payErr").textContent="Couldn't make the QR code. Check your internet connection."; }
+};
+$("payGo").onclick=()=>{
+  const p=payRead(); if(!p) return;
+  if(!isMobile()){ $("payErr").textContent='UPI apps open on phones. Tap "Show QR" and scan it from your phone, or open this page on your phone.'; return; }
+  S.pending={id:uid(),...p,cat:$("payCat").value,settle:payCtx.settle||null,ts:Date.now()}; save();
+  $("payDlg").close(); render(); toast("Opening your UPI app…"); openUPI(buildUPI(p));
+};
+function renderPending(){
+  const p=S.pending, bar=$("pendingBar"); if(!p){ bar.hidden=true; bar.innerHTML=""; return; }
+  bar.hidden=false; bar.innerHTML="";
+  bar.append(el("b",null,"Did your payment go through?"),el("p","small muted",`${money(p.am)} to ${p.pn||p.pa}. Check your UPI app to be sure, then tell us so we can log it.`));
+  const row=el("div","row-btns");
+  const y=el("button","btn primary","Yes, log it"); y.onclick=()=>finishPending(true);
+  const n=el("button","btn","No, cancel"); n.onclick=()=>finishPending(false);
+  row.append(y,n); bar.append(row);
+}
+function finishPending(ok){
+  const p=S.pending; if(!p) return; S.pending=null;
+  if(ok){
+    const tx={id:uid(),type:"out",amount:p.am,cat:p.cat||"other",note:p.settle?`Settled up with ${p.pn||p.pa}`:`Paid ${p.pn||p.pa}${p.tn?` · ${p.tn}`:""}`,date:today(),ts:Date.now()};
+    S.tx.push(tx);
+    if(p.settle){ const g=S.groups.find(x=>x.id===p.settle.gid); if(g) addSettlement(g,p.settle.from,p.settle.to,p.am,"upi",tx.id); }
+    save(); render(); checkBadges(); toast(`Logged ${money(p.am)} paid`);
+  } else { save(); render(); toast("Payment not logged"); }
+}
+document.addEventListener("visibilitychange",()=>{ if(!document.hidden&&S.pending) renderPending(); });
+
+/* ---- scanner ---- */
+let scanStream=null, scanTimer=null, scanDetector=null;
+function stopScan(){
+  clearTimeout(scanTimer); scanTimer=null;
+  scanStream?.getTracks().forEach(t=>t.stop()); scanStream=null;
+  const box=$("scanBox"); if(box){ box.hidden=true; $("scanStart").hidden=false; $("scanStop").hidden=true; }
+}
+function decodeCanvasQR(src,w,h,both){
+  const max=720, k=Math.min(1,max/Math.max(w,h)), cw=Math.round(w*k), ch=Math.round(h*k);
+  const c=document.createElement("canvas"); c.width=cw; c.height=ch;
+  const x=c.getContext("2d",{willReadFrequently:true}); x.drawImage(src,0,0,cw,ch);
+  const d=x.getImageData(0,0,cw,ch);
+  const r=jsQR(d.data,cw,ch,{inversionAttempts:both?"attemptBoth":"dontInvert"});
+  return r?r.data:null;
+}
+async function startScan(){
+  $("scanMsg").textContent="";
+  if(!navigator.mediaDevices?.getUserMedia){ $("scanMsg").textContent="This browser can't use the camera here. Upload a photo of the QR code instead."; return; }
+  try{
+    scanStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:"environment"},audio:false});
+    const v=$("scanVid"); v.srcObject=scanStream; await v.play().catch(()=>{});
+    $("scanBox").hidden=false; $("scanStart").hidden=true; $("scanStop").hidden=false;
+    scanDetector=null;
+    if("BarcodeDetector" in window){ try{ scanDetector=new BarcodeDetector({formats:["qr_code"]}); }catch{} }
+    if(!scanDetector) await loadLib("jsqr.js");
+    $("scanMsg").textContent="Point the camera at a UPI QR code.";
+    scanTick();
+  }catch{ stopScan(); $("scanMsg").textContent="The camera couldn't start. Allow camera access, or upload a photo of the QR code instead."; }
+}
+async function scanTick(){
+  if(!scanStream) return;
+  const v=$("scanVid");
+  if(v.readyState>=2&&v.videoWidth){
+    try{
+      let text=null;
+      if(scanDetector){ const r=await scanDetector.detect(v); text=r[0]?.rawValue||null; }
+      else text=decodeCanvasQR(v,v.videoWidth,v.videoHeight,false);
+      if(text){ stopScan(); handleScanned(text); return; }
+    }catch{}
+  }
+  scanTimer=setTimeout(scanTick,150);
+}
+function handleScanned(text){
+  const p=parseUPI(text);
+  if(!p){ $("scanMsg").textContent="That QR code isn't a UPI payment code, so we didn't open it."; return; }
+  $("scanMsg").textContent="";
+  openPay({...p,title:"Confirm payment",lead:"You scanned a payment code. Check who you're paying.",lockAmt:!!p.am});
+}
+$("scanStart").onclick=startScan; $("scanStop").onclick=()=>{ stopScan(); $("scanMsg").textContent=""; };
+$("scanFile").onchange=async e=>{
+  const f=e.target.files[0]; e.target.value=""; if(!f) return;
+  $("scanMsg").textContent="Reading the QR code…";
+  try{
+    await loadLib("jsqr.js");
+    const im=await createImageBitmap(f);
+    let text=decodeCanvasQR(im,im.width,im.height,false)||decodeCanvasQR(im,im.width,im.height,true);
+    if(!text){ $("scanMsg").textContent="No QR code found in that photo. Try a clearer, closer picture."; return; }
+    handleScanned(text);
+  }catch{ $("scanMsg").textContent="Couldn't read that image. Try a JPG or PNG."; }
+};
+$("mGo").onclick=()=>{
+  const pa=$("mUpi").value.trim(); const raw=$("mAmt").value.trim(); const am=raw?cleanAmt(raw):null;
+  if(!UPI_RE.test(pa)){ $("mErr").textContent="That doesn't look like a UPI ID. It should look like name@bank."; return; }
+  if(raw&&!(am>0)){ $("mErr").textContent=`Enter an amount between ₹1 and ${money(UPI_MAX)}.`; return; }
+  $("mErr").textContent="";
+  openPay({pa,pn:$("mName").value.trim(),am,tn:$("mNote").value.trim(),title:"Confirm payment",lead:"Check the UPI ID carefully before you pay."});
+};
+
+/* ---- friends ---- */
+const fr=id=>S.friends.find(f=>f.id===id);
+const gName=id=>id==="me"?"You":(fr(id)?.name||"Someone");
+function avatarEl(name){ const a=el("div","avatar",(name.trim()[0]||"?").toUpperCase()); a.style.background=AVATARS[(name.charCodeAt(0)||0)%AVATARS.length]; return a; }
+$("friendForm").onsubmit=e=>{
+  e.preventDefault();
+  const name=$("fName").value.trim(), upi=$("fUpi").value.trim();
+  if(!name){ $("fErr2").textContent="Enter your friend's name."; return; }
+  if(upi&&!UPI_RE.test(upi)){ $("fErr2").textContent="That UPI ID doesn't look right. It should look like name@bank, or leave it empty."; return; }
+  if(S.friends.length>=40){ $("fErr2").textContent="That's the maximum number of friends."; return; }
+  $("fErr2").textContent=""; S.friends.push({id:uid(),name,upi}); save(); $("fName").value=""; $("fUpi").value=""; render(); toast(`${name} added`);
+};
+function renderFriends(){
+  const box=$("friendList"); box.innerHTML="";
+  if(!S.friends.length){ box.append(el("p","empty","No friends yet. Add someone to start splitting.")); return; }
+  for(const f of S.friends){
+    const row=el("div","person"); row.append(avatarEl(f.name));
+    const info=el("div","info"); info.append(el("b",null,f.name),el("span",null,f.upi||"No UPI ID yet")); row.append(info);
+    const acts=el("div","acts");
+    if(f.upi){ const p=el("button","btn primary","Pay"); p.onclick=()=>{ ptab("pay"); openPay({pa:f.upi,pn:f.name,title:"Pay a friend",lead:`You're paying ${f.name}.`}); }; acts.append(p); }
+    const d=el("button","btn danger","✕"); d.setAttribute("aria-label",`Remove ${f.name}`);
+    d.onclick=()=>{
+      if(S.groups.some(g=>g.members.includes(f.id))){ toast(`${f.name} is in a group. Delete that group first.`); return; }
+      const snap=JSON.stringify(S); S.friends=S.friends.filter(x=>x.id!==f.id); save(); render(); toast(`${f.name} removed`,()=>{ S=Object.assign(blank(),JSON.parse(snap)); save(); render(); });
+    };
+    acts.append(d); row.append(acts); box.append(row);
+  }
+}
+
+/* ---- groups & splits (all amounts in paise to avoid rounding errors) ---- */
+function groupNet(g){
+  const net={}; g.members.forEach(m=>net[m]=0);
+  for(const e of g.expenses){
+    const total=Math.round(e.amount*100), n=e.split.length, base=Math.floor(total/n), rem=total-base*n;
+    net[e.paidBy]=(net[e.paidBy]||0)+total;
+    e.split.forEach((m,i)=>{ net[m]=(net[m]||0)-(base+(i<rem?1:0)); });
+  }
+  for(const s of g.settlements){ const a=Math.round(s.amount*100); net[s.from]=(net[s.from]||0)+a; net[s.to]=(net[s.to]||0)-a; }
+  return net;
+}
+function debts(net){
+  const cr=[], db=[];
+  for(const [m,v] of Object.entries(net)){ if(v>0) cr.push([m,v]); else if(v<0) db.push([m,-v]); }
+  cr.sort((a,b)=>b[1]-a[1]); db.sort((a,b)=>b[1]-a[1]);
+  const out=[]; let i=0,j=0;
+  while(i<cr.length&&j<db.length){
+    const x=Math.min(cr[i][1],db[j][1]);
+    out.push({from:db[j][0],to:cr[i][0],amount:x/100}); cr[i][1]-=x; db[j][1]-=x;
+    if(!cr[i][1]) i++; if(!db[j][1]) j++;
+  }
+  return out;
+}
+function addSettlement(g,from,to,amount,via,txId){ const s={id:uid(),from,to,amount,via,txId:txId||null,date:today(),ts:Date.now()}; g.settlements.push(s); return s; }
+function myBalance(g){ return (groupNet(g).me||0)/100; }
+
+$("newGroupBtn").onclick=()=>{
+  if(!S.friends.length){ toast("Add a friend first, then make a group."); return; }
+  $("ngName").value=""; $("ngErr").textContent="";
+  const box=$("ngMembers"); box.innerHTML="";
+  for(const f of S.friends){ const l=el("label"); const c=el("input"); c.type="checkbox"; c.value=f.id; l.append(c,document.createTextNode(f.name)); box.append(l); }
+  $("newGroupDlg").showModal();
+};
+$("newGroupForm").onsubmit=e=>{
+  e.preventDefault();
+  const name=$("ngName").value.trim(), ids=[...$("ngMembers").querySelectorAll("input:checked")].map(c=>c.value);
+  if(!name){ $("ngErr").textContent="Give your group a name."; return; }
+  if(!ids.length){ $("ngErr").textContent="Pick at least one friend."; return; }
+  const g={id:uid(),name,members:["me",...ids],expenses:[],settlements:[],created:Date.now()};
+  S.groups.push(g); save(); $("newGroupDlg").close(); render(); toast("Group created"); openGroup(g.id);
+};
+function renderGroups(){
+  const box=$("groupList"); box.innerHTML="";
+  if(!S.groups.length){ box.append(el("p","empty","No groups yet. Create one for your next trip or meal.")); return; }
+  for(const g of S.groups){
+    const row=el("div","group-row"); const av=el("div","avatar","👥"); av.style.background="var(--green)"; row.append(av);
+    const info=el("div","info"); info.append(el("b",null,g.name));
+    const b=myBalance(g); const s=el("span",null,g.members.length+" people · ");
+    const st=el("b",b>0?"pos":b<0?"neg":"",b>0?`you're owed ${money(b)}`:b<0?`you owe ${money(-b)}`:"all settled"); st.style.fontWeight="600"; s.append(st); info.append(s); row.append(info);
+    const o=el("button","btn primary","Open"); o.onclick=()=>openGroup(g.id); row.append(o); box.append(row);
+  }
+}
+function renderOwes(){
+  const c=$("owesCard"); if(!S.groups.length){ c.hidden=true; return; }
+  let owed=0, owe=0; for(const g of S.groups){ const n=myBalance(g); if(n>0) owed+=n; else owe+=-n; }
+  c.hidden=false; $("owedTxt").textContent=money(owed); $("oweTxt").textContent=money(owe);
+}
+$("owesGo").onclick=()=>{ go("pay"); ptab("friends"); };
+
+let curGroup=null;
+function openGroup(id){ curGroup=id; renderGroup(); if(!$("groupDlg").open) $("groupDlg").showModal(); }
+function logSettleTx(g,d){
+  const other=gName(d.from==="me"?d.to:d.from);
+  const tx=d.from==="me"
+    ?{id:uid(),type:"out",amount:d.amount,cat:"other",note:`Settled up with ${other} (${g.name})`,date:today(),ts:Date.now()}
+    :{id:uid(),type:"in",amount:d.amount,cat:"otherin",note:`${other} paid you back (${g.name})`,date:today(),ts:Date.now()};
+  S.tx.push(tx); return tx;
+}
+function settleManually(g,d){
+  const tx=logSettleTx(g,d), s=addSettlement(g,d.from,d.to,d.amount,"manual",tx.id);
+  save(); render(); renderGroup(); checkBadges();
+  toast(`Marked ${money(d.amount)} as settled`,()=>{ g.settlements=g.settlements.filter(x=>x.id!==s.id); S.tx=S.tx.filter(x=>x.id!==tx.id); save(); render(); if($("groupDlg").open) renderGroup(); });
+}
+function groupSummary(g){
+  const me=S.name||"Me", nm=id=>id==="me"?me:gName(id);
+  const total=g.expenses.reduce((a,e)=>a+e.amount,0), ds=debts(groupNet(g));
+  let t=`Stack It Up · ${g.name}\nTotal spent: ${money(total)}\n`;
+  t+=ds.length?"Who owes who:\n"+ds.map(d=>`• ${nm(d.from)} → ${nm(d.to)}: ${money(d.amount)}`).join("\n"):"Everyone is settled up 🎉";
+  return t;
+}
+function renderGroup(){
+  const g=S.groups.find(x=>x.id===curGroup), body=$("groupBody"); body.innerHTML="";
+  if(!g){ if($("groupDlg").open) $("groupDlg").close(); return; }
+  $("groupTitle").textContent=g.name;
+  const total=g.expenses.reduce((a,e)=>a+e.amount,0);
+  const head=el("p","small muted",`${g.members.map(gName).join(", ")} · Total spent ${money(total)}`); head.style.margin="0"; body.append(head);
+
+  // who owes who
+  const owes=el("div"); const h1=el("h3",null,"Who owes who"); h1.style.fontSize="1.05rem"; owes.append(h1);
+  const ds=debts(groupNet(g));
+  if(!ds.length) owes.append(el("p","empty",g.expenses.length?"All settled up 🎉":"Add an expense to get started."));
+  for(const d of ds){
+    const row=el("div","debt"); const who=el("div","who");
+    who.append(el("b",null,`${gName(d.from)} ${d.from==="me"?"owe":"owes"} ${gName(d.to)}`));
+    row.append(who,el("div","amt2 num",money(d.amount)));
+    const acts=el("div","row-btns");
+    if(d.from==="me"){
+      const f=fr(d.to);
+      const pay=el("button","btn primary","Pay via UPI");
+      if(f?.upi) pay.onclick=()=>{ $("groupDlg").close(); go("pay"); ptab("friends"); openPay({pa:f.upi,pn:f.name,am:d.amount,tn:`${g.name} settle up`,cat:"other",lockAmt:true,settle:{gid:g.id,from:d.from,to:d.to},title:"Settle up",lead:`You owe ${f.name} ${money(d.amount)} for ${g.name}.`}); };
+      else{ pay.disabled=true; pay.title="Add their UPI ID in Friends first"; }
+      const cash=el("button","btn","Paid in cash"); cash.onclick=()=>settleManually(g,d);
+      acts.append(pay,cash);
+      if(!f?.upi) acts.append(el("span","small muted","Add their UPI ID in Friends to pay online."));
+    } else if(d.to==="me"){
+      const req=el("button","btn primary","Request"); req.onclick=async()=>{
+        if(!S.upi){ $("groupDlg").close(); go("pay"); ptab("receive"); toast("Save your payment ID first, then request money."); return; }
+        $("groupDlg").close(); go("pay"); ptab("receive"); $("reqAmt").value=d.amount; $("reqNote").value=`${g.name} settle up`; $("reqGo").click();
+      };
+      const got=el("button","btn","Got it"); got.title="Mark as received after you see it in your UPI app"; got.onclick=()=>settleManually(g,d);
+      acts.append(req,got);
+    }
+    if(acts.children.length) row.append(acts);
+    owes.append(row);
+  }
+  body.append(owes);
+
+  // add expense
+  const add=el("form","card"); add.style.background="var(--bg)"; add.setAttribute("aria-label","Add an expense");
+  const h2=el("h3",null,"Add an expense"); h2.style.fontSize="1.05rem"; add.append(h2);
+  const grid=el("div","grid2"); grid.style.cssText="gap:10px;margin-top:10px";
+  const f1=el("div","field"); const l1=el("label",null,"What was it?"); l1.htmlFor="exDesc"; const i1=el("input","input"); i1.id="exDesc"; i1.maxLength=40; i1.placeholder="e.g. Dinner"; f1.append(l1,i1);
+  const f2=el("div","field"); const l2=el("label",null,"Amount (₹)"); l2.htmlFor="exAmt"; const i2=el("input","input num"); i2.id="exAmt"; i2.inputMode="decimal"; f2.append(l2,i2);
+  const f3=el("div","field"); const l3=el("label",null,"Who paid?"); l3.htmlFor="exPaid"; const s3=el("select","input"); s3.id="exPaid"; g.members.forEach(m=>s3.add(new Option(gName(m),m))); f3.append(l3,s3);
+  grid.append(f1,f2,f3); add.append(grid);
+  const sp=el("div","field"); sp.style.marginTop="10px"; sp.append(el("label",null,"Split equally between"));
+  const checks=el("div","checks"); g.members.forEach(m=>{ const l=el("label"); const c=el("input"); c.type="checkbox"; c.value=m; c.checked=true; l.append(c,document.createTextNode(gName(m))); checks.append(l); }); sp.append(checks); add.append(sp);
+  const err=el("p","err"); add.append(err);
+  add.append(Object.assign(el("button","btn primary","Add expense"),{type:"submit"}));
+  add.onsubmit=e=>{
+    e.preventDefault();
+    const desc=i1.value.trim(), amt=parseAmt(i2.value), ids=[...checks.querySelectorAll("input:checked")].map(c=>c.value);
+    if(!desc){ err.textContent="Say what the expense was."; return; }
+    if(!(amt>0)||amt>1000000){ err.textContent="Enter an amount between ₹1 and ₹10,00,000."; return; }
+    if(!ids.length){ err.textContent="Pick at least one person to split between."; return; }
+    g.expenses.push({id:uid(),desc,amount:amt,paidBy:s3.value,split:ids,date:today(),ts:Date.now()});
+    save(); render(); renderGroup(); toast(`Added ${desc}: ${money(amt)}`);
+  };
+  body.append(add);
+
+  // history
+  const hist=el("div"); const h3=el("h3",null,"Expenses"); h3.style.fontSize="1.05rem"; hist.append(h3);
+  const items=[...g.expenses.map(e=>({k:"e",t:e.ts,e})),...g.settlements.map(s=>({k:"s",t:s.ts,s}))].sort((a,b)=>b.t-a.t);
+  if(!items.length) hist.append(el("p","empty","Nothing here yet."));
+  for(const it of items){
+    const row=el("div","person");
+    if(it.k==="e"){
+      const e=it.e; const av=el("div","avatar","🧾"); av.style.background="var(--clay)"; row.append(av);
+      const info=el("div","info"); info.append(el("b",null,e.desc),el("span",null,`${gName(e.paidBy)} paid ${money(e.amount)} · split ${e.split.length} way${e.split.length>1?"s":""} · ${nice(e.date)}`)); row.append(info);
+      const d=el("button","btn danger","✕"); d.setAttribute("aria-label",`Delete ${e.desc}`); d.onclick=()=>{ const snap=JSON.stringify(S); g.expenses=g.expenses.filter(x=>x.id!==e.id); save(); render(); renderGroup(); toast("Expense deleted",()=>{ S=Object.assign(blank(),JSON.parse(snap)); save(); render(); if($("groupDlg").open) renderGroup(); }); }; row.append(d);
+    } else {
+      const s=it.s; const av=el("div","avatar","✓"); av.style.background="var(--good)"; row.append(av);
+      const info=el("div","info"); info.append(el("b",null,`${gName(s.from)} paid ${gName(s.to)}`),el("span",null,`${money(s.amount)} · settled ${s.via==="upi"?"by UPI":"in cash"} · ${nice(s.date)}`)); row.append(info);
+    }
+    hist.append(row);
+  }
+  body.append(hist);
+
+  // footer actions
+  const acts=el("div","row-btns");
+  const share=el("button","btn primary","Share summary"); share.onclick=()=>shareOrCopy(`${g.name} · Stack It Up`,groupSummary(g),"");
+  const del=el("button","btn danger","Delete group"); del.onclick=()=>{
+    if(!confirm(`Delete "${g.name}" and all its expenses?`)) return;
+    const snap=JSON.stringify(S); S.groups=S.groups.filter(x=>x.id!==g.id); save(); $("groupDlg").close(); render();
+    toast("Group deleted",()=>{ S=Object.assign(blank(),JSON.parse(snap)); save(); render(); });
+  };
+  acts.append(share,del); body.append(acts);
+}
+
+/* ---- render everything payment related ---- */
+function renderPay(){
+  ensurePay();
+  renderPending(); renderRequests(); renderFriends(); renderGroups(); renderOwes();
+  if(document.activeElement!==$("myUpi")&&document.activeElement!==$("myUpiName")){ $("myUpi").value=S.upi; $("myUpiName").value=S.upiName; }
+}
+
 /* ============ start ============ */
-applyTheme(); render(); renderQuiz(); checkBadges();
+ensurePay(); applyTheme(); render(); renderQuiz(); checkBadges(); handleHash();
 if("serviceWorker" in navigator&&location.protocol==="https:") addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 </script>
 </body>
