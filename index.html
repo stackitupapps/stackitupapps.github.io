@@ -17,17 +17,34 @@
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Noto+Sans:wght@400;500;600&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#F1F4EF; --panel:#FFFFFF; --ink:#16261E; --muted:#5E6C64; --line:#DCE3DC;
-  --green:#1F4D3A; --green-ink:#FFFFFF; --clay:#D9653B; --gold:#F2C14E; --soft:#E4EEE7; --good:#1E7A4C; --bad:#B8432A;
+  --bg:#F3F6EF; --panel:#FFFFFF; --ink:#14241C; --muted:#5B6B63; --line:#DEE6DD;
+  --green:#1F4D3A; --green-2:#2D7A5C; --green-ink:#FFFFFF; --clay:#D9653B; --gold:#F2C14E; --soft:#E4EEE7; --good:#1E7A4C; --bad:#B8432A;
+  --purple:#6B4FBB; --purple-2:#9A7FE4; --purple-soft:#EDE8FA; --sky:#2E86DE; --mint:#45C4A0; --coral:#FF8A6B;
+  --grad-hero:linear-gradient(135deg,#1F4D3A 0%,#2D7A5C 55%,#45C4A0 100%);
+  --grad-purple:linear-gradient(135deg,#6B4FBB 0%,#9A7FE4 100%);
+  --grad-sunrise:linear-gradient(135deg,#FF8A6B 0%,#F2C14E 100%);
+  --shadow-sm:0 1px 2px rgba(20,36,28,.04),0 2px 8px rgba(20,36,28,.04);
+  --shadow-md:0 4px 14px rgba(20,36,28,.08);
+  --shadow-lg:0 10px 30px rgba(20,36,28,.12);
   --radius:18px; box-sizing:border-box;
   padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
 }
 @media (prefers-color-scheme:dark){ :root:not([data-theme="light"]){
   --bg:#0F1813; --panel:#18241D; --ink:#E6EEE8; --muted:#9DAEA3; --line:#2A3A31;
-  --green:#57B08A; --green-ink:#0F1813; --clay:#EE8A62; --soft:#1F3328; --good:#5FCB93; --bad:#F08A70; } }
+  --green:#57B08A; --green-2:#6DD4A3; --green-ink:#0F1813; --clay:#EE8A62; --soft:#1F3328; --good:#5FCB93; --bad:#F08A70;
+  --purple:#9A7FE4; --purple-2:#B7A3F0; --purple-soft:#2A2440;
+  --grad-hero:linear-gradient(135deg,#1A3E30 0%,#2D7A5C 55%,#4FD6B0 100%);
+  --shadow-sm:0 1px 2px rgba(0,0,0,.2),0 2px 8px rgba(0,0,0,.2);
+  --shadow-md:0 4px 14px rgba(0,0,0,.3);
+  --shadow-lg:0 10px 30px rgba(0,0,0,.4); } }
 :root[data-theme="dark"]{
   --bg:#0F1813; --panel:#18241D; --ink:#E6EEE8; --muted:#9DAEA3; --line:#2A3A31;
-  --green:#57B08A; --green-ink:#0F1813; --clay:#EE8A62; --soft:#1F3328; --good:#5FCB93; --bad:#F08A70; }
+  --green:#57B08A; --green-2:#6DD4A3; --green-ink:#0F1813; --clay:#EE8A62; --soft:#1F3328; --good:#5FCB93; --bad:#F08A70;
+  --purple:#9A7FE4; --purple-2:#B7A3F0; --purple-soft:#2A2440;
+  --grad-hero:linear-gradient(135deg,#1A3E30 0%,#2D7A5C 55%,#4FD6B0 100%);
+  --shadow-sm:0 1px 2px rgba(0,0,0,.2),0 2px 8px rgba(0,0,0,.2);
+  --shadow-md:0 4px 14px rgba(0,0,0,.3);
+  --shadow-lg:0 10px 30px rgba(0,0,0,.4); }
 *,*::before,*::after{box-sizing:inherit}
 [hidden]{display:none!important}
 body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 "Noto Sans",system-ui,-apple-system,"Segoe UI",sans-serif;padding-bottom:90px}
@@ -61,7 +78,7 @@ nav.tabs svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2
 }
 
 section[hidden]{display:none}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:18px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow-sm)}
 .grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
 .stack{display:grid;gap:14px}
 .muted{color:var(--muted)}
@@ -75,7 +92,7 @@ section[hidden]{display:none}
 .input{width:100%;border:1px solid var(--line);background:var(--panel);border-radius:12px;padding:11px 13px}
 
 /* hero balance */
-.hero{background:var(--green);color:#fff;border-radius:22px;padding:22px;position:relative;overflow:hidden}
+.hero{background:var(--grad-hero);color:#fff;border-radius:22px;padding:22px;position:relative;overflow:hidden;box-shadow:var(--shadow-md)}
 :root[data-theme="dark"] .hero{color:#0F1813}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .hero{color:#0F1813}}
 .hero .lbl{opacity:.85;font-size:.92rem}
@@ -357,6 +374,59 @@ h3.hand.big{font-size:1.9rem}
 footer a{color:inherit}
 footer{margin-top:34px;padding:20px 0;border-top:1px solid var(--line);color:var(--muted);font-size:.88rem}
 footer .wrap{display:flex;flex-wrap:wrap;gap:8px 20px;align-items:center}
+
+/* ============ FAMILY ============ */
+.role-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.role-opt{border:2px solid var(--line);background:var(--panel);border-radius:16px;padding:20px 16px;text-align:center;display:flex;flex-direction:column;gap:4px;align-items:center;transition:all .2s}
+.role-opt:hover{border-color:var(--green);transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.role-opt b{font-size:1.05rem;font-family:Sora,sans-serif}
+.role-opt .role-emoji{font-size:2.4rem;margin-bottom:6px}
+.role-opt[data-role="parent"]:hover{border-color:var(--purple)}
+
+.family-hero{background:var(--grad-hero);color:#fff;border-radius:22px;padding:20px;display:flex;gap:14px;align-items:center;justify-content:space-between;flex-wrap:wrap;box-shadow:var(--shadow-md);margin-bottom:14px}
+.parent-hero{background:var(--grad-purple)}
+.chip-badge{display:inline-block;background:rgba(255,255,255,.22);padding:4px 10px;border-radius:999px;font-size:.78rem;font-weight:600;backdrop-filter:blur(10px)}
+.fh-left h2{font-size:1.4rem}
+.btn.ghost{background:rgba(255,255,255,.18);border-color:rgba(255,255,255,.35);color:#fff;backdrop-filter:blur(10px)}
+.btn.ghost:hover{background:rgba(255,255,255,.28)}
+
+.family-stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:14px}
+.family-stat-grid .stat{text-align:left;padding:14px;position:relative;overflow:hidden}
+.family-stat-grid .stat::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--green);border-radius:4px 0 0 4px}
+.family-stat-grid .stat.accent-purple::before{background:var(--purple)}
+.family-stat-grid .stat.accent-mint::before{background:var(--mint)}
+.family-stat-grid .stat.accent-coral::before{background:var(--coral)}
+.family-stat-grid .stat b{font-size:1.5rem;display:block}
+.family-stat-grid .stat span{font-size:.78rem;color:var(--muted)}
+
+.pair-box{display:flex;gap:18px;align-items:flex-start;flex-wrap:wrap;padding:14px;background:var(--soft);border-radius:14px}
+.pair-box .qr-wrap{background:#fff;padding:10px;border-radius:12px;flex:none}
+.pair-box .qr-wrap img{display:block;width:180px;height:180px}
+.pair-info{flex:1;min-width:220px;display:flex;flex-direction:column;gap:4px}
+.pair-link-row{display:flex;gap:6px;align-items:stretch}
+.pair-link-row input{flex:1;min-width:0;font-size:.82rem;font-family:ui-monospace,SFMono-Regular,monospace}
+
+/* Items (limit/chore/request rows) */
+.fam-row{display:flex;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
+.fam-row:last-child{border-bottom:0}
+.fam-row .fr-icon{width:40px;height:40px;border-radius:12px;background:var(--soft);display:grid;place-items:center;font-size:1.25rem;flex:none}
+.fam-row .fr-info{flex:1;min-width:0}
+.fam-row .fr-info b{display:block}
+.fam-row .fr-info span{color:var(--muted);font-size:.85rem;display:block}
+.fam-row .fr-act{display:flex;gap:6px;flex-wrap:wrap}
+.fam-row .fr-bar{margin-top:6px;height:6px;background:var(--line);border-radius:999px;overflow:hidden}
+.fam-row .fr-bar i{display:block;height:100%;background:var(--green);border-radius:999px}
+.fam-row .fr-bar.warn i{background:var(--clay)}
+.fam-row .fr-bar.over i{background:var(--bad)}
+
+.msg{padding:10px 12px;background:var(--soft);border-radius:12px;margin-bottom:8px;font-size:.9rem}
+.msg b{display:block;font-size:.78rem;color:var(--muted);margin-bottom:2px}
+.msg.me{background:var(--purple-soft);margin-left:20%}
+.msg time{display:block;font-size:.72rem;color:var(--muted);margin-top:2px}
+
+.empty{text-align:center;padding:24px 10px;color:var(--muted);font-size:.9rem}
+.empty .emo{font-size:2rem;display:block;margin-bottom:6px}
+
 </style>
 </head>
 <body>
@@ -382,6 +452,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 20px;align-items:center}
     <button role="tab" aria-selected="true" data-tab="home"><svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg>Home</button>
     <button role="tab" aria-selected="false" data-tab="history"><svg viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>History</button>
     <button role="tab" aria-selected="false" data-tab="pay"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M16 12h5v3h-5a1.5 1.5 0 0 1 0-3zM3 9l14-4v3"/></svg>Pay</button>
+    <button role="tab" aria-selected="false" data-tab="family"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><path d="M15 20c0-2.5 2-4 4-4"/></svg>Family</button>
     <button role="tab" aria-selected="false" data-tab="goals"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></svg>Goals</button>
     <button role="tab" aria-selected="false" data-tab="play"><svg viewBox="0 0 24 24"><circle cx="12" cy="9" r="6"/><path d="M8.5 14 7 22l5-3 5 3-1.5-8"/></svg>Play</button>
     <button role="tab" aria-selected="false" data-tab="about"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>About</button>
@@ -580,6 +651,210 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 20px;align-items:center}
           <button class="btn primary" id="newGroupBtn">+ New group</button>
         </div>
         <div id="groupList"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAMILY -->
+  <section data-sec="family" class="stack" hidden>
+    <!-- Role picker: shown when role not chosen -->
+    <div class="card role-picker" id="roleCard">
+      <h2 style="font-size:1.3rem;margin:0 0 4px">Family 👨‍👩‍👧</h2>
+      <p class="muted small" style="margin:0 0 16px">Link a parent and a kid so money, allowance and spending stay in sync. Pick who you are:</p>
+      <div class="role-grid">
+        <button class="role-opt" data-role="kid" type="button">
+          <div class="role-emoji" aria-hidden="true">🧑‍🎓</div>
+          <b>I'm the kid</b>
+          <span class="muted small">Get allowance, ask for money, track spending</span>
+        </button>
+        <button class="role-opt" data-role="parent" type="button">
+          <div class="role-emoji" aria-hidden="true">👨‍👩‍👧</div>
+          <b>I'm a parent</b>
+          <span class="muted small">Send money, set limits, approve spending</span>
+        </button>
+      </div>
+      <p class="small muted" style="margin:14px 0 0">You can switch anytime in Settings.</p>
+    </div>
+
+    <!-- KID VIEW -->
+    <div id="kidView" hidden>
+      <div class="family-hero kid-hero">
+        <div class="fh-left">
+          <span class="chip-badge">👶 Kid mode</span>
+          <h2 id="kidHeroName" style="margin:6px 0 2px">Your family stack</h2>
+          <p class="small" style="opacity:.9;margin:0" id="kidHeroSub">Not linked to a parent yet</p>
+        </div>
+        <div class="fh-right">
+          <button class="btn ghost" id="kidSwitchRole">Switch role</button>
+        </div>
+      </div>
+
+      <!-- Not linked state -->
+      <div class="card" id="kidPairCard">
+        <div style="display:flex;gap:14px;align-items:center;flex-wrap:wrap">
+          <div style="font-size:2.4rem" aria-hidden="true">🔗</div>
+          <div style="flex:1;min-width:200px">
+            <h3 style="font-size:1.1rem;margin:0">Link your parent's phone</h3>
+            <p class="muted small" style="margin:4px 0 0">Share this link with your parent. When they open it, your two phones are linked and they can send you money, set limits and approve requests.</p>
+          </div>
+        </div>
+        <div class="pair-box" id="pairBox" style="margin-top:14px;display:none">
+          <div class="qr-wrap" id="pairQR"></div>
+          <div class="pair-info">
+            <label class="small muted">Link to share</label>
+            <div class="pair-link-row">
+              <input id="pairLink" class="input" readonly>
+              <button class="btn" id="pairCopy">Copy</button>
+            </div>
+            <div class="row-btns" style="margin-top:8px">
+              <button class="btn" id="pairShare">Share link</button>
+              <button class="btn danger" id="pairCancel">Cancel</button>
+            </div>
+          </div>
+        </div>
+        <div class="row-btns" style="margin-top:14px" id="pairStartRow">
+          <button class="btn primary" id="pairStart">Generate link ✨</button>
+        </div>
+        <p class="small muted" style="margin:10px 0 0">💡 Your parent doesn't need an account. They just open the link on their phone.</p>
+      </div>
+
+      <!-- Linked state cards (shown once paired) -->
+      <div id="kidLinkedCards" hidden>
+        <div class="family-stat-grid">
+          <div class="stat accent-purple"><b class="num" id="kidAllowProg">₹0</b><span>allowance this month</span></div>
+          <div class="stat accent-mint"><b class="num" id="kidReceived">₹0</b><span>received from parent</span></div>
+          <div class="stat accent-coral"><b class="num" id="kidPending">0</b><span>pending requests</span></div>
+        </div>
+
+        <div class="card">
+          <h3 style="font-size:1.1rem;margin:0 0 4px">Allowance tracker 📅</h3>
+          <p class="muted small" style="margin:0 0 12px" id="kidAllowSub">Your parent will set your allowance.</p>
+          <div class="bar"><i id="kidAllowBar" style="width:0"></i></div>
+          <p class="small muted" style="margin:8px 0 0" id="kidAllowHint"></p>
+        </div>
+
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
+            <div><h3 style="font-size:1.1rem;margin:0">Ask for money 🙏</h3><p class="muted small" style="margin:2px 0 0">Tell your parent what you need and why.</p></div>
+          </div>
+          <form class="grid2" id="kidAskForm" style="gap:10px;margin-top:12px">
+            <div class="field"><label for="askAmt">Amount (₹)</label><input class="input num" id="askAmt" inputmode="decimal" placeholder="e.g. 500"></div>
+            <div class="field"><label for="askReason">Why?</label><input class="input" id="askReason" maxlength="60" placeholder="e.g. School trip"></div>
+            <div><button class="btn primary">Send request</button></div>
+          </form>
+          <p class="err" id="askErr"></p>
+          <div id="kidReqList" style="margin-top:10px"></div>
+        </div>
+
+        <div class="card">
+          <h3 style="font-size:1.1rem;margin:0 0 4px">Spending limits 🚦</h3>
+          <p class="muted small" style="margin:0 0 12px">Limits your parent has set. Stack It Up warns you before you cross one.</p>
+          <div id="kidLimitList"></div>
+        </div>
+
+        <div class="card">
+          <h3 style="font-size:1.1rem;margin:0 0 4px">Chores 🧹</h3>
+          <p class="muted small" style="margin:0 0 12px">Finish a chore to earn money. Your parent gets a notification when you mark it done.</p>
+          <div id="kidChoreList"></div>
+        </div>
+
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
+            <h3 style="font-size:1.1rem;margin:0">Family messages 💬</h3>
+            <button class="btn" id="kidUnlink">Unlink</button>
+          </div>
+          <div id="kidMsgList" style="margin-top:10px"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PARENT VIEW -->
+    <div id="parentView" hidden>
+      <div class="family-hero parent-hero">
+        <div class="fh-left">
+          <span class="chip-badge">👨‍👩‍👧 Parent mode</span>
+          <h2 id="parentHeroName" style="margin:6px 0 2px">Your family dashboard</h2>
+          <p class="small" style="opacity:.9;margin:0" id="parentHeroSub">Link a kid to start</p>
+        </div>
+        <div class="fh-right">
+          <button class="btn ghost" id="parentSwitchRole">Switch role</button>
+        </div>
+      </div>
+
+      <!-- Not linked state -->
+      <div class="card" id="parentPairCard">
+        <h3 style="font-size:1.1rem;margin:0 0 4px">Link to your kid 🔗</h3>
+        <p class="muted small" style="margin:0 0 12px">Ask your kid to open Family in Stack It Up, press "Generate link" and send it to you. Paste it below.</p>
+        <div class="field"><label for="parentLinkIn">Paste the link</label><input class="input" id="parentLinkIn" placeholder="https://stackitupapps.github.io/#link=…"></div>
+        <p class="err" id="parentLinkErr"></p>
+        <div class="row-btns" style="margin-top:10px">
+          <button class="btn primary" id="parentLinkGo">Link</button>
+          <button class="btn" id="parentLinkDemo">Try demo kid</button>
+        </div>
+      </div>
+
+      <!-- Linked state -->
+      <div id="parentLinkedCards" hidden>
+        <div class="family-stat-grid">
+          <div class="stat accent-mint"><b class="num" id="pKidBal">₹0</b><span>kid's balance</span></div>
+          <div class="stat accent-purple"><b class="num" id="pMonthSent">₹0</b><span>sent this month</span></div>
+          <div class="stat accent-coral"><b class="num" id="pPendCount">0</b><span>needs your reply</span></div>
+        </div>
+
+        <div class="card">
+          <h3 style="font-size:1.1rem;margin:0 0 4px">Send money 💸</h3>
+          <p class="muted small" style="margin:0 0 12px" id="pSendSub">This creates a payment link for your UPI app, and a message your kid sees in their app.</p>
+          <form class="grid2" id="pSendForm" style="gap:10px">
+            <div class="field"><label for="pSendAmt">Amount (₹)</label><input class="input num" id="pSendAmt" inputmode="decimal" placeholder="e.g. 500"></div>
+            <div class="field"><label for="pSendNote">Note</label><input class="input" id="pSendNote" maxlength="50" placeholder="e.g. Allowance"></div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn primary">Send ₹ now</button><button class="btn" type="button" id="pSendDeduct">Deduct ₹ instead</button></div>
+          </form>
+          <p class="err" id="pSendErr"></p>
+          <p class="small muted" style="margin:10px 0 0">💡 "Deduct" lowers the kid's balance (e.g. chores not done). It doesn't move real money — it's just the pocket money record.</p>
+        </div>
+
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
+            <div><h3 style="font-size:1.1rem;margin:0">Monthly allowance 📅</h3><p class="muted small" style="margin:2px 0 0">Automatic allowance credited each cycle.</p></div>
+            <button class="btn" id="allowSetBtn">Set</button>
+          </div>
+          <p class="small muted" style="margin:10px 0 0" id="allowStatus">Not set up</p>
+        </div>
+
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
+            <div><h3 style="font-size:1.1rem;margin:0">Spending limits 🚦</h3><p class="muted small" style="margin:2px 0 0">Limit how much the kid spends on each category per month.</p></div>
+            <button class="btn" id="limitAddBtn">+ Add</button>
+          </div>
+          <div id="pLimitList" style="margin-top:10px"></div>
+        </div>
+
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
+            <div><h3 style="font-size:1.1rem;margin:0">Chores &amp; rewards 🧹</h3><p class="muted small" style="margin:2px 0 0">Assign chores. When the kid marks it done, you confirm and reward them.</p></div>
+            <button class="btn" id="choreAddBtn">+ Add</button>
+          </div>
+          <div id="pChoreList" style="margin-top:10px"></div>
+        </div>
+
+        <div class="card" id="pReqCard">
+          <h3 style="font-size:1.1rem;margin:0 0 4px">Requests from kid 📬</h3>
+          <p class="muted small" style="margin:0 0 10px">Approve, send money, or decline.</p>
+          <div id="pReqList"></div>
+        </div>
+
+        <div class="card">
+          <h3 style="font-size:1.1rem;margin:0 0 4px">Kid's recent spending 📊</h3>
+          <div id="pKidTx"></div>
+        </div>
+
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
+            <h3 style="font-size:1.1rem;margin:0">Family messages 💬</h3>
+            <button class="btn" id="parentUnlink">Unlink</button>
+          </div>
+          <div id="parentMsgList" style="margin-top:10px"></div>
+        </div>
       </div>
     </div>
   </section>
@@ -850,9 +1125,18 @@ const BADGES=[
 ];
 const KEY="stackitup.v1";
 let S=load();
-function blank(){ return {v:1,name:"",allowance:0,theme:"auto",welcomed:false,tx:[],goals:[],badges:{},challenges:{},quizBest:0,upi:"",upiName:"",friends:[],groups:[],requests:[],pending:null}; }
+function blank(){ return {v:1,name:"",allowance:0,theme:"auto",welcomed:false,tx:[],goals:[],badges:{},challenges:{},quizBest:0,upi:"",upiName:"",friends:[],groups:[],requests:[],pending:null,family:{role:null,myId:null,myName:"",pairId:null,pairName:"",pairUpi:"",allowance:null,limits:{},chores:[],requests:[],messages:[],kidSnapshot:null,parentSentTotal:0,lastAllowanceDate:null}}; }
 function load(){
-  try{ const s=JSON.parse(localStorage.getItem(KEY)||"null"); if(s&&Array.isArray(s.tx)) return Object.assign(blank(),s); }catch{}
+  try{
+    const s=JSON.parse(localStorage.getItem(KEY)||"null");
+    if(s&&Array.isArray(s.tx)){
+      const merged=Object.assign(blank(),s);
+      // backfill family if missing or partial
+      if(!merged.family||typeof merged.family!=="object") merged.family=blank().family;
+      else merged.family=Object.assign(blank().family,merged.family);
+      return merged;
+    }
+  }catch{}
   return blank();
 }
 let storageOK=true;
@@ -1046,6 +1330,7 @@ function renderBadges(){
 function go(tab){ if(tab!=="pay"&&typeof stopScan==="function") stopScan();
   document.querySelectorAll("nav.tabs button").forEach(b=>b.setAttribute("aria-selected",b.dataset.tab===tab));
   document.querySelectorAll("section[data-sec]").forEach(s=>{ s.hidden=s.dataset.sec!==tab; if(!s.hidden){ s.classList.remove("fade"); void s.offsetWidth; s.classList.add("fade"); } });
+  if(tab==="family"&&typeof renderFamily==="function") renderFamily();
   scrollTo({top:0});
 }
 document.querySelectorAll("nav.tabs button").forEach(b=>b.onclick=()=>go(b.dataset.tab));
@@ -2346,6 +2631,546 @@ $("meMail").onclick=()=>goContact();
 /* ============ start ============ */
 ensurePay(); ensureStax(); applyTheme(); render(); renderQuiz(); checkBadges(); handleHash(); staxInit();
 if("serviceWorker" in navigator&&location.protocol==="https:") addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
+
+
+/* ============ FAMILY ============ */
+const CAT_LABELS={food:"🍔 Food",games:"🎮 Games",shop:"🛍️ Shopping",travel:"🚌 Travel",fun:"🎬 Fun",other:"💸 Other",books:"📚 Books",snack:"🍿 Snacks",gift:"🎁 Gifts"};
+function famUid(){ return Math.random().toString(36).slice(2,10); }
+function ensureFamId(){ if(!S.family.myId){ S.family.myId=famUid(); save(); } return S.family.myId; }
+
+// base64url encode / decode
+function b64uEnc(obj){ return btoa(unescape(encodeURIComponent(JSON.stringify(obj)))).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,""); }
+function b64uDec(s){ try{ s=s.replace(/-/g,"+").replace(/_/g,"/"); while(s.length%4) s+="="; return JSON.parse(decodeURIComponent(escape(atob(s)))); }catch{ return null; } }
+
+function makePairLink(){
+  ensureFamId();
+  const payload={t:"pair",id:S.family.myId,name:S.name||"My kid",upi:S.upi||"",ts:Date.now()};
+  return location.origin+location.pathname+"#link="+b64uEnc(payload);
+}
+function makeMsgLink(obj){
+  const payload=Object.assign({ts:Date.now()},obj);
+  return location.origin+location.pathname+"#link="+b64uEnc(payload);
+}
+
+function pickRole(role){
+  S.family.role=role;
+  ensureFamId();
+  save();
+  renderFamily();
+}
+
+function renderFamily(){
+  const roleCard=$("roleCard"), kid=$("kidView"), parent=$("parentView");
+  if(!roleCard) return;
+  const r=S.family.role;
+  roleCard.hidden = !!r;
+  kid.hidden = r!=="kid";
+  parent.hidden = r!=="parent";
+  if(r==="kid") renderKid();
+  if(r==="parent") renderParent();
+}
+
+/* ---------- KID VIEW ---------- */
+function renderKid(){
+  const linked=!!S.family.pairId;
+  $("kidPairCard").hidden=linked;
+  $("kidLinkedCards").hidden=!linked;
+  $("kidHeroName").textContent = S.name ? "Hey "+S.name.split(" ")[0]+"!" : "Your family stack";
+  $("kidHeroSub").textContent = linked ? ("Linked to "+(S.family.pairName||"your parent")) : "Not linked to a parent yet";
+  if(!linked){ renderPairBox(); return; }
+  // monthly allowance tracker
+  const a=S.family.allowance;
+  if(a){
+    const cycleStart=allowanceCycleStart();
+    const got=S.tx.filter(t=>t.type==="in"&&t.famAllowance&&t.date>=cycleStart).reduce((s,t)=>s+t.amount,0);
+    const pct=Math.min(100, a.amount?(got/a.amount*100):0);
+    $("kidAllowBar").style.width=pct+"%";
+    $("kidAllowProg").textContent=money(got);
+    $("kidAllowSub").textContent=`Your ${a.freq} allowance is ${money(a.amount)}. You've received ${money(got)} this cycle.`;
+    $("kidAllowHint").textContent = got>=a.amount ? "✅ All caught up for this cycle." : `₹${Math.round(a.amount-got)} coming your way this cycle.`;
+  } else {
+    $("kidAllowBar").style.width="0%";
+    $("kidAllowProg").textContent="₹0";
+    $("kidAllowSub").textContent="Your parent will set your allowance.";
+    $("kidAllowHint").textContent="";
+  }
+  // received from parent total
+  const monthStart=today().slice(0,7)+"-01";
+  const got=S.tx.filter(t=>t.type==="in"&&t.famFrom&&t.date>=monthStart).reduce((s,t)=>s+t.amount,0);
+  $("kidReceived").textContent=money(got);
+  // requests
+  const myReqs=S.family.requests.filter(r=>r.by==="kid"&&r.status==="pending");
+  $("kidPending").textContent=myReqs.length;
+  renderKidReqList();
+  renderKidLimits();
+  renderKidChores();
+  renderMsgs("kidMsgList");
+}
+
+async function renderPairBox(){
+  const box=$("pairBox"); if(!box) return;
+  if(box.style.display!=="flex") return;
+  const url=makePairLink();
+  $("pairLink").value=url;
+  const qr=$("pairQR"); qr.innerHTML="";
+  try{
+    if(typeof qrcode==="undefined"&&typeof loadLib==="function") await loadLib("qrcode.js");
+    const q=qrcode(0,"L"); q.addData(url); q.make();
+    const img=document.createElement("img");
+    img.src=q.createDataURL(5,0); img.alt="Pair QR"; img.style.width="180px"; img.style.height="180px"; qr.append(img);
+  }catch(e){ qr.textContent="QR couldn't load — use the link instead."; }
+}
+
+function allowanceCycleStart(){
+  const a=S.family.allowance; if(!a) return "0000-00-00";
+  const d=new Date();
+  if(a.freq==="weekly"){
+    const day=d.getDay(); d.setDate(d.getDate()-day);
+    return ymd(d);
+  }
+  return ymd(new Date(d.getFullYear(),d.getMonth(),1));
+}
+
+function renderKidReqList(){
+  const box=$("kidReqList"); if(!box) return;
+  box.innerHTML="";
+  const mine=S.family.requests.filter(r=>r.by==="kid").slice().reverse();
+  if(!mine.length){ box.innerHTML='<div class="empty"><span class="emo">📭</span>No requests yet. Ask for money above.</div>'; return; }
+  for(const r of mine){
+    const row=el("div","fam-row");
+    const stEmo = r.status==="pending"?"⏳":(r.status==="approved"?"✅":"❌");
+    const stTxt = r.status==="pending"?"Waiting for parent":(r.status==="approved"?"Approved":"Declined");
+    row.innerHTML=`<div class="fr-icon">${stEmo}</div><div class="fr-info"><b>${money(r.amount)} · ${escapeHTML(r.reason)}</b><span>${stTxt} · ${nice(r.date)}</span></div>`;
+    box.append(row);
+  }
+}
+
+function renderKidLimits(){
+  const box=$("kidLimitList"); if(!box) return;
+  box.innerHTML="";
+  const lim=S.family.limits||{};
+  const keys=Object.keys(lim);
+  if(!keys.length){ box.innerHTML='<div class="empty"><span class="emo">🟢</span>No limits set. Spend wisely!</div>'; return; }
+  const monthStart=today().slice(0,7)+"-01";
+  for(const k of keys){
+    const spent=S.tx.filter(t=>t.type==="out"&&t.cat===k&&t.date>=monthStart).reduce((s,t)=>s+t.amount,0);
+    const cap=lim[k];
+    const pct=Math.min(100,cap?spent/cap*100:0);
+    const warn=pct>=80, over=pct>=100;
+    const row=el("div","fam-row");
+    row.innerHTML=`<div class="fr-icon">${(CAT_LABELS[k]||k).split(" ")[0]}</div>
+      <div class="fr-info" style="min-width:0">
+        <b>${(CAT_LABELS[k]||k).slice(2)||k}</b>
+        <span>${money(spent)} of ${money(cap)} this month</span>
+        <div class="fr-bar ${over?"over":warn?"warn":""}"><i style="width:${pct}%"></i></div>
+      </div>`;
+    box.append(row);
+  }
+}
+
+function renderKidChores(){
+  const box=$("kidChoreList"); if(!box) return;
+  box.innerHTML="";
+  const list=S.family.chores||[];
+  if(!list.length){ box.innerHTML='<div class="empty"><span class="emo">🧹</span>No chores yet.</div>'; return; }
+  for(const c of list){
+    const row=el("div","fam-row");
+    const emo = c.status==="done"?"✅":(c.status==="pending"?"⏳":"🧹");
+    row.innerHTML=`<div class="fr-icon">${emo}</div>
+      <div class="fr-info"><b>${escapeHTML(c.name)}</b><span>Reward ${money(c.reward)} · ${c.status==="done"?"Paid":c.status==="pending"?"Waiting for parent":"Not done yet"}</span></div>
+      <div class="fr-act"></div>`;
+    if(c.status!=="pending"&&c.status!=="done"){
+      const b=el("button","btn primary"); b.textContent="Mark done"; b.type="button";
+      b.onclick=()=>{ c.status="pending"; c.doneAt=Date.now(); addFamMessage({who:"kid",text:`Did "${c.name}" — asking for ${money(c.reward)}`}); save(); renderKid(); toast("Marked done. Your parent will confirm."); };
+      row.querySelector(".fr-act").append(b);
+    }
+    box.append(row);
+  }
+}
+
+/* ---------- PARENT VIEW ---------- */
+function renderParent(){
+  const linked=!!S.family.pairId;
+  $("parentPairCard").hidden=linked;
+  $("parentLinkedCards").hidden=!linked;
+  $("parentHeroName").textContent = linked ? ("Watching over "+(S.family.pairName||"your kid")) : "Your family dashboard";
+  $("parentHeroSub").textContent = linked ? ("Linked kid: "+(S.family.pairName||"—")) : "Link a kid to start";
+  if(!linked) return;
+  const snap=S.family.kidSnapshot||{balance:0,tx:[]};
+  $("pKidBal").textContent=money(snap.balance||0);
+  const monthStart=today().slice(0,7)+"-01";
+  const sent=(snap.tx||[]).filter(t=>t.famFrom===S.family.myId&&t.date>=monthStart).reduce((s,t)=>s+t.amount,0);
+  $("pMonthSent").textContent=money(sent||S.family.parentSentTotal||0);
+  const pend=S.family.requests.filter(r=>r.status==="pending").length;
+  $("pPendCount").textContent=pend;
+  // allowance status
+  const a=S.family.allowance;
+  $("allowStatus").textContent = a ? `${money(a.amount)} ${a.freq}` : "Not set up";
+  // limits
+  renderParentLimits();
+  renderParentChores();
+  renderParentReqs();
+  renderParentKidTx();
+  renderMsgs("parentMsgList");
+}
+
+function renderParentLimits(){
+  const box=$("pLimitList"); if(!box) return;
+  box.innerHTML="";
+  const lim=S.family.limits||{};
+  const keys=Object.keys(lim);
+  if(!keys.length){ box.innerHTML='<div class="empty"><span class="emo">🚦</span>No limits yet.</div>'; return; }
+  for(const k of keys){
+    const row=el("div","fam-row");
+    row.innerHTML=`<div class="fr-icon">${(CAT_LABELS[k]||k).split(" ")[0]}</div>
+      <div class="fr-info"><b>${(CAT_LABELS[k]||k).slice(2)||k}</b><span>${money(lim[k])} per month</span></div>
+      <div class="fr-act"></div>`;
+    const del=el("button","btn danger"); del.textContent="Remove"; del.type="button";
+    del.onclick=()=>{ delete S.family.limits[k]; save(); renderParent(); toast("Limit removed."); };
+    row.querySelector(".fr-act").append(del);
+    box.append(row);
+  }
+}
+
+function renderParentChores(){
+  const box=$("pChoreList"); if(!box) return;
+  box.innerHTML="";
+  const list=S.family.chores||[];
+  if(!list.length){ box.innerHTML='<div class="empty"><span class="emo">🧹</span>No chores assigned.</div>'; return; }
+  for(const c of list){
+    const row=el("div","fam-row");
+    const emo = c.status==="done"?"✅":(c.status==="pending"?"⏳":"🧹");
+    row.innerHTML=`<div class="fr-icon">${emo}</div>
+      <div class="fr-info"><b>${escapeHTML(c.name)}</b><span>Reward ${money(c.reward)} · ${c.status==="done"?"Paid":c.status==="pending"?"Kid says done":"Pending"}</span></div>
+      <div class="fr-act"></div>`;
+    const act=row.querySelector(".fr-act");
+    if(c.status==="pending"){
+      const pay=el("button","btn primary"); pay.textContent="Pay reward"; pay.type="button";
+      pay.onclick=()=>{ sendFamily(c.reward,`Chore: ${c.name}`); c.status="done"; save(); renderParent(); };
+      act.append(pay);
+    }
+    const del=el("button","btn"); del.textContent="Remove"; del.type="button";
+    del.onclick=()=>{ S.family.chores=S.family.chores.filter(x=>x.id!==c.id); save(); renderParent(); };
+    act.append(del);
+    box.append(row);
+  }
+}
+
+function renderParentReqs(){
+  const box=$("pReqList"); if(!box) return;
+  box.innerHTML="";
+  const list=S.family.requests.slice().reverse();
+  if(!list.length){ box.innerHTML='<div class="empty"><span class="emo">📭</span>No requests from your kid.</div>'; return; }
+  for(const r of list){
+    const row=el("div","fam-row");
+    const emo = r.status==="pending"?"🙏":(r.status==="approved"?"✅":"❌");
+    row.innerHTML=`<div class="fr-icon">${emo}</div>
+      <div class="fr-info"><b>${money(r.amount)} · ${escapeHTML(r.reason)}</b><span>${nice(r.date)}</span></div>
+      <div class="fr-act"></div>`;
+    const act=row.querySelector(".fr-act");
+    if(r.status==="pending"){
+      const yes=el("button","btn primary"); yes.textContent="Send ₹"; yes.type="button";
+      yes.onclick=()=>{ sendFamily(r.amount, r.reason); r.status="approved"; save(); renderParent(); };
+      const no=el("button","btn danger"); no.textContent="Decline"; no.type="button";
+      no.onclick=()=>{ r.status="declined"; addFamMessage({who:"parent",text:`Declined: ${r.reason}`}); save(); renderParent(); };
+      act.append(yes,no);
+    }
+    box.append(row);
+  }
+}
+
+function renderParentKidTx(){
+  const box=$("pKidTx"); if(!box) return;
+  box.innerHTML="";
+  const snap=S.family.kidSnapshot;
+  const tx=(snap&&snap.tx||[]).slice(-10).reverse();
+  if(!tx.length){ box.innerHTML='<div class="empty"><span class="emo">📊</span>Your kid hasn\'t shared any spending yet.</div>'; return; }
+  for(const t of tx){
+    const row=el("div","fam-row");
+    const emo = t.type==="in"?"💰":t.type==="save"?"🏦":"🧾";
+    const sign= t.type==="in"?"+":t.type==="save"?"→":"−";
+    row.innerHTML=`<div class="fr-icon">${emo}</div>
+      <div class="fr-info"><b>${sign}${money(t.amount)} · ${escapeHTML(t.note||(CAT_LABELS[t.cat]||t.cat||""))}</b><span>${nice(t.date)}</span></div>`;
+    box.append(row);
+  }
+}
+
+/* ---------- send money / deduct ---------- */
+function sendFamily(amount, note, isDeduct){
+  amount=parseAmt(amount);
+  if(!(amount>0)){ toast("Enter a valid amount"); return false; }
+  const link=makeMsgLink({t:isDeduct?"deduct":"send",amount,note,from:S.family.myId,fromName:S.family.myName||S.name||"Parent"});
+  // Record locally
+  S.family.parentSentTotal=(S.family.parentSentTotal||0)+(isDeduct?0:amount);
+  addFamMessage({who:"parent",text:(isDeduct?`Deducted ${money(amount)}: ${note}`:`Sent ${money(amount)}: ${note}`)});
+  save(); renderParent();
+  // Show the link to share, plus if parent has UPI, open a UPI link too
+  if(!isDeduct && S.family.pairUpi && S.upi){
+    try{
+      const upiUrl=buildUPI({pa:S.family.pairUpi,pn:S.family.pairName||"Kid",am:amount,tn:note||"Allowance"});
+      window.open(upiUrl,"_blank");
+    }catch(e){}
+  }
+  // show link in a toast with copy
+  showSendLink(link, isDeduct?"Share this with your kid to deduct":"Share this with your kid to receive");
+  return true;
+}
+
+function showSendLink(link, label){
+  const pop=el("div","card");
+  pop.style.cssText="position:fixed;left:50%;bottom:120px;transform:translateX(-50%);z-index:9999;max-width:380px;width:90%;box-shadow:var(--shadow-lg);background:var(--panel)";
+  pop.innerHTML=`<b>${label}</b><p class="small muted" style="margin:4px 0 8px">Send this link via WhatsApp or SMS. When your kid opens it, their app updates.</p>
+    <div style="display:flex;gap:6px"><input class="input" readonly value="${link}" style="font-size:.78rem;font-family:ui-monospace,monospace"><button class="btn primary" type="button">Copy</button></div>
+    <div class="row-btns" style="margin-top:8px"><button class="btn" type="button" data-share>Share</button><button class="btn" type="button" data-close2>Close</button></div>`;
+  document.body.append(pop);
+  const inp=pop.querySelector("input");
+  pop.querySelector(".btn.primary").onclick=()=>{ inp.select(); try{ navigator.clipboard.writeText(link); toast("Link copied"); }catch{} };
+  pop.querySelector("[data-share]").onclick=async()=>{ try{ if(navigator.share){ await navigator.share({text:link}); } else { navigator.clipboard.writeText(link); toast("Link copied"); } }catch{} };
+  pop.querySelector("[data-close2]").onclick=()=>pop.remove();
+  setTimeout(()=>pop.remove(), 60000);
+}
+
+function addFamMessage(m){
+  m.ts=Date.now();
+  S.family.messages=(S.family.messages||[]).concat(m).slice(-50);
+}
+
+function renderMsgs(boxId){
+  const box=$(boxId); if(!box) return;
+  box.innerHTML="";
+  const list=(S.family.messages||[]).slice().reverse().slice(0,15);
+  if(!list.length){ box.innerHTML='<div class="empty"><span class="emo">💬</span>No messages yet.</div>'; return; }
+  for(const m of list){
+    const d=el("div","msg "+(m.who===S.family.role?"me":""));
+    const when=new Date(m.ts).toLocaleString("en-IN",{hour:"numeric",minute:"2-digit",day:"numeric",month:"short"});
+    d.innerHTML=`<b>${m.who==="kid"?"Kid":"Parent"}</b>${escapeHTML(m.text)}<time>${when}</time>`;
+    box.append(d);
+  }
+}
+
+/* ---------- handle incoming link ---------- */
+function handleIncomingLink(){
+  const h=location.hash||""; const m=h.match(/#link=([A-Za-z0-9_-]+)/);
+  if(!m) return;
+  const payload=b64uDec(m[1]); if(!payload||!payload.t) return;
+  // Clear hash so refresh doesn't re-trigger
+  history.replaceState(null,"",location.pathname+location.search);
+  openLinkDialog(payload);
+}
+
+function openLinkDialog(payload){
+  const dlg=$("linkDlg"); if(!dlg) return;
+  const body=$("linkDlgBody");
+  if(payload.t==="pair"){
+    body.innerHTML=`Someone wants to link <b>${escapeHTML(payload.name||"their")}</b> account to yours as a <b>${S.family.role==="parent"?"kid":"parent"}</b>. Accept to connect your two phones.`;
+    $("linkAccept").onclick=()=>{
+      if(!S.family.role) S.family.role="parent"; // if receiver has no role, assume parent (since kid generated)
+      S.family.pairId=payload.id;
+      S.family.pairName=payload.name||"My kid";
+      S.family.pairUpi=payload.upi||"";
+      addFamMessage({who:"parent",text:"Linked. Welcome to Family mode."});
+      save(); dlg.close(); go("family"); renderFamily(); toast("Linked ✅");
+    };
+  } else if(payload.t==="send"||payload.t==="deduct"){
+    const amt=payload.amount||0;
+    body.innerHTML=`<b>${escapeHTML(payload.fromName||"Parent")}</b> is ${payload.t==="deduct"?"deducting":"sending you"} <b>${money(amt)}</b> for "<em>${escapeHTML(payload.note||"")}</em>". Accept to update your balance.`;
+    $("linkAccept").onclick=()=>{
+      if(payload.t==="send"){
+        S.tx.push({id:uid(),type:"in",amount:amt,cat:"other",note:payload.note||"From family",date:today(),famFrom:payload.from});
+      } else {
+        S.tx.push({id:uid(),type:"out",amount:amt,cat:"other",note:(payload.note||"Deduction")+" (parent)",date:today(),famDeduct:true});
+      }
+      addFamMessage({who:"parent",text:(payload.t==="send"?"Sent ":"Deducted ")+money(amt)+": "+(payload.note||"")});
+      if(payload.from && !S.family.pairId){ S.family.pairId=payload.from; S.family.pairName=payload.fromName||"Parent"; S.family.role="kid"; }
+      save(); dlg.close(); render(); renderFamily(); toast(payload.t==="send"?"Received":"Updated");
+    };
+  }
+  if(dlg.showModal) dlg.showModal();
+}
+
+/* ---------- escape ---------- */
+function escapeHTML(s){ return String(s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
+
+/* ---------- allowance auto-credit (kid side) ---------- */
+function checkAllowance(){
+  if(S.family.role!=="kid"||!S.family.allowance) return;
+  const a=S.family.allowance;
+  const now=new Date();
+  const key = a.freq==="weekly" ? `${now.getFullYear()}-W${Math.floor(now.getDate()/7)}` : `${now.getFullYear()}-${pad(now.getMonth()+1)}`;
+  if(S.family.lastAllowanceDate===key) return;
+  // credit it
+  S.tx.push({id:uid(),type:"in",amount:a.amount,cat:"other",note:a.freq==="weekly"?"Weekly allowance":"Monthly allowance",date:today(),famAllowance:true});
+  S.family.lastAllowanceDate=key;
+  save();
+  toast(`+${money(a.amount)} allowance credited 🎉`);
+}
+
+/* ---------- wire family events ---------- */
+function wireFamily(){
+  document.querySelectorAll(".role-opt").forEach(b=>b.onclick=()=>pickRole(b.dataset.role));
+  $("kidSwitchRole").onclick=()=>{ if(confirm("Switch to parent mode? Your link stays.")) { S.family.role="parent"; save(); renderFamily(); } };
+  $("parentSwitchRole").onclick=()=>{ if(confirm("Switch to kid mode?")) { S.family.role="kid"; save(); renderFamily(); } };
+  $("kidUnlink").onclick=()=>{ if(confirm("Unlink from your parent? Your money stays, but you won't be synced anymore.")) { S.family.pairId=null; S.family.pairName=""; S.family.pairUpi=""; save(); renderFamily(); } };
+  $("parentUnlink").onclick=()=>{ if(confirm("Unlink from your kid?")) { S.family.pairId=null; S.family.pairName=""; S.family.pairUpi=""; S.family.kidSnapshot=null; save(); renderFamily(); } };
+
+  $("pairStart").onclick=()=>{ $("pairBox").style.display="flex"; $("pairStartRow").style.display="none"; renderPairBox(); };
+  $("pairCancel").onclick=()=>{ $("pairBox").style.display="none"; $("pairStartRow").style.display="flex"; };
+  $("pairCopy").onclick=()=>{ const i=$("pairLink"); i.select(); try{ navigator.clipboard.writeText(i.value); toast("Link copied"); }catch{} };
+  $("pairShare").onclick=async()=>{ const t=$("pairLink").value; try{ if(navigator.share){ await navigator.share({title:"Link to Stack It Up Family",text:t}); } else { navigator.clipboard.writeText(t); toast("Link copied — paste in WhatsApp"); } }catch{} };
+
+  // ask for money
+  $("kidAskForm").onsubmit=(e)=>{
+    e.preventDefault();
+    const amt=parseAmt($("askAmt").value); const reason=$("askReason").value.trim();
+    const err=$("askErr"); err.textContent="";
+    if(!(amt>0)){ err.textContent="Enter a valid amount."; return; }
+    if(!reason){ err.textContent="Say what it's for."; return; }
+    const r={id:uid(),by:"kid",amount:amt,reason,date:today(),status:"pending"};
+    S.family.requests.push(r);
+    addFamMessage({who:"kid",text:`Asked for ${money(amt)}: ${reason}`});
+    const link=makeMsgLink({t:"req",amount:amt,reason,from:S.family.myId,fromName:S.name||"Kid"});
+    save(); renderKid();
+    showSendLink(link,"Share this with your parent so they see your request");
+    $("askAmt").value=""; $("askReason").value="";
+  };
+
+  // parent: paste link
+  $("parentLinkGo").onclick=()=>{
+    const v=$("parentLinkIn").value.trim(); const err=$("parentLinkErr"); err.textContent="";
+    const m=v.match(/#link=([A-Za-z0-9_-]+)/); if(!m){ err.textContent="That doesn't look like a Stack It Up link."; return; }
+    const p=b64uDec(m[1]); if(!p){ err.textContent="This link is broken."; return; }
+    openLinkDialog(p);
+  };
+  $("parentLinkDemo").onclick=()=>{
+    S.family.pairId="demo-kid"; S.family.pairName="Demo Kid"; S.family.pairUpi="";
+    S.family.kidSnapshot={balance:1850,tx:[
+      {type:"in",amount:1500,note:"Monthly allowance",date:today(),famAllowance:true},
+      {type:"out",amount:120,cat:"food",note:"Pizza",date:today()},
+      {type:"out",amount:60,cat:"snack",note:"Chips",date:today()},
+      {type:"save",amount:200,note:"Bike fund",date:today()}
+    ]};
+    addFamMessage({who:"kid",text:"Can I get ₹300 for a book?"});
+    S.family.requests.push({id:uid(),by:"kid",amount:300,reason:"School book",date:today(),status:"pending"});
+    save(); renderFamily(); toast("Demo kid linked");
+  };
+
+  // send money form
+  $("pSendForm").onsubmit=(e)=>{
+    e.preventDefault();
+    const ok=sendFamily($("pSendAmt").value, $("pSendNote").value.trim()||"From parent", false);
+    if(ok){ $("pSendAmt").value=""; $("pSendNote").value=""; }
+  };
+  $("pSendDeduct").onclick=()=>{
+    if(sendFamily($("pSendAmt").value, $("pSendNote").value.trim()||"Deduction", true)){ $("pSendAmt").value=""; $("pSendNote").value=""; }
+  };
+
+  // allowance dialog
+  $("allowSetBtn").onclick=()=>{
+    const a=S.family.allowance;
+    $("allowAmt").value=a?a.amount:"";
+    $("allowFreq").value=a?a.freq:"monthly";
+    $("allowErr").textContent="";
+    $("allowDlg").showModal();
+  };
+  $("allowSave").onclick=()=>{
+    const amt=parseAmt($("allowAmt").value); const freq=$("allowFreq").value;
+    const err=$("allowErr"); err.textContent="";
+    if(!(amt>0)){ err.textContent="Enter a valid amount."; return; }
+    S.family.allowance={amount:amt,freq};
+    addFamMessage({who:"parent",text:`Set allowance: ${money(amt)} ${freq}`});
+    save(); $("allowDlg").close(); renderParent(); toast("Allowance saved");
+  };
+  $("allowClear").onclick=()=>{ S.family.allowance=null; save(); $("allowDlg").close(); renderParent(); toast("Allowance cleared"); };
+
+  // limit dialog
+  $("limitAddBtn").onclick=()=>{ $("limAmt").value=""; $("limErr").textContent=""; $("limitDlg").showModal(); };
+  $("limSave").onclick=()=>{
+    const amt=parseAmt($("limAmt").value); const cat=$("limCat").value;
+    const err=$("limErr"); err.textContent="";
+    if(!(amt>0)){ err.textContent="Enter a valid amount."; return; }
+    S.family.limits=S.family.limits||{};
+    S.family.limits[cat]=amt;
+    addFamMessage({who:"parent",text:`Set ${CAT_LABELS[cat]||cat} limit: ${money(amt)}/mo`});
+    save(); $("limitDlg").close(); renderParent(); toast("Limit saved");
+  };
+
+  // chore dialog
+  $("choreAddBtn").onclick=()=>{ $("chName").value=""; $("chReward").value=""; $("chErr").textContent=""; $("choreDlg").showModal(); };
+  $("chSave").onclick=()=>{
+    const name=$("chName").value.trim(); const reward=parseAmt($("chReward").value);
+    const err=$("chErr"); err.textContent="";
+    if(!name){ err.textContent="Say what the chore is."; return; }
+    if(!(reward>0)){ err.textContent="Enter a reward amount."; return; }
+    S.family.chores=S.family.chores||[];
+    S.family.chores.push({id:uid(),name,reward,status:"open",createdAt:Date.now()});
+    addFamMessage({who:"parent",text:`New chore: "${name}" for ${money(reward)}`});
+    save(); $("choreDlg").close(); renderParent(); toast("Chore added");
+  };
+}
+
+// init on load
+window.addEventListener("DOMContentLoaded",()=>{
+  try{ wireFamily(); handleIncomingLink(); checkAllowance(); renderFamily(); }catch(e){ console.warn("family init",e); }
+});
+
 </script>
+
+<!-- Allowance dialog -->
+<dialog id="allowDlg" aria-labelledby="allowDlgTitle">
+  <form method="dialog" class="dlg">
+    <h2 id="allowDlgTitle">Set monthly allowance</h2>
+    <div class="field"><label for="allowAmt">Amount per cycle (₹)</label><input class="input num" id="allowAmt" inputmode="decimal" placeholder="e.g. 1500"></div>
+    <div class="field"><label for="allowFreq">How often?</label>
+      <select class="input" id="allowFreq">
+        <option value="monthly">Monthly</option>
+        <option value="weekly">Weekly</option>
+      </select>
+    </div>
+    <p class="err" id="allowErr"></p>
+    <div class="row-btns"><button class="btn" data-close type="button">Cancel</button><button class="btn danger" id="allowClear" type="button">Clear allowance</button><button class="btn primary" id="allowSave" type="button">Save</button></div>
+  </form>
+</dialog>
+
+<!-- Limit dialog -->
+<dialog id="limitDlg" aria-labelledby="limitDlgTitle">
+  <form method="dialog" class="dlg">
+    <h2 id="limitDlgTitle">Add a spending limit</h2>
+    <div class="field"><label for="limCat">Category</label>
+      <select class="input" id="limCat">
+        <option value="food">🍔 Food</option>
+        <option value="games">🎮 Games</option>
+        <option value="shop">🛍️ Shopping</option>
+        <option value="travel">🚌 Travel</option>
+        <option value="fun">🎬 Fun</option>
+        <option value="other">💸 Other</option>
+      </select>
+    </div>
+    <div class="field"><label for="limAmt">Max per month (₹)</label><input class="input num" id="limAmt" inputmode="decimal" placeholder="e.g. 500"></div>
+    <p class="err" id="limErr"></p>
+    <div class="row-btns"><button class="btn" data-close type="button">Cancel</button><button class="btn primary" id="limSave" type="button">Save</button></div>
+  </form>
+</dialog>
+
+<!-- Chore dialog -->
+<dialog id="choreDlg" aria-labelledby="choreDlgTitle">
+  <form method="dialog" class="dlg">
+    <h2 id="choreDlgTitle">Add a chore</h2>
+    <div class="field"><label for="chName">What's the chore?</label><input class="input" id="chName" maxlength="60" placeholder="e.g. Clean your room"></div>
+    <div class="field"><label for="chReward">Reward (₹)</label><input class="input num" id="chReward" inputmode="decimal" placeholder="e.g. 50"></div>
+    <p class="err" id="chErr"></p>
+    <div class="row-btns"><button class="btn" data-close type="button">Cancel</button><button class="btn primary" id="chSave" type="button">Save</button></div>
+  </form>
+</dialog>
+
+<!-- Incoming link accept dialog -->
+<dialog id="linkDlg" aria-labelledby="linkDlgTitle">
+  <form method="dialog" class="dlg">
+    <h2 id="linkDlgTitle">Family link received 🔗</h2>
+    <p id="linkDlgBody" class="muted"></p>
+    <p class="err" id="linkErr"></p>
+    <div class="row-btns"><button class="btn" data-close type="button">Not now</button><button class="btn primary" id="linkAccept" type="button">Accept</button></div>
+  </form>
+</dialog>
+
 </body>
 </html>

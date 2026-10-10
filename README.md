@@ -2,7 +2,6 @@
 
 Created by Ayaan Bajaj.
 
-
 A free pocket money tracker for students. Log what you spend and receive, set a monthly
 budget, save up for goals, see charts of where your money goes, check if you can afford something, join savings challenges, take a money quiz, earn badges, create UPI payment QR codes and links, scan UPI QR codes to pay, and split bills with friends.
 
