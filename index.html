@@ -1012,11 +1012,17 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 20px;align-items:center}
     <p class="err" id="sErr"></p>
     <div class="foot"><button type="button" class="btn" data-close>Close</button><button class="btn primary">Save</button></div>
     <hr style="border:0;border-top:1px solid var(--line);width:100%;margin:4px 0">
-    <div class="field"><label>Backup</label>
-      <p class="small muted" style="margin:0">Your data lives only on this device. Download a backup to move it to another phone or keep it safe.</p>
+    <div class="field"><label>Use on another device 📱💻</label>
+      <p class="small muted" style="margin:0">Your data lives only on this device. Transfer it to your laptop, tablet or another phone — your money, history, goals and family link come with you.</p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
+        <button type="button" class="btn primary" id="transferBtn">🔗 Make transfer link</button>
+        <button type="button" class="btn" id="exportBtn">⬇ Download file</button>
+        <label class="btn" style="display:inline-block">⬆ Restore from file<input type="file" id="importFile" accept="application/json,.json" hidden></label>
+      </div>
+      <p class="small muted" style="margin:8px 0 0">💡 <b>Transfer link:</b> fast — WhatsApp or email it to yourself, open on the other device, done. <b>File:</b> works even when you're offline.</p>
+    </div>
+    <div class="field"><label>Danger zone</label>
       <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px">
-        <button type="button" class="btn" id="exportBtn">Download backup</button>
-        <label class="btn" style="display:inline-block">Restore backup<input type="file" id="importFile" accept="application/json,.json" hidden></label>
         <button type="button" class="btn danger" id="resetBtn">Delete everything</button>
       </div>
     </div>
@@ -3113,6 +3119,127 @@ window.addEventListener("DOMContentLoaded",()=>{
   try{ wireFamily(); handleIncomingLink(); checkAllowance(); renderFamily(); }catch(e){ console.warn("family init",e); }
 });
 
+
+
+/* ============ CROSS-DEVICE TRANSFER ============ */
+function buildTransferPayload(){
+  // bundle main state + stax chat if present
+  const payload = { t:"xfer", v:1, ts:Date.now(), S:S };
+  try {
+    const stax = localStorage.getItem("stackitup.stax.v1");
+    if (stax) payload.stax = JSON.parse(stax);
+  } catch {}
+  return payload;
+}
+
+function makeTransferLink(){
+  const p = buildTransferPayload();
+  const json = JSON.stringify(p);
+  const enc = btoa(unescape(encodeURIComponent(json)))
+    .replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"");
+  return location.origin + location.pathname + "#xfer=" + enc;
+}
+
+function openTransferDialog(){
+  const link = makeTransferLink();
+  const dlg = $("xferDlg"); if (!dlg) return;
+  const input = $("xferLink");
+  input.value = link;
+  const bytes = new Blob([link]).size;
+  const sizeKB = (bytes/1024).toFixed(1);
+  $("xferSize").textContent = `Link size: ${sizeKB} KB · ${S.tx.length} entries · ${S.goals.length} goals`;
+  const warn = $("xferWarn");
+  if (bytes > 7000) {
+    warn.style.display = "block";
+    warn.innerHTML = "⚠ Link is long. If sharing fails on WhatsApp, use <b>Download file</b> instead.";
+  } else {
+    warn.style.display = "none";
+  }
+  dlg.showModal();
+  setTimeout(()=>{ input.select(); }, 100);
+}
+
+function handleIncomingTransfer(){
+  const h = location.hash || "";
+  const m = h.match(/#xfer=([A-Za-z0-9_-]+)/);
+  if (!m) return;
+  // clear hash so refresh does nothing
+  history.replaceState(null, "", location.pathname + location.search);
+  let payload;
+  try {
+    let s = m[1].replace(/-/g,"+").replace(/_/g,"/");
+    while (s.length % 4) s += "=";
+    payload = JSON.parse(decodeURIComponent(escape(atob(s))));
+  } catch (e) {
+    toast("That transfer link looks broken.");
+    return;
+  }
+  if (!payload || payload.t !== "xfer" || !payload.S) {
+    toast("That doesn't look like a transfer link.");
+    return;
+  }
+  const dlg = $("xferInDlg"); if (!dlg) return;
+  const incomingTx = (payload.S.tx||[]).length;
+  const incomingGoals = (payload.S.goals||[]).length;
+  const when = payload.ts ? new Date(payload.ts).toLocaleString("en-IN",{dateStyle:"medium",timeStyle:"short"}) : "an unknown time";
+  const nameStr = payload.S.name ? ` for <b>${escapeHTML(payload.S.name)}</b>` : "";
+  $("xferInBody").innerHTML = `A transfer from your other device${nameStr}, made at ${when}. It has <b>${incomingTx}</b> entries and <b>${incomingGoals}</b> goals.`;
+  $("xferInAccept").onclick = () => {
+    try {
+      // save a safety backup to a hidden slot before replacing
+      try { localStorage.setItem("stackitup.v1.safetybackup", JSON.stringify(S)); } catch {}
+      S = Object.assign(blank(), payload.S);
+      // backfill family if missing
+      if (!S.family || typeof S.family !== "object") S.family = blank().family;
+      else S.family = Object.assign(blank().family, S.family);
+      save();
+      if (payload.stax) {
+        try { localStorage.setItem("stackitup.stax.v1", JSON.stringify(payload.stax)); } catch {}
+      }
+      applyTheme();
+      dlg.close();
+      render();
+      if (typeof renderFamily === "function") renderFamily();
+      toast("Loaded ✅ Welcome to your other device.");
+    } catch (e) {
+      toast("Couldn't load that data. The link may be damaged.");
+    }
+  };
+  dlg.showModal();
+}
+
+/* wire buttons */
+function wireTransfer(){
+  const t = $("transferBtn"); if (t) t.onclick = openTransferDialog;
+  const copy = $("xferCopy");
+  if (copy) copy.onclick = () => {
+    const i = $("xferLink"); i.select();
+    try { navigator.clipboard.writeText(i.value); toast("Link copied — paste anywhere"); } catch {}
+  };
+  const sh = $("xferShare");
+  if (sh) sh.onclick = async () => {
+    const link = $("xferLink").value;
+    try {
+      if (navigator.share) {
+        await navigator.share({ title: "Stack It Up transfer", text: link });
+      } else {
+        navigator.clipboard.writeText(link); toast("Link copied");
+      }
+    } catch (e) { if (e && e.name !== "AbortError") toast("Share didn't work. Copy the link instead."); }
+  };
+  const em = $("xferEmail");
+  if (em) em.onclick = () => {
+    const link = $("xferLink").value;
+    const subject = encodeURIComponent("Stack It Up — transfer to my other device");
+    const body = encodeURIComponent("Open this on my other device to load everything:\n\n" + link);
+    location.href = `mailto:?subject=${subject}&body=${body}`;
+  };
+}
+
+window.addEventListener("DOMContentLoaded", () => {
+  try { wireTransfer(); handleIncomingTransfer(); } catch(e) { console.warn("transfer init", e); }
+});
+
 </script>
 
 <!-- Allowance dialog -->
@@ -3169,6 +3296,32 @@ window.addEventListener("DOMContentLoaded",()=>{
     <p id="linkDlgBody" class="muted"></p>
     <p class="err" id="linkErr"></p>
     <div class="row-btns"><button class="btn" data-close type="button">Not now</button><button class="btn primary" id="linkAccept" type="button">Accept</button></div>
+  </form>
+</dialog>
+
+
+<!-- Transfer dialog -->
+<dialog id="xferDlg" aria-labelledby="xferDlgTitle">
+  <form method="dialog" class="dlg">
+    <h2 id="xferDlgTitle">Transfer link ready 🚀</h2>
+    <p class="small muted" style="margin:0 0 10px">Send this link to yourself (WhatsApp, email, notes) and open it on your other device. When you open it, that device will have everything you see here.</p>
+    <div style="display:flex;gap:6px;align-items:stretch;margin-bottom:8px">
+      <input id="xferLink" class="input" readonly style="font-size:.78rem;font-family:ui-monospace,SFMono-Regular,monospace">
+      <button class="btn primary" id="xferCopy" type="button">Copy</button>
+    </div>
+    <div class="row-btns" style="margin-top:4px"><button class="btn" id="xferShare" type="button">Share</button><button class="btn" id="xferEmail" type="button">Email to self</button><button class="btn" data-close type="button">Done</button></div>
+    <p class="small muted" style="margin:10px 0 0" id="xferSize"></p>
+    <p class="small" id="xferWarn" style="color:var(--bad);margin:4px 0 0;display:none"></p>
+  </form>
+</dialog>
+
+<!-- Incoming transfer dialog -->
+<dialog id="xferInDlg" aria-labelledby="xferInTitle">
+  <form method="dialog" class="dlg">
+    <h2 id="xferInTitle">Load data from your other device? 📥</h2>
+    <p id="xferInBody" class="muted"></p>
+    <p class="small" style="color:var(--bad);margin:0 0 10px">⚠ This replaces everything on <b>this</b> device. If you have unsaved data here, download a backup first.</p>
+    <div class="row-btns"><button class="btn" data-close type="button">No, keep this device</button><button class="btn primary" id="xferInAccept" type="button">Yes, replace with incoming data</button></div>
   </form>
 </dialog>
 
