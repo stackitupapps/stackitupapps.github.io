@@ -445,6 +445,29 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 20px;align-items:center}
 .empty{text-align:center;padding:24px 10px;color:var(--muted);font-size:.9rem}
 .empty .emo{font-size:2rem;display:block;margin-bottom:6px}
 
+
+/* ============ INSTALL CARD ============ */
+.install-card{display:flex;gap:14px;align-items:center;padding:16px 18px;border-radius:20px;background:var(--grad-purple);color:#fff;box-shadow:var(--shadow-md);position:relative;overflow:hidden}
+.install-card::before{content:"";position:absolute;right:-30px;top:-40px;width:140px;height:140px;border-radius:50%;background:rgba(255,255,255,.12)}
+.install-card .ic-icon{width:52px;height:52px;border-radius:14px;background:rgba(255,255,255,.22);display:grid;place-items:center;font-size:1.6rem;flex:none;backdrop-filter:blur(8px);z-index:1}
+.install-card .ic-text{flex:1;min-width:0;z-index:1}
+.install-card .ic-text b{display:block;font-family:Sora,sans-serif;font-size:1.05rem;line-height:1.2}
+.install-card .ic-text span{opacity:.9;font-size:.86rem;display:block;margin-top:2px}
+.install-card .ic-btn{z-index:1;background:#fff;color:var(--purple);border:0;padding:9px 16px;border-radius:999px;font-weight:700;white-space:nowrap;transition:transform .1s}
+.install-card .ic-btn:hover{transform:translateY(-1px)}
+.install-card.installed{background:var(--soft);color:var(--ink)}
+.install-card.installed .ic-icon{background:var(--panel)}
+.install-card.installed .ic-btn{background:var(--green);color:#fff}
+
+/* iOS instruction popup */
+.ios-sheet{position:fixed;left:50%;bottom:calc(100px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);max-width:360px;width:92%;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:16px;box-shadow:var(--shadow-lg);z-index:9999}
+.ios-sheet::after{content:"";position:absolute;left:50%;bottom:-10px;transform:translateX(-50%) rotate(45deg);width:16px;height:16px;background:var(--panel);border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
+.ios-sheet h3{margin:0 0 6px;font-size:1rem}
+.ios-sheet p{margin:4px 0;font-size:.9rem;color:var(--muted)}
+.ios-sheet .step{display:flex;gap:8px;align-items:center;margin:4px 0;font-size:.9rem}
+.ios-sheet .step b{color:var(--purple);min-width:16px}
+.ios-sheet .close{position:absolute;top:6px;right:8px;background:none;border:0;color:var(--muted);font-size:1.2rem;line-height:1;padding:4px 8px;border-radius:8px}
+
 </style>
 </head>
 <body>
@@ -487,6 +510,12 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:8px 20px;align-items:center}
       </div>
       <p class="err" id="wErr"></p>
       <div style="display:flex;gap:10px;margin-top:4px"><button class="btn primary" id="wSave">Let's go</button><button class="btn" id="wSkip">Skip for now</button></div>
+    </div>
+
+    <div class="install-card" id="installCard" hidden>
+      <div class="ic-icon" aria-hidden="true">📱</div>
+      <div class="ic-text"><b id="icTitle">Install Stack It Up</b><span id="icSub">Add to your home screen — works offline, feels like an app.</span></div>
+      <button class="ic-btn" id="icBtn" type="button">Install</button>
     </div>
 
     <div class="hero">
@@ -3439,6 +3468,139 @@ function wireTransfer(){
 
 window.addEventListener("DOMContentLoaded", () => {
   try { wireTransfer(); handleIncomingTransfer(); } catch(e) { console.warn("transfer init", e); }
+});
+
+
+
+/* ============ INSTALL APP ============ */
+let deferredInstall = null;
+
+function isStandalone(){
+  return (window.matchMedia && window.matchMedia("(display-mode: standalone)").matches)
+    || window.navigator.standalone === true;
+}
+function isIOS(){
+  return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+}
+function isAndroid(){
+  return /android/i.test(navigator.userAgent);
+}
+
+function showInstallCard(){
+  const card = $("installCard"); if (!card) return;
+  // Hide if already installed
+  if (isStandalone()) {
+    card.classList.add("installed");
+    card.hidden = false;
+    $("icTitle").textContent = "App installed ✅";
+    $("icSub").textContent = "You're using Stack It Up as an app. Nice.";
+    $("icBtn").textContent = "Open Family";
+    $("icBtn").onclick = () => go("family");
+    return;
+  }
+  // Dismissed previously? Still show (install matters)
+  card.hidden = false;
+  if (deferredInstall) {
+    $("icBtn").textContent = "Install";
+    $("icTitle").textContent = "Install Stack It Up";
+    $("icSub").textContent = "One tap. Works offline, feels like a real app.";
+    $("icBtn").onclick = async () => {
+      try {
+        deferredInstall.prompt();
+        const r = await deferredInstall.userChoice;
+        if (r && r.outcome === "accepted") toast("Installing… check your home screen 🎉");
+        deferredInstall = null;
+        setTimeout(showInstallCard, 500);
+      } catch { toast("Install was cancelled."); }
+    };
+  } else if (isIOS()) {
+    $("icBtn").textContent = "How to";
+    $("icTitle").textContent = "Install on iPhone";
+    $("icSub").textContent = "iPhone needs 2 taps — I'll show you.";
+    $("icBtn").onclick = showIOSInstructions;
+  } else if (isAndroid()) {
+    $("icBtn").textContent = "How to";
+    $("icTitle").textContent = "Install Stack It Up";
+    $("icSub").textContent = "Tap your browser menu (⋮) then \"Install app\".";
+    $("icBtn").onclick = showAndroidInstructions;
+  } else {
+    $("icBtn").textContent = "How to";
+    $("icTitle").textContent = "Install on your laptop";
+    $("icSub").textContent = "Look for the install icon in your address bar.";
+    $("icBtn").onclick = showDesktopInstructions;
+  }
+}
+
+function showIOSInstructions(){
+  closeInstructions();
+  const sheet = document.createElement("div");
+  sheet.className = "ios-sheet";
+  sheet.id = "iosSheet";
+  sheet.innerHTML = `<button class="close" aria-label="Close">×</button>
+    <h3>Install on iPhone 📲</h3>
+    <div class="step"><b>1.</b>Tap the <b>Share</b> button at the bottom of Safari <span style="font-size:1.1rem">⬆️</span></div>
+    <div class="step"><b>2.</b>Scroll down, tap <b>Add to Home Screen</b></div>
+    <div class="step"><b>3.</b>Tap <b>Add</b> in the top-right</div>
+    <p style="margin-top:8px">💡 Make sure you're in <b>Safari</b>, not Chrome. iOS only installs from Safari.</p>`;
+  document.body.append(sheet);
+  sheet.querySelector(".close").onclick = closeInstructions;
+  setTimeout(() => { document.addEventListener("click", outsideClose, { once: true }); }, 100);
+}
+function showAndroidInstructions(){
+  closeInstructions();
+  const sheet = document.createElement("div");
+  sheet.className = "ios-sheet";
+  sheet.id = "iosSheet";
+  sheet.innerHTML = `<button class="close" aria-label="Close">×</button>
+    <h3>Install on Android 📲</h3>
+    <div class="step"><b>1.</b>Tap the <b>⋮ menu</b> (top right of Chrome)</div>
+    <div class="step"><b>2.</b>Tap <b>Install app</b> or <b>Add to Home screen</b></div>
+    <div class="step"><b>3.</b>Tap <b>Install</b></div>
+    <p style="margin-top:8px">💡 If you don't see "Install app", refresh the page and try the menu again.</p>`;
+  document.body.append(sheet);
+  sheet.querySelector(".close").onclick = closeInstructions;
+  setTimeout(() => { document.addEventListener("click", outsideClose, { once: true }); }, 100);
+}
+function showDesktopInstructions(){
+  closeInstructions();
+  const sheet = document.createElement("div");
+  sheet.className = "ios-sheet";
+  sheet.id = "iosSheet";
+  sheet.innerHTML = `<button class="close" aria-label="Close">×</button>
+    <h3>Install on your laptop 💻</h3>
+    <div class="step"><b>1.</b>Look at the <b>right side of the address bar</b></div>
+    <div class="step"><b>2.</b>Click the little <b>install icon</b> (looks like ⊕ or a monitor with an arrow)</div>
+    <div class="step"><b>3.</b>Click <b>Install</b></div>
+    <p style="margin-top:8px">💡 Works in Chrome, Edge, Brave and Arc. Opens as its own window with your logo.</p>`;
+  document.body.append(sheet);
+  sheet.querySelector(".close").onclick = closeInstructions;
+  setTimeout(() => { document.addEventListener("click", outsideClose, { once: true }); }, 100);
+}
+function closeInstructions(){
+  const s = document.getElementById("iosSheet"); if (s) s.remove();
+}
+function outsideClose(e){
+  const s = document.getElementById("iosSheet");
+  if (s && !s.contains(e.target)) closeInstructions();
+}
+
+// Capture the install prompt (Chrome/Edge/Android)
+window.addEventListener("beforeinstallprompt", (e) => {
+  e.preventDefault();
+  deferredInstall = e;
+  try { showInstallCard(); } catch {}
+});
+
+// After install, update card
+window.addEventListener("appinstalled", () => {
+  deferredInstall = null;
+  toast("Installed! Look for Stack It Up on your home screen 🎉");
+  try { showInstallCard(); } catch {}
+});
+
+// Show card on load
+window.addEventListener("DOMContentLoaded", () => {
+  try { showInstallCard(); } catch (e) { console.warn("install card init", e); }
 });
 
 </script>
